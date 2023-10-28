@@ -1,0 +1,35 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 19.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build your application
+        run: npm run build
+
+      - name: Delete Old Build on Server
+        run: |
+          sshpass -p "${{ secrets.PASSWORD }}" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.USERNAME }}@${{ secrets.HOST }} "cd /var/www/ruc-frontend && find . -type f ! -name '.env' -exec rm -f {} \;"
+      - name: Upload New Build to Server
+        run: |
+          sshpass -p "${{ secrets.PASSWORD }}" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ./build/* ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/ruc-frontend
+      - name: Reload Nginx
+        run: |
+          sshpass -p "${{ secrets.PASSWORD }}" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.USERNAME }}@${{ secrets.HOST }} "service nginx reload"
