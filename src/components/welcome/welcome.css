@@ -178,7 +178,7 @@ form .btn :hover {
   position: absolute;
   top: 0;
   right: 0;
-  width: calc(100% 35%);
+  width: calc(100% - 35%);
   background-color: orange;
   margin-top: 500px;
   margin-left: 20px;
