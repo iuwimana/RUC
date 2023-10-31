@@ -23,8 +23,8 @@ class Modal extends Component {
     //this.handleSave = this.handleSave.bind(this);
 
     this.state = {
-      data: {serviceorderid:0, serviceorderdescription:"", damagedlevel:"",serviceorderstatus:"",contractid:0, projectid:0},
-      
+      data: {serviceorderid:0, serviceorderdescription:"", damagedlevel:"",serviceorderstatus:"",contractid:0, projectid:0,amount:0},
+      amount:0,
       serviceorderid:0,
       contractid:0, 
       projectid:0,
@@ -84,10 +84,14 @@ class Modal extends Component {
       contractid: nextProps.contractid,
       projectid: nextProps.projectid,
       serviceorderstatus:nextProps.serviceorderstatus,
+      amount:nextProps.amount,
     });
     
   }
  
+  amountHandler(e) {
+    this.setState({ amount: e.target.value });
+  }
   serviceorderidHandler(e) {
     this.setState({ serviceorderid: e.target.value });
   }
@@ -112,7 +116,7 @@ class Modal extends Component {
     try {
       const data = this.state;
       
-     await Serviceorderdate.addserviceorder(data.serviceorderid,data.damagedlevel,data.serviceorderdescription,data.projectid,data.contractid);
+     await Serviceorderdate.addserviceorder(data.serviceorderid,data.damagedlevel,data.serviceorderdescription,data.projectid,data.contractid,data.amount);
         
      toast.success(`Business Paterner with   has been updated successful:
        serviceorderid; ${data.serviceorderid},
@@ -167,7 +171,7 @@ class Modal extends Component {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Detail for Road to maintain
+                Update Service Modal
               </h5>
               <button
                 type="button"
@@ -246,10 +250,44 @@ class Modal extends Component {
 
                       </div>
                       <div className="col">
+                        {/**------------------------------------------- */}
+                        <div className="row">
+                          <div className="col">
+                            <div className="mb-3">
+                              <div className="row">
+                                <div className="col">
+                                  <div className="col-auto">
+                                    <label
+                                      htmlFor="exampleFormControlInput1"
+                                      className="form-label"
+                                    >
+                                      Road Demaged Level
+                                    </label>
+                                  </div>
+                                </div>
+                                <div className="col">
+                                  <div className="col-auto">
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      name="damagedlevel"
+                                      id="damagedlevel"
+                                      value={this.state.damagedlevel}
+                                      onChange={(e) =>
+                                        this.damagedlevelHandler(e)
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                      <div className="col">
+                        {/**------------------------------------------- */}
 
-                         {/**------------------------------------------- */}
-
-                         <div className="mb-3">
+                        <div className="mb-3">
                           <div className="row">
                             <div className="col">
                               <div className="col-auto">
@@ -257,7 +295,7 @@ class Modal extends Component {
                                   htmlFor="exampleFormControlInput1"
                                   className="form-label"
                                 >
-                                  Road Demaged Level
+                                  ServiceOrrder Amount
                                 </label>
                               </div>
                             </div>
@@ -266,22 +304,23 @@ class Modal extends Component {
                                 <input
                                   type="text"
                                   className="form-control"
-                                  name="damagedlevel"
-                                  id="damagedlevel"
-                                  value={this.state.damagedlevel}
-                                  onChange={(e) =>
-                                    this.damagedlevelHandler(e)
-                                  }
+                                  name="amount"
+                                  id="amount"
+                                  value={this.state.amount}
+                                  onChange={(e) => this.amountHandler(e)}
                                 />
                               </div>
                             </div>
                           </div>
                         </div>
 
+                        {/**------------------------------------------- */}
+                      </div>
+                    </div>
 
                         {/**------------------------------------------- */}
-
                       </div>
+
                     </div>
                     
                     

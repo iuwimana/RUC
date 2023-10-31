@@ -2,7 +2,7 @@ import React from "react";
 //import * as source from "../../../services/RevenuRessources/sourceofFundsServices";
 import Joi from "joi-browser";
 import { toast } from "react-toastify";
-import * as RevenuData from "../services/RevenuRessources/businessPaternerServices";
+import * as RevenuData from "../services/RevenuRessources/revenuCorrectionService";
 import { Component } from "react";
 import myLogo from "./Rwanda_Coat0fArm.png";
 import { Card, CardHeader, CardBody, Col, Row } from "reactstrap";
@@ -15,7 +15,7 @@ import { FcPlus } from "react-icons/fc";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import _ from "lodash";
-class AddroleModal extends Component {
+class Viewtatolrevenue extends Component {
   constructor(props) {
     super(props);
     //this.handleSave = this.handleSave.bind(this);
@@ -37,7 +37,7 @@ class AddroleModal extends Component {
 
   async componentDidMount() {
     try {
-      const { data: revenucollections } = await RevenuData.getBusinessPaterners();
+      const { data: revenucollections } = await RevenuData.getrevenucorrections();
 
       this.setState({ revenucollections });
     } catch (ex) {
@@ -135,7 +135,7 @@ class AddroleModal extends Component {
   startY:200
 });
    
-    doc.autoTable({ html: "#my-table"})
+    doc.autoTable({ html: "#revcollection"})
          
         
    
@@ -161,7 +161,7 @@ class AddroleModal extends Component {
   render() {
      const revenucollections= this.state.revenucollections
 
-     console.log(`revenucollections:${JSON.stringify(revenucollections)}`)
+  
 
      
      var sum=0;
@@ -169,9 +169,9 @@ class AddroleModal extends Component {
       
       return (
         <>
-        <tr key={revenucollections.institutionpartenerid}>
-          <td>{revenucollections.institutionpartenername}</td>
-          <td>{revenucollections.partenerstatusname}</td>
+        <tr key={revenucollections.revenuecorrectionid}>
+          <td>{revenucollections.revenueproductname}</td>
+          <td>{revenucollections.deposit}</td>
           <td>{revenucollections.accountnumber}</td>
           <td>{revenucollections.bankname}</td>
                  
@@ -192,8 +192,9 @@ class AddroleModal extends Component {
     }
     return (
       <div
+       
         className="modal fade"
-        id="businessModal"
+        id="revtotaModal"
         tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalLabel"
@@ -285,7 +286,7 @@ class AddroleModal extends Component {
                         <small>
                           {" "}
                           <small>
-                            <small>List of BusinessPaterner</small>
+                            <small>List of Revenue Products</small>
                           </small>
                         </small>
                       </small>
@@ -301,11 +302,11 @@ class AddroleModal extends Component {
                 </h1>
               </div>
               <CardBody>
-                <table className="table" id="my-table">
+                <table className="table" id="revcollection">
                         <thead>
                           <tr>
-                            <th>Institution</th>
-                            <th>Institution type</th>
+                            <th>Product</th>
+                            <th>Deposit</th>
                             <th>Account number</th>
                             <th>Bank name</th>   
                                                
@@ -346,4 +347,4 @@ class AddroleModal extends Component {
   }
 }
 
-export default AddroleModal;
+export default Viewtatolrevenue;

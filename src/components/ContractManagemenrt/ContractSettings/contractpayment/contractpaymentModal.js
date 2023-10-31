@@ -19,7 +19,7 @@ import * as Maintenance from "../../../../services/ContractManagement/ContractSe
 import * as PaternerStatuses from "../../../../services/RevenuRessources/paternerStatusServices";
 import * as BusinessPaterner from "../../../../services/RevenuRessources/businessPaternerServices";
 
-class Modal extends Component {
+class ContractpaymentModal extends Component {
   constructor(props) {
     super(props);
     //this.handleSave = this.handleSave.bind(this);
@@ -92,7 +92,7 @@ class Modal extends Component {
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      contractpaymentid: nextProps.nextProps,
+      contractpaymentid: nextProps.contractpaymentid,
       contractdiscription: nextProps.contractdiscription,
       payedamount: nextProps.payedamount,
       contractamount: nextProps.contractamount,
@@ -142,17 +142,17 @@ class Modal extends Component {
         toast.error("Amount you pay is greater than contract amount");
       } else {
         await Contractpayment.addcontractpayment(
-          contractpaymentid,
+          data.contractpaymentid,
           data.contractid,
           data.payedamount,
-          data.contractbudget,
+          data.contractamount,
           remainamount,
           data.notes
         );
         toast.success(`payment    has been updated successful:
        contractid; ${data.contractid},
        payedamount: ${data.payedamount},
-       contractamount: ${data.contractbudget},
+       contractamount: ${data.contractamount},
        remainamount: ${data.remainamount} `);
       }
     } catch (ex) {
@@ -177,7 +177,7 @@ class Modal extends Component {
     return (
       <div
         className="modal fade"
-        id="exampleserviceModal"
+        id="contractpaymentModal"
         tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalLabel"
@@ -233,6 +233,14 @@ class Modal extends Component {
                         <input
                           type="text"
                           className="form-control"
+                          name="contractpaymentid"
+                          id="contractpaymentid"
+                          value={this.state.contractpaymentid}
+                          onChange={(e) => this.contractpaymentidHandler(e)}
+                        />
+                        <input
+                          type="text"
+                          className="form-control"
                           name="payedamount"
                           id="payedamount"
                           value={this.state.payedamount}
@@ -276,7 +284,6 @@ class Modal extends Component {
                           rows="10"
                           cols="50"
                           placeholder="a note related to the payement"
-                          required
                         ></textarea>
                       </div>
                     </div>
@@ -314,7 +321,7 @@ class Modal extends Component {
                               className="form-control"
                               name="contractbudget"
                               id="contractbudget"
-                              value={this.state.contractbudget}
+                              value={this.state.contractamount}
                               onChange={(e) => this.contractbudgetHandler(e)}
                             />
                       </div>
@@ -386,4 +393,4 @@ class Modal extends Component {
   }
 }
 
-export default Modal;
+export default ContractpaymentModal;

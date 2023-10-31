@@ -268,16 +268,18 @@ class UpdateModal extends Component {
 
     try {
       const data = this.state;
+      const projectref="";
+      const budget=0;
       await Projectdate.addproject(
         data.projectid,
         data.projectdescription,
         data.targetid,
         data.roodid,
         data.maintenancetypeid,
-        data.budget,
+        budget,
         data.startdate,
         data.enddate,
-        data.projectref,
+        projectref,
         data.fiscalyearcontracttypeid,
         data.projectlength,
         data.measurementid
@@ -396,6 +398,16 @@ class UpdateModal extends Component {
                           className="form-control"
                           name="fiscalyearcontracttypeid"
                           id="fiscalyearcontracttypeid"
+                          value={this.state.projectid}
+                          onChange={(e) =>
+                            this.projectidHandler(e)
+                          }
+                        />
+                        <input
+                          type="hidden"
+                          className="form-control"
+                          name="fiscalyearcontracttypeid"
+                          id="fiscalyearcontracttypeid"
                           value={this.state.fiscalyearcontracttypeid}
                           onChange={(e) =>
                             this.fiscalyearcontracttypeidHandler(e)
@@ -404,20 +416,11 @@ class UpdateModal extends Component {
 
                         <div className="mb-3">
                           <div className="row">
-                            <div className="col">
-                              <div className="col-auto">
-                                <label
-                                  htmlFor="exampleFormControlInput1"
-                                  className="form-label"
-                                >
-                                  RefNumber
-                                </label>
-                              </div>
-                            </div>
+                            
                             <div className="col">
                               <div className="col-auto">
                                 <input
-                                  type="text"
+                                  type="hidden"
                                   className="form-control"
                                   name="projectref"
                                   id="projectref"
@@ -708,20 +711,11 @@ class UpdateModal extends Component {
 
                         <div className="mb-3">
                           <div className="row">
-                            <div className="col">
-                              <div className="col-auto">
-                                <label
-                                  htmlFor="exampleFormControlInput1"
-                                  className="form-label"
-                                >
-                                  budget
-                                </label>
-                              </div>
-                            </div>
+                            
                             <div className="col">
                               <div className="col-auto">
                                 <input
-                                  type="text"
+                                  type="hidden"
                                   className="form-control"
                                   name="budget"
                                   id="budget"

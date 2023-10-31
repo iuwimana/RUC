@@ -176,7 +176,9 @@ class BusinessPaterner extends Component {
           <tr key={business.serviceorderid}>
             <td>{business.serviceorderdescription}</td>
             <td>{business.damagedlevel}</td>
+            <td>{business.amount}</td>
             <td>{business.serviceorderstatus}</td>
+            
 
             <td>
               <button
@@ -248,7 +250,7 @@ class BusinessPaterner extends Component {
                 <div className="text-muted text-center mt-2 mb-3">
                   <h1>
                     <div style={{ textAlign: "center" }}>
-                      <h1>Resource Collection- Service order</h1>
+                      <h1>Contract Management- Service order</h1>
                     </div>
                   </h1>
                 </div>
@@ -268,7 +270,7 @@ class BusinessPaterner extends Component {
                           }
                         >
                           <FcPlus />
-                          AddErviceOrder
+                          AddserviceOrder
                         </button>
                         <p>There are no Business Paterner in Database.</p>
                         <AddModal
@@ -288,7 +290,7 @@ class BusinessPaterner extends Component {
                           }
                         >
                           <FcPlus />
-                          AddErviceOrder
+                          AddserviceOrder
                         </button>
                          <div style={{ textAlign: "center" }}>
                           <SearchBox
@@ -303,6 +305,7 @@ class BusinessPaterner extends Component {
                             <tr>
                               <th>serviceorderdescription</th>
                               <th>damagedlevel</th>
+                              <th>Amount</th>
                               <th>serviceorderstatus</th>
 
                               <th>Update</th>
@@ -341,7 +344,7 @@ class BusinessPaterner extends Component {
                           serviceorderdescription={modalData.serviceorderdescription}
                           projectid={modalData.projectid}
                           contractid={modalData.contractid}
-                          
+                          amount={modalData.amount}
                           saveModalDetails={this.saveModalDetails}
                         />
                       </>

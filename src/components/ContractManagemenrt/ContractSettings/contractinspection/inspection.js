@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import * as ServiceOrderData from "../../../../services/ContractManagement/ContractSetting/serviceOrdersService";
 import { MdOutlineVisibility } from "react-icons/md";
 import { Card, CardHeader, CardBody, Col } from "reactstrap";
-
+import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 //import AddRole from "./addRole";
 //import History from "./history";
 import Pagination from "../../../common/pagination";
@@ -35,6 +35,7 @@ class Inspection extends Component {
         contractid: 0,
         projectid: 0,
       },
+      openModal: false,
       value: this.props.location.state,
       projectid: 0,
       serviceorderid: 0,
@@ -78,6 +79,10 @@ class Inspection extends Component {
       );
     }
   }
+    onClickButton = () => this.setState({ openModal: true });
+
+  onCloseModal = () => this.setState({ openModal: false });
+
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
   };
@@ -120,6 +125,7 @@ class Inspection extends Component {
     this.setState({
       requiredItem: index,
     });
+    this.setState({ openModal: true })
   }
 
   saveModalDetails(business) {
@@ -128,8 +134,8 @@ class Inspection extends Component {
     tempbrochure[requiredItem] = business;
     this.setState({ business: tempbrochure });
   }
-  handleshow(projectid, contractid) {
-    this.setState({ projectid: projectid, contractid: contractid });
+  handleshow(index) {
+    this.setState({ openModal: true })
   }
 
   async deleteItem(serviceorderid) {
@@ -179,32 +185,20 @@ class Inspection extends Component {
             <td>{business.serviceorderdescription}</td>
             <td>{business.damagedlevel}</td>
             <td>{business.serviceorderstatus}</td>
-            {/**<td>
-               
-              <button
-                className="btn btn-secondary"
-                data-toggle="modal"
-                data-target="#exampleviewinspectionModal"
-                onClick={() => this.replaceModalItem(index)}
-              >
-                <MdOutlineVisibility />
-                View
-              </button>
-            </td>*/}
+           
 
             <td>
               <button
-                className="btn btn-primary"
-                data-toggle="modal"
-                data-target="#exampleserviceModal   "
-                onClick={() =>
-                  this.handleshow(this.state.projectid, this.state.contractid)
-                }
+              className="btn btn-primary"
+              data-toggle="modal"
+              
+                 onClick={() => this.replaceModalItem(index)}
               >
                 <AiFillEdit />
                 Evaluate
               </button>
             </td>
+             
           </tr>
         );
       });
@@ -213,6 +207,8 @@ class Inspection extends Component {
       let modalData = this.state.business[requiredItem];
       const contractid = this.state.contractid;
       const projectid = this.state.projectid;
+
+      
       return (
         <div
           style={{
@@ -279,6 +275,79 @@ class Inspection extends Component {
                           </thead>
                           <tbody>{brochure}</tbody>
                         </table>
+                       <Modal  dialogClassName="my-modal" show={this.state.openModal} onHide={this.onCloseModal}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Add New Inspection</Modal.Title>
+                      <button
+                        type="button"
+                        className="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        onClick={this.onCloseModal}
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                  
+                     <AddserviceModal
+                          serviceorderid={modalData.serviceorderid}
+                          damagedlevel={modalData.damagedlevel}
+                          serviceorderdescription={
+                            modalData.serviceorderdescription
+                          }
+                          projectid={modalData.projectid}
+                          contractid={modalData.contractid}
+                          contractdiscription={modalData.contractdiscription}
+                          contractbudget={modalData.contractbudget}
+                          contractorstartdate={modalData.contractorstartdate}
+                          contractorenddat={modalData.contractorenddate}
+                          contractmodeid={modalData.contractmodeid}
+                          contractmode={modalData.contractmode}
+                          contractorid={modalData.contractorid}
+                          contractorname={modalData.contractorname}
+                          islocal={modalData.islocal}
+                          contractoraddress={modalData.contractoraddress}
+                          contractoremail={modalData.contractoremail}
+                          contractorphonenumber={modalData.contractorphonenumber}
+                          tinnumber={modalData.tinnumber}
+                          contactpersonfirstname={modalData.contactpersonfirstname}
+                          contactpersonmiddlename={modalData.contactpersonmiddlename}
+                          contactpersonlastname={modalData.contactpersonlastname}
+                          contactpersonemail={modalData.contactpersonemail}
+                          contactpersonphonenumber={modalData.contactpersonphonenumber}
+                          maintenancetypeid={modalData.maintenancetypeid}
+                          maintenancetypename={modalData.maintenancetypename}
+                          roadid={modalData.roadid}
+                          roadname={modalData.roadname}
+                          roaddistance={modalData.roaddistance}
+                          targetid={modalData.targetid}
+                          targetname={modalData.targetname}
+                          startquartid={modalData.startquartid}
+                          startquarter={modalData.startquarter}
+                          endquarterid={modalData.endquarterid}
+                          endquarter={modalData.endquarter}
+                          fiscalyearid={modalData.fiscalyearid}
+                          fiscalyear={modalData.fiscalyear}
+                          projecttypeid={modalData.projecttypeid}
+                          projecttypename={modalData.projecttypename}
+                          projectdescription={modalData.projectdescription}
+                          budgetallocatetotheroad={modalData.budgetallocatetotheroad}
+                          projectstartingdate={modalData.projectstartingdate}
+                          projectendingdate={modalData.projectendingdate}
+                          status={modalData.status}
+                          projectlength={modalData.projectlength}
+                          projectref={modalData.projectref}
+                          measurementname={modalData.measurementname}
+                          saveModalDetails={this.saveModalDetails}
+                        />
+                    </Modal.Body>
+                    <Modal.Footer>
+                      
+                    </Modal.Footer>
+                  </Modal>
+
                         <ViewinspectionModal
                         serviceorderid={modalData.serviceorderid}
                           damagedlevel={modalData.damagedlevel}
@@ -337,57 +406,7 @@ class Inspection extends Component {
                           saveModalDetails={this.saveModalDetails}
                         />
 
-                        <AddserviceModal
-                          serviceorderid={modalData.serviceorderid}
-                          damagedlevel={modalData.damagedlevel}
-                          serviceorderdescription={
-                            modalData.serviceorderdescription
-                          }
-                          projectid={modalData.projectid}
-                          contractid={modalData.contractid}
-                          contractdiscription={modalData.contractdiscription}
-                          contractbudget={modalData.contractbudget}
-                          contractorstartdate={modalData.contractorstartdate}
-                          contractorenddat={modalData.contractorenddate}
-                          contractmodeid={modalData.contractmodeid}
-                          contractmode={modalData.contractmode}
-                          contractorid={modalData.contractorid}
-                          contractorname={modalData.contractorname}
-                          islocal={modalData.islocal}
-                          contractoraddress={modalData.contractoraddress}
-                          contractoremail={modalData.contractoremail}
-                          contractorphonenumber={modalData.contractorphonenumber}
-                          tinnumber={modalData.tinnumber}
-                          contactpersonfirstname={modalData.contactpersonfirstname}
-                          contactpersonmiddlename={modalData.contactpersonmiddlename}
-                          contactpersonlastname={modalData.contactpersonlastname}
-                          contactpersonemail={modalData.contactpersonemail}
-                          contactpersonphonenumber={modalData.contactpersonphonenumber}
-                          maintenancetypeid={modalData.maintenancetypeid}
-                          maintenancetypename={modalData.maintenancetypename}
-                          roadid={modalData.roadid}
-                          roadname={modalData.roadname}
-                          roaddistance={modalData.roaddistance}
-                          targetid={modalData.targetid}
-                          targetname={modalData.targetname}
-                          startquartid={modalData.startquartid}
-                          startquarter={modalData.startquarter}
-                          endquarterid={modalData.endquarterid}
-                          endquarter={modalData.endquarter}
-                          fiscalyearid={modalData.fiscalyearid}
-                          fiscalyear={modalData.fiscalyear}
-                          projecttypeid={modalData.projecttypeid}
-                          projecttypename={modalData.projecttypename}
-                          projectdescription={modalData.projectdescription}
-                          budgetallocatetotheroad={modalData.budgetallocatetotheroad}
-                          projectstartingdate={modalData.projectstartingdate}
-                          projectendingdate={modalData.projectendingdate}
-                          status={modalData.status}
-                          projectlength={modalData.projectlength}
-                          projectref={modalData.projectref}
-                          measurementname={modalData.measurementname}
-                          saveModalDetails={this.saveModalDetails}
-                        />
+                        
                       </>
                     )}
                     <Pagination

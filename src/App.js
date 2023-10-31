@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-//import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 //import { Card, CardHeader, CardBody, Col, Row } from "reactstrap";
 import auth from "./services/authService";
@@ -10,7 +10,7 @@ import WelcomeFrame from "./welcome";
 //import Footer from "./components/layout/footer";
 //import Header from "./components/layout/header";
 //import Autmenu from "./components/authMenu";
-//import Home from "./home";
+import Home from "./home";
 //import NotFound from "./components/notFound";
 //import LoginForm from "./components/security/loginForm";
 //import SecMenu from "./components/security/secmenu";
@@ -95,6 +95,15 @@ class App extends Component {
         {!auth.getCurrentUser() && (
         <WelcomePage />
         )}
+          <Switch>
+                      {/**------------common */}
+                      
+                      <Route path="/login" component={WelcomePage} />
+                      <Route path="/welcome" component={WelcomePage} />
+
+                      <Redirect from="/" exact to="/welcome" />
+                      
+                    </Switch> 
       </React.Fragment>
     );
   }

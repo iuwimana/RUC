@@ -3,6 +3,13 @@ import apiUrl from "../../../config.json";
 import { toast } from "react-toastify";
 const apiEndpoint = apiUrl.apiUrl + "/contractor/contractor";
 
+const apicontractorreport = apiUrl.apiUrl + "/contractor/contractorreport";
+const apicontractreport = apiUrl.apiUrl + "/contractor/contractreport";
+const apiserviceorderreport = apiUrl.apiUrl + "/contractor/serviceorderreport";
+const apinumberofpaymentreport = apiUrl.apiUrl + "/contractor/numberofpaymentreport";
+const apipayedcontractreport= apiUrl.apiUrl + "/contractor/payedcontractreport";
+const apipaymentprogressreport = apiUrl.apiUrl + "/contractor/paymentprogressreport";
+
 export async function getcontractors() {
   try {
     const contractor = await http.get(apiEndpoint);
@@ -11,7 +18,62 @@ export async function getcontractors() {
     return null;
   }
 }
+//--------------------------------------------------------
+export async function getcontractorreport() {
+  try {
+    const contractor = await http.get(apicontractorreport);
+    return contractor;
+  } catch (ex) {
+    return null;
+  }
+}
 
+export async function getcontractreport() {
+  try {
+    const contractor = await http.get(apicontractreport);
+    return contractor;
+  } catch (ex) {
+    return null;
+  }
+}
+
+export async function getserviceorderreport() {
+  try {
+    const contractor = await http.get(apiserviceorderreport);
+    return contractor;
+  } catch (ex) {
+    return null;
+  }
+}
+
+export async function getnumberofpaymentreport() {
+  try {
+    const contractor = await http.get(apinumberofpaymentreport);
+    return contractor;
+  } catch (ex) {
+    return null;
+  }
+}
+
+export async function getpayedcontractreport() {
+  try {
+    const contractor = await http.get(apipayedcontractreport);
+    return contractor;
+  } catch (ex) {
+    return null;
+  }
+}
+
+export async function getpaymentprogressreport() {
+  try {
+    const contractor = await http.get(apipaymentprogressreport);
+    return contractor;
+  } catch (ex) {
+    return null;
+  }
+}
+
+//-------------------------------------------------------
 
 export async function getcontractorById(Contractorid) {
   try {

@@ -5,6 +5,90 @@ const apiEndpoint = apiUrl.apiUrl + "/outcome/outcome";
 const apiEndpoints = apiUrl.apiUrl + "/outcome/outcomes";
 const apiEndpointpdf = apiUrl.apiUrl + "/outcome/create-pdf";
 const apiEndpointsap = apiUrl.apiUrl + "/outcome/outcomesap";
+//---------------------------------------------------------------------
+const apioutcomereport = apiUrl.apiUrl + "/outcome/outcomereport";
+const apioutputreport = apiUrl.apiUrl + "/outcome/outputreport";
+const apibaselinereport = apiUrl.apiUrl + "/outcome/baselinereport";
+const apiindicatorreport = apiUrl.apiUrl + "/outcome/indicatorreport";
+const apitargetreport = apiUrl.apiUrl + "/outcome/targetreport";
+const apiactivityreport = apiUrl.apiUrl + "/outcome/activityreport";
+const apistakeholderreport = apiUrl.apiUrl + "/outcome/stakeholderreport";
+const apisourceoffundsreport = apiUrl.apiUrl + "/outcome/sourceoffundreport";
+const apifiscalyearreport = apiUrl.apiUrl + "/outcome/fiscalyearreport";
+//--------------------------------------
+export async function getfiscalyearreports() {
+  try {
+    const outcome = await http.get(apifiscalyearreport);
+    return outcome;
+  } catch (ex) {
+    return null;
+  }
+}
+//----------------------------------------------------------------------
+export async function getsourceoffundsreports() {
+  try {
+    const outcome = await http.get(apisourceoffundsreport);
+    return outcome;
+  } catch (ex) {
+    return null;
+  }
+}
+export async function getstakeholderreports() {
+  try {
+    const outcome = await http.get(apistakeholderreport);
+    return outcome;
+  } catch (ex) {
+    return null;
+  }
+}
+export async function getactivityreports() {
+  try {
+    const outcome = await http.get(apiactivityreport);
+    return outcome;
+  } catch (ex) {
+    return null;
+  }
+}
+export async function gettargetreports() {
+  try {
+    const outcome = await http.get(apitargetreport);
+    return outcome;
+  } catch (ex) {
+    return null;
+  }
+}
+export async function getindicatorreports() {
+  try {
+    const outcome = await http.get(apiindicatorreport);
+    return outcome;
+  } catch (ex) {
+    return null;
+  }
+}
+export async function getbaselinereports() {
+  try {
+    const outcome = await http.get(apibaselinereport);
+    return outcome;
+  } catch (ex) {
+    return null;
+  }
+}
+export async function getoutputreports() {
+  try {
+    const outcome = await http.get(apioutputreport);
+    return outcome;
+  } catch (ex) {
+    return null;
+  }
+}
+export async function getoutcomereports() {
+  try {
+    const outcome = await http.get(apioutcomereport);
+    return outcome;
+  } catch (ex) {
+    return null;
+  }
+}
 export async function getoutcomes() {
   try {
     const outcome = await http.get(apiEndpoint);
@@ -13,6 +97,7 @@ export async function getoutcomes() {
     return null;
   }
 }
+//-------------------------------------------------------------
 export async function getoutcomeforSAP(OutcomeId) {
   try {
     const outcome = await http.post(apiEndpointsap, { OutcomeId });
@@ -24,6 +109,10 @@ export async function getoutcomeforSAP(OutcomeId) {
     );
   }
 }
+//------------------------------------
+
+              
+//-------------------------
 
 export async function getoutcomeById(SubProgramId) {
   try {

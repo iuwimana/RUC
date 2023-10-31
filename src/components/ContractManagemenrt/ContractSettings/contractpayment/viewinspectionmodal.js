@@ -1,330 +1,231 @@
-import React, { Component } from "react";
+import React from "react";
+//import * as source from "../../../services/RevenuRessources/sourceofFundsServices";
 import Joi from "joi-browser";
-import { Card, CardHeader, CardBody, Col } from "reactstrap";
 import { toast } from "react-toastify";
-import * as auth from "../../../../services/authService";
-import * as bank from "../../../../services/RevenuRessources/bankservices";
-import * as Measurement from "../../../../services/ContractManagement/ContractSetting/measurementService";
-
-import * as Serviceorderdate from "../../../../services/ContractManagement/ContractSetting/serviceOrdersService";
-import * as ContractInspection from "../../../../services/contractinpection/contractinspect";
-import * as ProjectType from "../../../../services/ContractManagement/ContractSetting/contractTypeService";
-import * as FiscalYear from "../../../../services/RMFPlanning/fiscalYearService";
-import * as Target from "../../../../services/RMFPlanning/targetService";
-import * as Road from "../../../../services/ContractManagement/RoadRefference/road";
-import * as Maintenance from "../../../../services/ContractManagement/ContractSetting/maintenanceTypeService";
-
-import * as PaternerStatuses from "../../../../services/RevenuRessources/paternerStatusServices";
-import * as BusinessPaterner from "../../../../services/RevenuRessources/businessPaternerServices";
-
-class viewinspectionModal extends Component {
+import * as RevenuData from "../../../../services/RevenuRessources/businessPaternerServices";
+import * as Contractpayment from "../../../../services/contractpayment/contractpaymentservice";
+import { Component } from "react";
+import myLogo from "./Rwanda_Coat0fArm.png";
+import { Card, CardHeader, CardBody, Col, Row } from "reactstrap";
+import Pagination from "../../../../components/common/pagination";
+//import Form from "../common/form";
+import { paginate } from "../../../../utils/paginate";
+import "bootstrap/dist/css/bootstrap.min.css";
+import SearchBox from "../../../../components/searchBox";
+import { FcPlus } from "react-icons/fc";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+import _ from "lodash";
+class ViewBusiness extends Component {
   constructor(props) {
     super(props);
     //this.handleSave = this.handleSave.bind(this);
 
     this.state = {
       data: {
-        serviceid: 0,
-        serviceorderid: 0,
-        servicename: "",
-        discription: "",
-        measurementid: 0,
-        servicebudget: 0,
-        areaofmaintenance: 0,
-        serviceorderid: 0,
-        damagedlevel: "",
-        serviceorderdescription: "",
-
-        projectid: 0,
-        contractid: 0,
-        contractdiscription: "",
+        contractpaymentid: 0,
         contractbudget: 0,
-        contractorstartdate: "",
-        contractorenddat: "",
-        contractmodeid: 0,
-        contractmode: "",
-        contractorid: 0,
-        contractorname: "",
-        contractoraddress: "",
-        contractoremail: "",
-        contractorphonenumber: "",
-        tinnumber: "",
-        contactpersonfirstname: "",
-        contactpersonmiddlename: "",
-        contactpersonlastname: "",
-        contactpersonemail: "",
-        contactpersonphonenumber: "",
-        maintenancetypeid: 0,
-        maintenancetypename: "",
-        roadid: 0,
-        roadname: "",
-        roaddistance: 0,
-        targetid: 0,
-        targetname: "",
-        startquartid: 0,
-        startquarter: "",
-        endquarterid: 0,
-        endquarter: "",
-        fiscalyearid: 0,
-        fiscalyear: "",
-        projecttypeid: 0,
-        projecttypename: "",
-        projectid: 0,
-        projectdescription: "",
-        budgetallocatetotheroad: 0,
-        projectstartingdate: "",
-        projectendingdate: "",
-        status: "",
-        projectlength: 0,
-        projectref: "",
-        measurementname: "",
-
-        inspectionid: 0,
-        serviceorderid: 0,
-        isworkloadfinished: false,
-        istimelineexpected: false,
-        observations: "",
-        isreadyforpayment: false,
-        serviceorderdescription: "",
-        damagedlevel: "",
+        contractdiscription: 0,
+        payedamount: 0,
+        contractid: 0,
+        notes: "",
+        contractamount: 0,
+        remainamount: 0,
+        paymentdate: "",
       },
-      inspectionid: 0,
-      serviceorderid: 0,
-      isworkloadfinished: false,
-      istimelineexpected: false,
-      observations: "",
-      isreadyforpayment: false,
-      serviceorderdescription: "",
-      damagedlevel: "",
-      projectid: 0,
-      contractid: 0,
-      contractdiscription: "",
+      contractpaymentid: 0,
       contractbudget: 0,
-      contractorstartdate: "",
-      contractorenddat: "",
-      contractmodeid: 0,
-      contractmode: "",
-      contractorid: 0,
-      contractorname: "",
-      contractoraddress: "",
-      contractoremail: "",
-      contractorphonenumber: "",
-      tinnumber: "",
-      contactpersonfirstname: "",
-      contactpersonmiddlename: "",
-      contactpersonlastname: "",
-      contactpersonemail: "",
-      contactpersonphonenumber: "",
-      maintenancetypeid: 0,
-      maintenancetypename: "",
-      roadid: 0,
-      roadname: "",
-      roaddistance: 0,
-      targetid: 0,
-      targetname: "",
-      startquartid: 0,
-      startquarter: "",
-      endquarterid: 0,
-      endquarter: "",
-      fiscalyearid: 0,
-      fiscalyear: "",
-      projecttypeid: 0,
-      projecttypename: "",
-      projectid: 0,
-      projectdescription: "",
-      budgetallocatetotheroad: 0,
-      projectstartingdate: "",
-      projectendingdate: "",
-      status: "",
-      projectlength: 0,
-      projectref: "",
-      measurementname: "",
-      serviceid: 0,
-      serviceorderid: 0,
-      servicename: "",
-      discription: "",
-      measurementid: 0,
-      servicebudget: 0,
-      areaofmaintenance: 0,
-      user: {},
-      errors: {},
-      measurement: [],
-      banks: [],
-      projectType: [],
-      fiscalYear: [],
-      target: [],
-      road: [],
-      maintenance: [],
-      paternerStatuses: [],
+      contractdiscription: 0,
+      payedamount: 0,
+      contractid: 0,
+      notes: "",
+      contractamount: 0,
+      remainamount: 0,
+      paymentdate: "",
+      revenucollections: [],
+      services: [],
+      currentPage: 1,
+      pageSize: 4,
+      requiredItem: 0,
+      brochure: [],
+      contractpayments: [],
+      searchQuery: "",
+      selectedrole: null,
+      search: [],
+      sortColumn: { path: "title", order: "asc" },
     };
   }
-
   async populateBanks() {
     try {
-      const { data: measurement } = await Measurement.getmeasurements();
-      const { data: projectType } = await ProjectType.getcontracttypes();
-      const { data: fiscalYear } = await FiscalYear.getFiscalyears();
-      const { data: target } = await Target.gettargets();
-      const { data: road } = await Road.getroads();
-      const { data: maintenance } = await Maintenance.getmaintenances();
+      const { data: contractpayments } =
+        await Contractpayment.getcontractpaymentreport(1);
 
-      const { data: banks } = await bank.getbanks();
-      const { data: paternerStatuses } =
-        await PaternerStatuses.getpaternerstatuses();
-      this.setState({
-        banks,
-        paternerStatuses,
-        projectType,
-        fiscalYear,
-        target,
-        road,
-        maintenance,
-        measurement,
-      });
+      this.setState({ contractpayments });
     } catch (ex) {
       toast.error("Loading issues......");
     }
   }
 
   async componentDidMount() {
-    await this.populateBanks();
-    const user = auth.getJwt();
-    this.setState({ user });
+    try {
+      await this.populateBanks();
+
+      const { data: revenucollections } =
+        await RevenuData.getBusinessPaterners();
+
+      this.setState({ revenucollections });
+    } catch (ex) {
+      return toast.error(
+        "An Error Occured, while fetching revenucollections data Please try again later" +
+          ex
+      );
+    }
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      serviceorderid: nextProps.serviceorderid,
-      damagedlevel: nextProps.damagedlevel,
-      serviceorderdescription: nextProps.serviceorderdescription,
-
-      projectid: nextProps.projectid,
-      contractid: nextProps.contractid,
+      contractpaymentid: nextProps.contractpaymentid,
       contractdiscription: nextProps.contractdiscription,
+      payedamount: nextProps.payedamount,
+      contractamount: nextProps.contractamount,
+      remainamount: nextProps.remainamount,
+      paymentdate: nextProps.paymentdate,
+      contractid: nextProps.contractid,
       contractbudget: nextProps.contractbudget,
-      contractorstartdate: nextProps.contractorstartdate,
-      contractorenddat: nextProps.contractorenddat,
-      contractmodeid: nextProps.contractmodeid,
-      contractmode: nextProps.contractmode,
-      contractorid: nextProps.contractorid,
-      contractorname: nextProps.contractorname,
-      contractoraddress: nextProps.contractoraddress,
-      contractoremail: nextProps.contractoremail,
-      contractorphonenumber: nextProps.contractorphonenumber,
-      tinnumber: nextProps.tinnumber,
-      contactpersonfirstname: nextProps.contactpersonfirstname,
-      contactpersonmiddlename: nextProps.contactpersonmiddlename,
-      contactpersonlastname: nextProps.contactpersonlastname,
-      contactpersonemail: nextProps.contactpersonemail,
-      contactpersonphonenumber: nextProps.contactpersonphonenumber,
-      maintenancetypeid: nextProps.maintenancetypeid,
-      maintenancetypename: nextProps.maintenancetypename,
-      roadid: nextProps.roadid,
-      roadname: nextProps.roadname,
-      roaddistance: nextProps.roaddistance,
-      targetid: nextProps.targetid,
-      targetname: nextProps.targetname,
-      startquartid: nextProps.startquartid,
-      startquarter: nextProps.startquarter,
-      endquarterid: nextProps.endquarterid,
-      endquarter: nextProps.endquarter,
-      fiscalyearid: nextProps.fiscalyearid,
-      fiscalyear: nextProps.fiscalyear,
-      projecttypeid: nextProps.projecttypeid,
-      projecttypename: nextProps.projecttypename,
-      projectid: nextProps.projectid,
-      projectdescription: nextProps.projectdescription,
-      budgetallocatetotheroad: nextProps.budgetallocatetotheroad,
-      projectstartingdate: nextProps.projectstartingdate,
-      projectendingdate: nextProps.projectendingdate,
-      status: nextProps.status,
-      projectlength: nextProps.projectlength,
-      projectref: nextProps.projectref,
-      measurementname: nextProps.measurementname,
-      serviceid: nextProps.serviceid,
-      serviceorderid: nextProps.serviceorderid,
-      servicename: nextProps.servicename,
-      discription: nextProps.discription,
-      measurementid: nextProps.measurementid,
-      servicebudget: nextProps.servicebudget,
-      areaofmaintenance: nextProps.areaofmaintenance,
+      notes: nextProps.notes,
+    });
+  }
+  handlePageChange = (page) => {
+    this.setState({ currentPage: page });
+  };
+  handleSearch = (query) => {
+    //const { search } = await Role.getRolesearched(query);
+
+    this.setState({ searchQuery: query, currentPage: 1 });
+  };
+  handleSort = (sortColumn) => {
+    this.setState({ sortColumn });
+  };
+  getPagedData = () => {
+    const {
+      pageSize,
+      currentPage,
+      sortColumn,
+      searchQuery,
+      selectedrole,
+      revenucollections: allsources,
+    } = this.state;
+
+    let filtered = allsources;
+    if (searchQuery)
+      filtered = allsources.filter(
+        (m) =>
+          m.revenueproductname
+            .toLowerCase()
+            .startsWith(searchQuery.toLowerCase()) ||
+          m.raymentmodename
+            .toLowerCase()
+            .startsWith(searchQuery.toLowerCase()) ||
+          m.sourceoffundname
+            .toLowerCase()
+            .startsWith(searchQuery.toLowerCase()) ||
+          m.accountnumber.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+          m.bankname.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+          m.correctiondate
+            .toLowerCase()
+            .startsWith(searchQuery.toLowerCase()) ||
+          m.transactiondetails
+            .toLowerCase()
+            .startsWith(searchQuery.toLowerCase()) ||
+          // m.DocId.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+          m.refnumber.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+          m.correctiondate
+            .toLowerCase()
+            .startsWith(searchQuery.toLowerCase()) ||
+          m.poref.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    else if (selectedrole && selectedrole.partenerserviceid)
+      filtered = allsources.filter(
+        (m) => m.Services.partenerserviceid === selectedrole.partenerserviceid
+      );
+    ///////////////////////////////////////////
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+    const sources = paginate(sorted, currentPage, pageSize);
+
+    return { totalCount: filtered.length, data: sources };
+  };
+  replaceModalItem(index) {
+    this.setState({
+      requiredItem: index,
     });
   }
 
-  inspectioniddHandler(e) {
-    this.setState({ inspectionid: e.target.value });
-  }
-  serviceorderidHandler(e) {
-    this.setState({ serviceorderid: e.target.value });
-  }
-  isworkloadfinishedHandler(e) {
-    this.setState({ isworkloadfinished: e.target.checked });
-  }
-  istimelineexpectedHandler(e) {
-    this.setState({ istimelineexpected: e.target.checked });
-  }
-  observationsHandler(e) {
-    this.setState({ observations: e.target.value });
-  }
-  isreadyforpaymentHandler(e) {
-    this.setState({ isreadyforpayment: e.target.checked });
-  }
-  serviceorderdescriptionHandler(e) {
-    this.setState({ serviceorderdescription: e.target.value });
-  }
-  damagedlevelHandler(e) {
-    this.setState({ damagedlevel: e.target.value });
+  exportPdf() {
+    const doc = new jsPDF({ orientation: "landscape" });
+
+    doc.autoTable({
+      html: "#my-table",
+    });
+
+    doc.save("revenuCollections.pdf");
   }
 
-  handleClick = async (e) => {
-    try {
-      const data = this.state;
-      const inspectionid=0;
-      await ContractInspection.addcontractinspection(
-        inspectionid,
-        data.serviceorderid,
-        data.isworkloadfinished,
-        data.istimelineexpected,
-        data.observations,
-        data.isreadyforpayment
-      );
-      
+  downloadPdf() {
+    var doc = new jsPDF("landscape", "px", "a4", false);
+    doc.setFont("Helvertica", "bold");
+    doc.text(40, 30, "Republic of Rwanda ");
+    doc.text(40, 60, "Road Maintenance Fund");
+    doc.addImage(myLogo, "png", 500, 2, 120, 100);
 
-      toast.success(`Business Paterner with   has been updated successful:
-       serviceorderid; ${data.serviceorderid},
-       isworkloadfinished: ${data.isworkloadfinished},
-       istimelineexpected: ${data.istimelineexpected},
-       observations: ${data.observations},
-       isreadyforpayment: ${data.isreadyforpayment} `);
-    } catch (ex) {
-      if (ex.response && ex.response.status === 400) {
-        const errors = { ...this.state.errors };
-        errors.rolename = ex.response.data;
-        toast.error("Error:" + errors.rolename);
-        this.setState({ errors });
-      } else if (ex.response && ex.response.status === 409) {
-        const errors = { ...this.state.errors };
-        errors.rolename = ex.response.data;
-        toast.error("Error:" + errors.rolename);
-        this.setState({ errors });
-      } else {
-        toast.error(
-          "An Error Occured, while saving role Please try again later"
-        );
-      }
-    }
-  };
+    doc.text(240, 140, "RMF- Business Partners");
+    doc.autoTable({
+      body: [],
+      startY: 200,
+    });
+
+    doc.autoTable({ html: "#my-table" });
+
+    doc.save("revenu.pdf");
+  }
+
+  saveModalDetails(revenucollections) {
+    const requiredItem = this.state.requiredItem;
+    let tempbrochure = this.state.revenucollections;
+    tempbrochure[requiredItem] = revenucollections;
+    this.setState({ revenucollections: tempbrochure });
+  }
+
   render() {
-    const fiscalYear = this.state.fiscalYear;
-    const projectType = this.state.projectType;
-    const target = this.state.target;
-    const road = this.state.road;
-    const maintenance = this.state.maintenance;
-    const measurement = this.state.measurement;
+    const contractpayments = this.state.contractpayments;
 
+    var sum = 0;
+    const brochure = contractpayments.map((contractpayments, index) => {
+      return (
+        <>
+          <tr style={{height:345}} key={contractpayments.contractpaymentid}>
+            <td>{contractpayments.contractpaymentid}</td>
+            <td>{contractpayments.contractorname}</td>
+            <td>{contractpayments.contractdiscription}</td>
+            <td>{contractpayments.payedamount}</td>
+          </tr>
+        </>
+      );
+    });
+    const sums = () => {
+      return (
+        <tr>
+          <td colspan="6" style={{ bgcolor: "AliceBlue" }}>
+            <b>
+              <big>Total Sum</big>
+            </b>
+          </td>
+          <td>{sum}</td>
+        </tr>
+      );
+    };
     return (
       <div
         className="modal fade"
-        id="exampleviewinspectionModal"
+        id="businessModal"
         tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalLabel"
@@ -341,9 +242,85 @@ class viewinspectionModal extends Component {
         >
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Detail for Road to maintain
-              </h5>
+              <table
+                style={{
+                  maxWidth: "1370px",
+                  width: "100%",
+                  height: "40%",
+                }}
+                id="my-table1"
+              >
+                <tr>
+                  <td>
+                    <div className="row">
+                      <div
+                        className="col"
+                        style={{
+                          maxWidth: "280px",
+                          width: "40%",
+                          height: "40%",
+                          alignItems: "left",
+                        }}
+                      >
+                        Republic of Rwanda <br />
+                        Road Maintenance Fund
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div
+                      classNane="cards"
+                      style={{
+                        maxWidth: "8370px",
+                        width: "370%",
+                        height: "40%",
+                      }}
+                    >
+                      <span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      </span>
+                      <span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      </span>
+                      <span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      </span>
+                      <span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      </span>
+                      <span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <div
+                      tyle={{
+                        maxWidth: "280px",
+                        width: "40%",
+                        height: "40%",
+                        alignItems: "right",
+                      }}
+                    >
+                      <div class="emblema">
+                        <img
+                          src={myLogo}
+                          className="myLogo"
+                          alt="logo"
+                          style={{
+                            width: 120,
+                            height: 10,
+                            textAlign: "right",
+                            alignItems: "right",
+                            justifyContent: "right",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
               <button
                 type="button"
                 className="close"
@@ -353,629 +330,61 @@ class viewinspectionModal extends Component {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div className="row">
-              <div className="col">
-                {/**-----------------SAP data */}
-                <Card className=" shadow border-0">
-                  <div className="text-muted text-right mt-2 mb-3">
-                    <h1>
-                      <CardHeader className="bg-transparent ">
-                        <div style={{ textAlign: "center" }}>
+            <Card className=" shadow border-0">
+              <div className="text-muted text-right mt-2 mb-3">
+                <h1>
+                  <CardHeader className="bg-transparent ">
+                    <div style={{ textAlign: "center" }}>
+                      <small>
+                        <small>
+                          {" "}
                           <small>
-                            <small>
-                              {" "}
-                              <small>
-                                <small>SAP Information</small>
-                              </small>
-                            </small>
+                            <small># Invoice</small>
                           </small>
-                        </div>
-                      </CardHeader>
-                    </h1>
-                  </div>
-                  <div className="btn-wrapper text-start">
-                    <br></br>
-                  </div>
-
-                  <div className="mb-3">
-                    {/**-------------------------------------------------------------- */}
-                    <div className="mb-3">
-                      <div className="row">
-                        <div className="col">
-                          <div className="col-auto">
-                            <label
-                              htmlFor="exampleFormControlInput1"
-                              className="form-label"
-                            >
-                              target
-                            </label>
-                          </div>
-                        </div>
-                        <div className="col">
-                          <div className="col-auto">
-                            <input
-                              type="text"
-                              disabled={true}
-                              className="form-control"
-                              name="targetname"
-                              id="targetname"
-                              value={this.state.targetname}
-                            />
-                          </div>
-                        </div>
-                      </div>
+                        </small>
+                      </small>
                     </div>
-                    {/**----------------------------------------------------------------- */}
-                    {/**---------------------------------------------- */}
-                    <div className="mb-3">
-                      <div className="row">
-                        <div className="col">
-                          <div className="col-auto">
-                            <label
-                              htmlFor="exampleFormControlInput1"
-                              className="form-label"
-                            >
-                              fiscalyear
-                            </label>
-                          </div>
-                        </div>
-                        <div className="col">
-                          <div className="col-auto">
-                            <input
-                              type="text"
-                              disabled={true}
-                              className="form-control"
-                              name="fiscalyear"
-                              id="fiscalyear"
-                              value={this.state.fiscalyear}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/**----------------------------------------------------------------- */}
-                    <div className="mb-3">
-                      <div className="row">
-                        <div className="col">
-                          <div className="col-auto">
-                            <label
-                              htmlFor="exampleFormControlInput1"
-                              className="form-label"
-                            >
-                              Quarter
-                            </label>
-                          </div>
-                        </div>
-                        <div className="col">
-                          <div className="col-auto">
-                            <input
-                              type="text"
-                              disabled={true}
-                              className="form-control"
-                              name="startquarter"
-                              id="startquarter"
-                              value={
-                                this.state.startquarter +
-                                " / " +
-                                this.state.endquarter
-                              }
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/**----------------------------------------------------------------- */}
-                </Card>
+                    <button
+                      className="btn btn-primary float-end mt-2 mb-2"
+                      onClick={() => this.downloadPdf()}
+                    >
+                      Export
+                    </button>
+                  </CardHeader>
+                </h1>
               </div>
-              <div className="col">
-                {/**-----------------road data */}
-
-                <Card className=" shadow border-0">
-                  <div className="text-muted text-right mt-2 mb-3">
-                    <h1>
-                      <CardHeader className="bg-transparent ">
-                        <div style={{ textAlign: "center" }}>
-                          <small>
-                            <small>
-                              {" "}
-                              <small>
-                                <small>Road Information</small>
-                              </small>
-                            </small>
-                          </small>
-                        </div>
-                      </CardHeader>
-                    </h1>
-                  </div>
-                  <div className="btn-wrapper text-start">
-                    <br></br>
-                  </div>
-                  <div className="mb-3">
-                    <div className="row">
-                      <div className="col">
-                        <div className="col-auto">
-                          <label
-                            htmlFor="exampleFormControlInput1"
-                            className="form-label"
-                          >
-                            Road
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="col-auto">
-                          <input
-                            type="text"
-                            disabled={true}
-                            className="form-control"
-                            name="roadname"
-                            id="roadname"
-                            value={this.state.roadname}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/**----------------------------------------------------------------- */}
-                  <div className="mb-3">
-                    <div className="row">
-                      <div className="col">
-                        <div className="col-auto">
-                          <label
-                            htmlFor="exampleFormControlInput1"
-                            className="form-label"
-                          >
-                            Road Length
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="col-auto">
-                          <input
-                            type="text"
-                            disabled={true}
-                            className="form-control"
-                            name="roaddistance"
-                            id="roaddistance"
-                            value={
-                              this.state.roaddistance +
-                              " " +
-                              this.state.measurementname
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/**----------------------------------------------------------------- */}
-                  <div className="mb-3">
-                    <div className="row">
-                      <div className="col">
-                        <div className="col-auto">
-                          <label
-                            htmlFor="exampleFormControlInput1"
-                            className="form-label"
-                          >
-                            Length to Maintain
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="col-auto">
-                          <input
-                            type="text"
-                            disabled={true}
-                            className="form-control"
-                            name="projectlength"
-                            id="projectlength"
-                            value={this.state.projectlength}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/**----------------------------------------------------------------- */}
-                </Card>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                {/**----------------------++++++++++++++++++++++++++++++project data */}
-
-                <Card className=" shadow border-0">
-                  <div className="text-muted text-right mt-2 mb-3">
-                    <h1>
-                      <CardHeader className="bg-transparent ">
-                        <div style={{ textAlign: "center" }}>
-                          <small>
-                            <small>
-                              {" "}
-                              <small>
-                                <small>Maintainance details</small>
-                              </small>
-                            </small>
-                          </small>
-                        </div>
-                      </CardHeader>
-                    </h1>
-                  </div>
-                  <div className="btn-wrapper text-start">
-                    <br></br>
-                  </div>
-
-                  <div className="row">
-                    <div className="col">
-                      {/*--------------------------------------------------- */}
-                      {/**----------------------------------------------------------------- */}
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                Maintenance type
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                type="text"
-                                disabled={true}
-                                className="form-control"
-                                name="projectlength"
-                                id="projectlength"
-                                value={this.state.maintenancetypename}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**------------------------------------------------------------ */}
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                type="hidden"
-                                className="form-control"
-                                name="contractorname"
-                                id="contractorname"
-                                value={this.state.projectid}
-                                onChange={(e) => this.projectidHandler(e)}
-                              />
-                            </div>
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                Contract Type
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                type="text"
-                                disabled={true}
-                                className="form-control"
-                                name="projectlength"
-                                id="projectlength"
-                                value={this.state.projecttypename}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-
-                    <div className="col">
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                Work description
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <textarea
-                                disabled={true}
-                                id="serviceorderdescription"
-                                name="serviceorderdescription"
-                                value={this.state.serviceorderdescription}
-                                rows="4"
-                                cols="8"
-                              ></textarea>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col">
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                budget
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                disabled={true}
-                                type="text"
-                                className="form-control"
-                                name="contractbudget"
-                                id="contractbudget"
-                                value={this.state.contractbudget}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-
-                    <div className="col">
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                startdate
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                type="text"
-                                disabled={true}
-                                className="form-control"
-                                name="contractorstartdate"
-                                id="contractorstartdate"
-                                value={this.state.contractorstartdate}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col"></div>
-                    <div className="col">
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                enddate
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                type="text"
-                                disabled={true}
-                                className="form-control"
-                                name="contractorenddat"
-                                id="contractorenddat"
-                                value={this.state.contractorenddat}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                {/**----------------------++++++++++++++++++++++++++++++project data */}
-                <Card className=" shadow border-0">
-                  <div className="text-muted text-right mt-2 mb-3">
-                    <h1>
-                      <CardHeader className="bg-transparent ">
-                        <div style={{ textAlign: "center" }}>
-                          <small>
-                            <small>
-                              {" "}
-                              <small>
-                                <small>Inspection details</small>
-                              </small>
-                            </small>
-                          </small>
-                        </div>
-                      </CardHeader>
-                    </h1>
-                  </div>
-                  <div className="btn-wrapper text-start">
-                    <br></br>
-                  </div>
-
-                  <div className="row">
-                    <div className="col">
-                      {/*--------------------------------------------------- */}
-                      {/**----------------------------------------------------------------- */}
-                      
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                is WorkLoad Finished
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                type="checkbox"
-                                className="form-control"
-                                name="isworkloadfinished"
-                                id="isworkloadfinished"
-                                value={this.state.isworkloadfinished}
-                                onChange={(e) => this.isworkloadfinishedHandler(e)}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**------------------------------------------------------------ */}
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                type="hidden"
-                                className="form-control"
-                                name="serviceorderid"
-                                id="serviceorderid"
-                                value={this.state.serviceorderid}
-                                onChange={(e) => this.serviceorderidHandler(e)}
-                              />
-                            </div>
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                contractor meet the timeline
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                type="checkbox"
-                                className="form-control"
-                                name="istimelineexpected"
-                                id="istimelineexpected"
-                                value={this.state.istimelineexpected}
-                                onChange={(e) => this.istimelineexpectedHandler(e)}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-
-                    <div className="col">
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                can be paied
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                type="checkbox"
-                                className="form-control"
-                                name="isreadyforpayment"
-                                id="isreadyforpayment"
-                                value={this.state.isreadyforpayment}
-                                onChange={(e) => this.isreadyforpaymentHandler(e)}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col">
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-
-                    <div className="col">
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                Observation
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <textarea
-                                id="observations"
-                                name="observations"
-                                value={this.state.observations}
-                                onChange={(e) => this.observationsHandler(e)}
-                                rows="4"
-                                cols="8"
-                              ></textarea>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col"></div>
-                    <div className="col">
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </div>
+              <CardBody>
+                <table className="table" id="my-table">
+                  <thead>
+                    <tr>
+                      <th style={{ width: 20 }}>InvoiceNo</th>
+                      <th>Client</th>
+                      <th>Contract Description</th>
+                      <th>Due Amount</th>
+                    </tr>
+                  </thead>
+                  {brochure}
+                  <tr>
+                    <td colspan="3">Total</td>
+                    <td></td>
+                    <td></td>
+                    <td>{this.state.payedamount}</td>
+                  </tr>
+                </table>
+              </CardBody>
+            </Card>
+            <table
+              style={{
+                maxWidth: "1370px",
+                width: "100%",
+                height: "140%",
+              }}
+              id="my-table12"
+            >
+              <tr>
+                <td></td>
+              </tr>
+            </table>
 
             <div className="modal-footer">
               <button
@@ -985,14 +394,6 @@ class viewinspectionModal extends Component {
               >
                 Close
               </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                data-dismiss="modal"
-                onClick={this.handleClick}
-              >
-                evaluate
-              </button>
             </div>
           </div>
         </div>
@@ -1001,4 +402,4 @@ class viewinspectionModal extends Component {
   }
 }
 
-export default viewinspectionModal;
+export default ViewBusiness;

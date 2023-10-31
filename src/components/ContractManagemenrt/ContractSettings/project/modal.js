@@ -249,6 +249,8 @@ class Modal extends Component {
 
     try {
       const item = this.state;
+      const projectref="";
+      const budget=0;
       await Projectdate.addproject(
         item.projectid,
         item.projecttypeid,

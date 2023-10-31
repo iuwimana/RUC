@@ -148,11 +148,11 @@ class Project extends Component {
           m.startdate.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
           m.enddate.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
-    else if (selectedrole && selectedrole.institutionpartenerid)
+    else if (selectedrole && selectedrole.projectid)
       filtered = allsources.filter(
         (m) =>
-          m.Business.institutionpartenerid ===
-          selectedrole.institutionpartenerid
+          m.Business.projectid ===
+          selectedrole.projectid
       );
     ///////////////////////////////////////////
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
@@ -254,7 +254,7 @@ class Project extends Component {
       const brochure = business.map((business, index) => {
         return (
           <tr key={business.projectid}>
-            <td>{business.projectref}</td>
+            
             <td>{business.roadname}</td>
 
             <td>{business.maintenancetypename}</td>
@@ -345,7 +345,7 @@ class Project extends Component {
                 <div className="text-muted text-center mt-2 mb-3">
                   <h1>
                     <div style={{ textAlign: "center" }}>
-                      <h1>cotract settings- Road To Maintain</h1>
+                      <h1>contract settings- Road To Maintain</h1>
                     </div>
                   </h1>
                 </div>
@@ -396,7 +396,7 @@ class Project extends Component {
                         <table className="table">
                           <thead>
                             <tr>
-                              <th>RefNumber</th>
+                              
                               <th>Road name</th>
                               <th>Maintenance type name</th>
                               <th>Target </th>

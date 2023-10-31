@@ -268,16 +268,18 @@ class AddroleModal extends Component {
     try {
       const data = this.state;
       const projectid = 0;
+      const projectref="";
+      const budget=0;
       await Projectdate.addproject(
         projectid,
         data.projectdescription,
         data.targetid,
         data.roodid,
         data.maintenancetypeid,
-        data.budget,
+        budget,
         data.startdate,
         data.enddate,
-        data.projectref,
+        projectref,
         data.fiscalyearcontracttypeid,
         data.projectlength,
         data.measurementid   
@@ -398,20 +400,11 @@ class AddroleModal extends Component {
 
                         <div className="mb-3">
                           <div className="row">
-                            <div className="col">
-                              <div className="col-auto">
-                                <label
-                                  htmlFor="exampleFormControlInput1"
-                                  className="form-label"
-                                >
-                                  RefNumber
-                                </label>
-                              </div>
-                            </div>
+                            
                             <div className="col">
                               <div className="col-auto">
                                 <input
-                                  type="text"
+                                  type="hidden"
                                   className="form-control"
                                   name="projectref"
                                   id="projectref"
@@ -700,20 +693,11 @@ class AddroleModal extends Component {
 
                         <div className="mb-3">
                           <div className="row">
-                            <div className="col">
-                              <div className="col-auto">
-                                <label
-                                  htmlFor="exampleFormControlInput1"
-                                  className="form-label"
-                                >
-                                  budget
-                                </label>
-                              </div>
-                            </div>
+                            
                             <div className="col">
                               <div className="col-auto">
                                 <input
-                                  type="text"
+                                  type="hidden"
                                   className="form-control"
                                   name="budget"
                                   id="budget"

@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 import * as auth from "../../../../services/authService";
 import * as bank from "../../../../services/RevenuRessources/bankservices";
 import * as Measurement from "../../../../services/ContractManagement/ContractSetting/measurementService";
-
+import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { FcPlus } from "react-icons/fc";
 import * as Serviceorderdate from "../../../../services/ContractManagement/ContractSetting/serviceOrdersService";
 import * as ContractInspection from "../../../../services/contractinpection/contractinspect";
 import * as ProjectType from "../../../../services/ContractManagement/ContractSetting/contractTypeService";
@@ -14,17 +15,18 @@ import * as Target from "../../../../services/RMFPlanning/targetService";
 import * as Road from "../../../../services/ContractManagement/RoadRefference/road";
 import * as Maintenance from "../../../../services/ContractManagement/ContractSetting/maintenanceTypeService";
 
+import AddinspectioneModal from "./addinspectionmodal";
 import * as PaternerStatuses from "../../../../services/RevenuRessources/paternerStatusServices";
 import * as BusinessPaterner from "../../../../services/RevenuRessources/businessPaternerServices";
-
-class viewinspectionModal extends Component {
+import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import "react-responsive-modal/styles.css";
+class AddServiceModal extends Component {
   constructor(props) {
     super(props);
     //this.handleSave = this.handleSave.bind(this);
 
     this.state = {
       data: {
-        tabKey:0,
         serviceid: 0,
         serviceorderid: 0,
         servicename: "",
@@ -88,9 +90,16 @@ class viewinspectionModal extends Component {
         isreadyforpayment: false,
         serviceorderdescription: "",
         damagedlevel: "",
+        inspectorname: "",
+        purposeofinspection: "",
+        inspectiondate: "",
       },
+      openModal: false,
       inspectionid: 0,
       serviceorderid: 0,
+      inspectorname: "",
+      purposeofinspection: "",
+      inspectiondate: "",
       isworkloadfinished: false,
       istimelineexpected: false,
       observations: "",
@@ -157,6 +166,7 @@ class viewinspectionModal extends Component {
       road: [],
       maintenance: [],
       paternerStatuses: [],
+      business: [],
     };
   }
 
@@ -168,11 +178,14 @@ class viewinspectionModal extends Component {
       const { data: target } = await Target.gettargets();
       const { data: road } = await Road.getroads();
       const { data: maintenance } = await Maintenance.getmaintenances();
+      const { data: business } =
+        await ContractInspection.getcontractinspections();
 
       const { data: banks } = await bank.getbanks();
       const { data: paternerStatuses } =
         await PaternerStatuses.getpaternerstatuses();
       this.setState({
+        business,
         banks,
         paternerStatuses,
         projectType,
@@ -192,6 +205,13 @@ class viewinspectionModal extends Component {
     const user = auth.getJwt();
     this.setState({ user });
   }
+
+
+
+  onClickButton = () => this.setState({ openModal: true });
+
+  onCloseModal = () => this.setState({ openModal: false });
+
   componentWillReceiveProps(nextProps) {
     this.setState({
       serviceorderid: nextProps.serviceorderid,
@@ -199,6 +219,10 @@ class viewinspectionModal extends Component {
       serviceorderdescription: nextProps.serviceorderdescription,
 
       projectid: nextProps.projectid,
+      inspectorname: nextProps.inspectorname,
+      purposeofinspection: nextProps.purposeofinspection,
+      inspectiondate: nextProps.inspectiondate,
+
       contractid: nextProps.contractid,
       contractdiscription: nextProps.contractdiscription,
       contractbudget: nextProps.contractbudget,
@@ -249,16 +273,27 @@ class viewinspectionModal extends Component {
       servicebudget: nextProps.servicebudget,
       areaofmaintenance: nextProps.areaofmaintenance,
     });
+    toast.success(`Business Paterner with   has been updated successful:${nextProps.areaofmaintenance}`)
   }
+  //----------------------------------------------------------------------
 
   inspectioniddHandler(e) {
     this.setState({ inspectionid: e.target.value });
+  }
+  inspectornameHandler(e) {
+    this.setState({ inspectorname: e.target.value });
+  }
+  purposeofinspectionHandler(e) {
+    this.setState({ purposeofinspectiond: e.target.value });
+  }
+  inspectiondateHandler(e) {
+    this.setState({ inspectiondate: e.target.value });
   }
   serviceorderidHandler(e) {
     this.setState({ serviceorderid: e.target.value });
   }
   isworkloadfinishedHandler(e) {
-    this.setState({ isworkloadfinished: e.target.checked });
+    this.setState({ isworkloadfinished: e.target.value });
   }
   istimelineexpectedHandler(e) {
     this.setState({ istimelineexpected: e.target.checked });
@@ -279,23 +314,21 @@ class viewinspectionModal extends Component {
   handleClick = async (e) => {
     try {
       const data = this.state;
-      const inspectionid=0;
+      const inspectionid = 0;
       await ContractInspection.addcontractinspection(
         inspectionid,
         data.serviceorderid,
-        data.isworkloadfinished,
-        data.istimelineexpected,
-        data.observations,
-        data.isreadyforpayment
+        data.inspectorname,
+        data.purposeofinspection,
+        data.observations
       );
-      
 
       toast.success(`Business Paterner with   has been updated successful:
        serviceorderid; ${data.serviceorderid},
-       isworkloadfinished: ${data.isworkloadfinished},
-       istimelineexpected: ${data.istimelineexpected},
+       inspectorname: ${data.inspectorname},
+       purposeofinspection: ${data.purposeofinspection},
        observations: ${data.observations},
-       isreadyforpayment: ${data.isreadyforpayment} `);
+       inspectionid: ${data.inspectionid} `);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -321,39 +354,47 @@ class viewinspectionModal extends Component {
     const road = this.state.road;
     const maintenance = this.state.maintenance;
     const measurement = this.state.measurement;
+    const business = this.state.business;
+    const brochure = business.map((business, index) => {
+      return (
+        <tr key={business.inspectionid}>
+          <td>{business.inspectorname}</td>
+
+          <td>{business.purposeofinspection}</td>
+          <td>{business.observations}</td>
+          <td>{business.serviceorderdescription}</td>
+          <td>{business.damagedlevel}</td>
+          <td>{business.inspectiondate}</td>
+          <td>
+            <button
+              className="btn btn-primary"
+              data-toggle="modal"
+              data-target="#addinspectionModal"
+              onClick={() =>
+                this.handleshow(this.state.projectid, this.state.contractid)
+              }
+            >
+              <AiFillEdit />
+              Update
+            </button>
+          </td>
+          <td>
+            <button
+              className="btn btn-danger"
+              onClick={() => this.deleteItem(business.institutionpartenerid)}
+            >
+              <AiFillDelete />
+              Delete
+            </button>
+          </td>
+        </tr>
+      );
+    });
 
     return (
-      <div
-        className="modal fade"
-        id="exampleviewinspectionModal"
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div
-          className="modal-dialog"
-          role="document"
-          style={{
-            maxWidth: "1370px",
-            width: "100%",
-            height: "100%",
-          }}
-        >
+     
           <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Detail for Road to maintain
-              </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+            
             <div className="row">
               <div className="col">
                 {/**-----------------SAP data */}
@@ -818,7 +859,7 @@ class viewinspectionModal extends Component {
                             <small>
                               {" "}
                               <small>
-                                <small>Inspection details</small>
+                                <small>Inspection detail</small>
                               </small>
                             </small>
                           </small>
@@ -830,148 +871,56 @@ class viewinspectionModal extends Component {
                     <br></br>
                   </div>
 
-                  <div className="row">
-                    <div className="col">
-                      {/*--------------------------------------------------- */}
-                      {/**----------------------------------------------------------------- */}
+                  <div style={{ textAlign: "center" }}>
+                    <button
+                      className="btn btn-success"
+                      data-toggle="modal"
+                      onClick={this.onClickButton}
+                    >
+                      <FcPlus />
+                      AddNew
+                    </button>
+                  </div>
+
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Inspector Name</th>
+                        <th>Inspection Purpose</th>
+                        <th>Observation</th>
+                        <th>service order description</th>
+                        <th>damaged level</th>
+                        <th>Inspection Date</th>
+
+                        <th>Evaluate</th>
+                      </tr>
+                    </thead>
+                    <tbody>{brochure}</tbody>
+                  </table>
+                  
+                  <Modal  dialogClassName="my-modal" show={this.state.openModal} onHide={this.onCloseModal}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Add New Inspection</Modal.Title>
+                      <button
+                        type="button"
+                        className="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        onClick={this.onCloseModal}
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                  
+                      <AddinspectioneModal
+                      serviceorderid={this.state.serviceorderid} />
+                    </Modal.Body>
+                    <Modal.Footer>
                       
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                Inspector Name
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="isworkloadfinished"
-                                id="isworkloadfinished"
-                                value={this.state.isworkloadfinished}
-                                onChange={(e) => this.isworkloadfinishedHandler(e)}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**------------------------------------------------------------ */}
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                type="hidden"
-                                className="form-control"
-                                name="serviceorderid"
-                                id="serviceorderid"
-                                value={this.state.serviceorderid}
-                                onChange={(e) => this.serviceorderidHandler(e)}
-                              />
-                            </div>
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                               Purpose of Inspection
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                               <textarea
-                                className="textarea"
-                                  name="serviceorderdescription"
-                                  id="serviceorderdescription"
-                                  value={this.state.serviceorderdescription}
-                                  onChange={(e) =>
-                                    this.serviceorderdescriptionHandler(e)
-                                  }
-                                  rows="10"
-                                  cols="50"
-                                  placeholder="detailed explanation of contract service"
-                                  
-                                ></textarea>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-
-                    <div className="col">
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                can be paied
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <input
-                                type="checkbox"
-                                className="form-control"
-                                name="isreadyforpayment"
-                                id="isreadyforpayment"
-                                value={this.state.isreadyforpayment}
-                                onChange={(e) => this.isreadyforpaymentHandler(e)}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col">
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-
-                    <div className="col">
-                      <div className="mb-3">
-                        <div className="row">
-                          <div className="col">
-                            <div className="col-auto">
-                              <label
-                                htmlFor="exampleFormControlInput1"
-                                className="form-label"
-                              >
-                                Observation
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col">
-                            <div className="col-auto">
-                              <textarea
-                                id="observations"
-                                name="observations"
-                                value={this.state.observations}
-                                onChange={(e) => this.observationsHandler(e)}
-                                rows="4"
-                                cols="8"
-                              ></textarea>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/**----------------------------------------------------------------- */}
-                    </div>
-                  </div>
+                    </Modal.Footer>
+                  </Modal>
 
                   <div className="row">
                     <div className="col"></div>
@@ -991,20 +940,11 @@ class viewinspectionModal extends Component {
               >
                 Close
               </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                data-dismiss="modal"
-                onClick={this.handleClick}
-              >
-                evaluate
-              </button>
             </div>
           </div>
-        </div>
-      </div>
+        
     );
   }
 }
 
-export default viewinspectionModal;
+export default AddServiceModal;

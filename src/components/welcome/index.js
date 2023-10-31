@@ -39,9 +39,9 @@ class Index extends Form {
       } else {
         await auth.login(data.username, data.password);
         const { state } = this.props.location;
-        window.location = state ? state.from.pathname : "/";
+        window.location = state ? state.from.pathname : "/welcome";
         toast.success(`Dear  ${data.username} you are login successful`);
-        console.log(data.username);
+       
       }
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -54,9 +54,7 @@ class Index extends Form {
         errors.username = ex.response.data;
         toast.error("Error:" + errors.username);
         this.setState({ errors });
-      } else {
-        toast.error("An Error Occured, please try agin later");
-      }
+      } 
     }
   };
 
@@ -68,7 +66,7 @@ class Index extends Form {
       <div className="byose">
           <div className="emblem">
             <img src={myLogo} className="myLogo" alt="logo" />
-            <h1>Welcome to Road User Charging System <br/> <big><b>RUCS</b></big><br/>Admin Portal</h1>
+            <h1>Welcome to Road User Charging System <br/> <big><b>RUCS</b></big></h1>
           </div>
           <div className="form">
             <form onSubmit={this.handleSubmit}>
@@ -85,7 +83,7 @@ class Index extends Form {
               <br/>
               <button type="submit" className="btns" >Login</button>
               <div className="register">
-                <p>Don't have an Account? <a href="#">Register</a></p>
+                {/*<p>Don't have an Account? <a href="#">Register</a></p>*/}
               </div>
     
             </form>

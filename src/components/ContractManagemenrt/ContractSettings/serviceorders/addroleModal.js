@@ -30,9 +30,11 @@ class AddroleModal extends Component {
         serviceorderstatus: "",
         contractid: 0,
         projectid: 0,
+        amount:0,
       },
 
       serviceorderid: 0,
+      amount:0,
       contractid: 0,
       projectid: 0,
       serviceorderdescription: "",
@@ -90,9 +92,12 @@ class AddroleModal extends Component {
       contractid: nextProps.contractid,
       projectid: nextProps.projectid,
       serviceorderstatus: nextProps.serviceorderstatus,
+      amount:nextProps.Amount,
     });
   }
-
+ amountHandler(e) {
+    this.setState({ amount: e.target.value });
+  }
   serviceorderidHandler(e) {
     this.setState({ serviceorderid: e.target.value });
   }
@@ -122,7 +127,8 @@ class AddroleModal extends Component {
         data.damagedlevel,
         data.serviceorderdescription,
         data.projectid,
-        data.contractid
+        data.contractid,
+        data.amount
       );
 
       toast.success(`Business Paterner with   has been updated successful:
@@ -178,7 +184,7 @@ class AddroleModal extends Component {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Add Project
+                Add Service Order
               </h5>
               <button
                 type="button"
@@ -234,7 +240,7 @@ class AddroleModal extends Component {
                             <div className="col">
                               <div className="col-auto">
                                 <textarea
-                                className="textarea"
+                                  className="textarea"
                                   name="serviceorderdescription"
                                   id="serviceorderdescription"
                                   value={this.state.serviceorderdescription}
@@ -244,7 +250,6 @@ class AddroleModal extends Component {
                                   rows="10"
                                   cols="50"
                                   placeholder="detailed explanation of contract service"
-                                  
                                 ></textarea>
                               </div>
                             </div>
@@ -253,6 +258,41 @@ class AddroleModal extends Component {
 
                         {/**------------------------------------------- */}
                       </div>
+                      <div className="col">
+                        {/**------------------------------------------- */}
+                        <div className="row">
+                          <div className="col">
+                            <div className="mb-3">
+                              <div className="row">
+                                <div className="col">
+                                  <div className="col-auto">
+                                    <label
+                                      htmlFor="exampleFormControlInput1"
+                                      className="form-label"
+                                    >
+                                      Road Demaged Level
+                                    </label>
+                                  </div>
+                                </div>
+                                <div className="col">
+                                  <div className="col-auto">
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      name="damagedlevel"
+                                      id="damagedlevel"
+                                      value={this.state.damagedlevel}
+                                      onChange={(e) =>
+                                        this.damagedlevelHandler(e)
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
                       <div className="col">
                         {/**------------------------------------------- */}
 
@@ -264,7 +304,7 @@ class AddroleModal extends Component {
                                   htmlFor="exampleFormControlInput1"
                                   className="form-label"
                                 >
-                                  Road Demaged Level
+                                  ServiceOrrder Amount
                                 </label>
                               </div>
                             </div>
@@ -273,10 +313,10 @@ class AddroleModal extends Component {
                                 <input
                                   type="text"
                                   className="form-control"
-                                  name="damagedlevel"
-                                  id="damagedlevel"
-                                  value={this.state.damagedlevel}
-                                  onChange={(e) => this.damagedlevelHandler(e)}
+                                  name="amount"
+                                  id="amount"
+                                  value={this.state.amount}
+                                  onChange={(e) => this.amountHandler(e)}
                                 />
                               </div>
                             </div>
@@ -286,6 +326,11 @@ class AddroleModal extends Component {
                         {/**------------------------------------------- */}
                       </div>
                     </div>
+
+                        {/**------------------------------------------- */}
+                      </div>
+                    </div>
+                    
 
                     <br></br>
                   </div>

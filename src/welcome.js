@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 //import { ToastContainer } from "react-toastify";
-import { Card, CardHeader, CardBody, Col, Row } from "reactstrap";
+import { Card, CardHeader, CardBody, Col, Row  } from "reactstrap";
 //import auth from "./Services/authService";
 import jwtDecode from "jwt-decode";
 import NavBar from "./components/navBar";
@@ -115,6 +115,7 @@ import roadType from "./components/ContractManagemenrt/RoadRefference/RoadType/r
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import "./App.css";
+import { Container } from "react-bootstrap";
 
 
 class Welcome extends Component {
@@ -160,7 +161,7 @@ class Welcome extends Component {
     return (
       <React.Fragment>
        
-       
+        <div  >
           <Col
             style={{
               textAlign: "left",
@@ -168,9 +169,9 @@ class Welcome extends Component {
               justifyContent: "center",
             }}
           >
-            
+           
             <Card className=" shadow border-0">
-              <CardBody className="px-lg-5 py-lg-5">
+              <CardBody >
                 <Row>
                   <Col>
                   <Autmenu user={user} />
@@ -181,7 +182,7 @@ class Welcome extends Component {
                   <Header />
                   </Col>
                 </Row>
-                <Row >
+                <Row  >
                   <Col xs={4} sm={2} md={2.06} lg={3}>
                     <>
                       
@@ -196,6 +197,7 @@ class Welcome extends Component {
                   <Col xs={8} sm={6} md={6.04} lg={9}>
                   
                 {/*<WelcomeNav/> */}
+                
                 <Switch>
                       {/**------------common */}
                       <Route path="/not-found" component={NotFound} />
@@ -328,9 +330,11 @@ class Welcome extends Component {
                        
                       <Redirect from="/security" exact to="/security/addrole" />
 
-                      <Redirect from="/" exact to="/Home" />
+                      <Redirect from="/welcome" exact to="/Home" />
                       
                     </Switch> 
+                    
+                    
                   </Col>
                 </Row>
                 <Row>
@@ -339,7 +343,7 @@ class Welcome extends Component {
               </CardBody>
             </Card>
           </Col>
-       
+       </div>
         
       </React.Fragment> 
     );

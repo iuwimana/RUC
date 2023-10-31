@@ -194,6 +194,7 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
       <tr key={fiscalyearcontracttypeid}>
         <td colspan="3">
           <div class="row">
+            
             <div class="col" onClick={handleshowproject}>
               <NavLink
                 className="nav-item nav-link"

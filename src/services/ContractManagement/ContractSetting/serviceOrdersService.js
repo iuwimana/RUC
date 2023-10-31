@@ -69,14 +69,15 @@ export async function deleteserviceorder(serviceorderid) {
     );
   }
 }
-export async function addserviceorder(serviceorderid,damagedlevel,serviceorderdescription,projectid,contractid) {
+export async function addserviceorder(serviceorderid,damagedlevel,serviceorderdescription,projectid,contractid,Amount) {
   try {
     await http.post(apiEndpoint, {
       serviceorderid,
       damagedlevel,
       serviceorderdescription,
       projectid,
-      contractid
+      contractid,
+      Amount
     });
   } catch (ex) {
     return toast.error(

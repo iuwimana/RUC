@@ -10,7 +10,7 @@ export const ExpendableButton = ({ isOpen, toggle }) => {
           transition: "all 0.25s",
         }}
       >
-        expand_more
+        arrow_circle_down
       </span>
     </button>
   );

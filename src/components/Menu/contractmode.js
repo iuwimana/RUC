@@ -110,7 +110,8 @@ const [contracts, setcontracts]=useState([]);
           
           <div class="row" >
             <div class="col" ></div>
-            
+            <div class="col"></div>
+            <div class="col"></div>
   
             
             <div class="col"onClick={handleshowcontractor} >

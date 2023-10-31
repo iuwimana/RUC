@@ -3,6 +3,7 @@ import apiUrl from "../../config.json";
 import { toast } from "react-toastify";
 const apiEndpoint = apiUrl.apiUrl + "/contractpayment/contractpayment";
 const apiEndpoints = apiUrl.apiUrl + "/contractpayment/contractpayments";
+const apiEndpointreport = apiUrl.apiUrl + "/contractpayment/contractpaymentreport";
 
 export async function getcontractpayments() {
   try {
@@ -24,6 +25,16 @@ export async function getcontractpaymentBycontract(contractid) {
     );
   }
 }
+export async function getcontractpaymentreport(contractpaymentid) {
+  try {
+    return await http.post(apiEndpointreport, {contractpaymentid});
+  } catch (ex) {
+    return toast.error(
+      "An Error Occured, while fetching contractpayment data, Please try again later" +
+        ex
+    );
+  }
+}
 export async function deletecontractpayment(contractpaymentid) {
   try {
     await http.delete(apiEndpoint, {
@@ -37,14 +48,15 @@ export async function deletecontractpayment(contractpaymentid) {
   }
 }
 
-export async function addcontractpayment(contractpaymentid,contractid ,payedamount,contractamount ,remainamount) {
+export async function addcontractpayment(contractpaymentid,contractid,payedAmount,contractAmount,remainAmount,notes) {
   try {
     await http.post(apiEndpoint, {
       contractpaymentid,
-      contractid ,
-      payedamount,
-      contractamount ,
-      remainamount
+      contractid,
+      payedAmount,
+      contractAmount,
+      remainAmount,
+      notes
     });
   } catch (ex) {
     return toast.error(

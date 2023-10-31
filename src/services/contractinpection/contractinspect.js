@@ -37,15 +37,14 @@ export async function deletecontractinspection(inspectionid) {
   }
 }
 
-export async function addcontractinspection(inspectionid,serviceorderid ,  isworkloadfinished , istimelineexpected , observations,isreadyforpayment) {
+export async function addcontractinspection(inspectionid, serviceorderid, inspectorname, purposeofinspection, observations) {
   try {
     await http.post(apiEndpoint, {
-      inspectionid,
-      serviceorderid , 
-       isworkloadfinished , 
-       istimelineexpected , 
-       observations,
-       isreadyforpayment,
+      inspectionid, 
+      serviceorderid, 
+      inspectorname, 
+      purposeofinspection, 
+      observations
     });
   } catch (ex) {
     return toast.error(

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 //import Modal from "./modal";
 //import AddModal from "./addroleModal";
 import AddserviceModal from "./addserviceModel";
+import UpdateContractModal from "./contractpaymentModal";
 import ViewinspectionModal from "./viewinspectionmodal";
 import { toast } from "react-toastify";
 //import { Link } from "react-router-dom";
@@ -137,15 +138,15 @@ class Inspection extends Component {
     this.setState({ projectid: projectid, contractid: contractid,contractbudget:contractbudget });
   }
 
-  async deleteItem(serviceorderid) {
+  async deleteItem(contractpaymentid) {
     //const { user } = this.state;
 
     try {
-      if (!serviceorderid) {
+      if (!contractpaymentid) {
         toast.info(`the serviceorder you selected  doesnot exist`);
       } else {
-        await ServiceOrderData.deleteserviceorder(serviceorderid);
-        toast.success(`this serviceorder has been deleted successful`);
+        await ContractpaymentData.deletecontractpayment(contractpaymentid);
+        toast.success(`this contractpaymentid has been deleted successful`);
       }
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -186,18 +187,37 @@ class Inspection extends Component {
 
 
             
-            {/**<td>
-               
+           <td>
+            <button
+                className="btn btn-primary"
+                data-toggle="modal"
+                data-target="#contractpaymentModal"
+                onClick={() => this.replaceModalItem(index)}
+              >
+                <AiFillEdit />
+                Update
+              </button>{" "}
+            </td>
+            <td>
+              <button
+                className="btn btn-danger"
+                onClick={() => this.deleteItem(business.contractpaymentid)}
+              >
+                <AiFillDelete />
+                Delete
+              </button>
+            </td>
+              <td> 
               <button
                 className="btn btn-secondary"
                 data-toggle="modal"
-                data-target="#exampleviewinspectionModal"
+                data-target="#businessModal"
                 onClick={() => this.replaceModalItem(index)}
               >
                 <MdOutlineVisibility />
-                View
+                Invoice
               </button>
-            </td>*/}
+            </td>
 
             
           </tr>
@@ -304,60 +324,24 @@ class Inspection extends Component {
                           </thead>
                           <tbody>{brochure}</tbody>
                         </table>
+                        <UpdateContractModal
+                        contractpaymentid={modalData.contractpaymentid}
+                        contractid={modalData.contractid}
+                        payedamount={modalData.payedamount}
+                        contractbudget={modalData.contractbudget}
+                        contractamount={modalData.contractamount}
+                        remainamount={modalData.remainamount}
+                        notes={modalData.notes}
+                        saveModalDetails={this.saveModalDetails}
+                        />
                         <ViewinspectionModal
-                        serviceorderid={modalData.serviceorderid}
-                          damagedlevel={modalData.damagedlevel}
-                          serviceorderdescription={
-                            modalData.serviceorderdescription
-                          }
-                          projectid={modalData.projectid}
-                          contractid={modalData.contractid}
-                          contractdiscription={modalData.contractdiscription}
-                          contractbudget={modalData.contractbudget}
-                          contractorstartdate={modalData.contractorstartdate}
-                          contractorenddat={modalData.contractorenddate}
-                          contractmodeid={modalData.contractmodeid}
-                          contractmode={modalData.contractmode}
-                          contractorid={modalData.contractorid}
-                          contractorname={modalData.contractorname}
-                          islocal={modalData.islocal}
-                          contractoraddress={modalData.contractoraddress}
-                          contractoremail={modalData.contractoremail}
-                          contractorphonenumber={modalData.contractorphonenumber}
-                          tinnumber={modalData.tinnumber}
-                          contactpersonfirstname={modalData.contactpersonfirstname}
-                          contactpersonmiddlename={modalData.contactpersonmiddlename}
-                          contactpersonlastname={modalData.contactpersonlastname}
-                          contactpersonemail={modalData.contactpersonemail}
-                          contactpersonphonenumber={modalData.contactpersonphonenumber}
-                          maintenancetypeid={modalData.maintenancetypeid}
-                          maintenancetypename={modalData.maintenancetypename}
-                          roadid={modalData.roadid}
-                          roadname={modalData.roadname}
-                          roaddistance={modalData.roaddistance}
-                          targetid={modalData.targetid}
-                          targetname={modalData.targetname}
-                          startquartid={modalData.startquartid}
-                          startquarter={modalData.startquarter}
-                          endquarterid={modalData.endquarterid}
-                          endquarter={modalData.endquarter}
-                          fiscalyearid={modalData.fiscalyearid}
-                          fiscalyear={modalData.fiscalyear}
-                          projecttypeid={modalData.projecttypeid}
-                          projecttypename={modalData.projecttypename}
-                          projectdescription={modalData.projectdescription}
-                          budgetallocatetotheroad={modalData.budgetallocatetotheroad}
-                          projectstartingdate={modalData.projectstartingdate}
-                          projectendingdate={modalData.projectendingdate}
-                          status={modalData.status}
-                          projectlength={modalData.projectlength}
-                          projectref={modalData.projectref}
-                          measurementname={modalData.measurementname}
-                          inspectionid={modalData.inspectionid}
-                          isworkloadfinished={modalData.isworkloadfinished}
-                          istimelineexpected={modalData.istimelineexpected}
-                          observations={modalData.observations}
-                          isreadyforpayment={modalData.isreadyforpayment}
+                        contractpaymentid={modalData.contractpaymentid}
+                        contractid={modalData.contractid}
+                        payedamount={modalData.payedamount}
+                        contractbudget={modalData.contractbudget}
+                        contractamount={modalData.contractamount}
+                        remainamount={modalData.remainamount}
+                        notes={modalData.notes}
                           
                           saveModalDetails={this.saveModalDetails}
                         />
