@@ -183,7 +183,7 @@ class Welcome extends Component {
                   </Col>
                 </Row>
                 <Row  >
-                  <Col xs={4} sm={2} md={2.06} lg={3}>
+                  <Col xs={5} sm={5} md={3} lg={3}>
                     <>
                       
                         <NavBar
@@ -193,8 +193,8 @@ class Welcome extends Component {
                       
                     </> 
                     
-                  </Col >
-                  <Col xs={8} sm={6} md={6.04} lg={9}>
+                  </Col > 
+                  <Col xs={5} sm={5} md={6.04} lg={9}>
                   
                 {/*<WelcomeNav/> */}
                 

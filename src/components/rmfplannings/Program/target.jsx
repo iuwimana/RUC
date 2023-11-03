@@ -95,8 +95,8 @@ const Target = ({
             >
               <option value={StartQuorterId}>{StartQuorter}</option>
               {quarters.map((quarters) => (
-                <option key={quarters.QuarterId} value={quarters.QuarterId}>
-                  {quarters.Quarter}
+                <option key={quarters.quarterid} value={quarters.quarterid}>
+                  {quarters.quarter}
                 </option>
               ))}
             </Form.Control>
@@ -117,8 +117,8 @@ const Target = ({
             >
               <option value={EndQuorterId}>{EndQuorter}</option>
               {quarters.map((quarters) => (
-                <option key={quarters.QuarterId} value={quarters.QuarterId}>
-                  {quarters.Quarter}
+                <option key={quarters.quarterid} value={quarters.quarterid}>
+                  {quarters.quarter}
                 </option>
               ))}
             </Form.Control>

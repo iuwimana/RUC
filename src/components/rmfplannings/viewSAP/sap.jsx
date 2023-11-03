@@ -166,14 +166,14 @@ class Sap extends Component {
 
     const brochure = outcome.map((outcome, index) => {
       return (
-        <tr key={outcome.OutcomeId}>
+        <tr key={outcome.outcomeid}>
           {" "}
-          <td>{outcome.OutComeName}</td>
-          <td>{outcome.FiscalYear}</td>
+          <td>{outcome.outcomename}</td>
+          <td>{outcome.fiscalyear}</td>
           <td>{outcome.statuses}</td>
-          <td>{outcome.OutcomeDescription}</td>
-          <td>{outcome.SubProgramName}</td>
-          <td>{outcome.ProgramName}</td>
+          <td>{outcome.outcomedescription}</td>
+          <td>{outcome.subprogramname}</td>
+          <td>{outcome.programname}</td>
           <td>
             {" "}
             <button
@@ -265,14 +265,14 @@ class Sap extends Component {
                       <tbody>{brochure}</tbody>
                     </table>
                     <Modal
-                      Modal
-                      OutcomeId={modalData.OutcomeId}
-                      OutComeName={modalData.OutComeName}
-                      FiscalYear={modalData.FiscalYear}
+                      
+                      OutcomeId={modalData.outcomeid}
+                      OutComeName={modalData.outcomename}
+                      FiscalYear={modalData.fiscalyear}
                       statuses={modalData.statuses}
-                      OutcomeDescription={modalData.OutcomeDescription}
-                      SubProgramName={modalData.SubProgramName}
-                      ProgramName={modalData.ProgramName}
+                      OutcomeDescription={modalData.outcomedescription}
+                      SubProgramName={modalData.subprogramname}
+                      ProgramName={modalData.programname}
                       saveModalDetails={this.saveModalDetails}
                     />
                   </>

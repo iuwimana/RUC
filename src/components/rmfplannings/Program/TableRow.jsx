@@ -142,7 +142,7 @@ export const TableRow = ({
       </tr>
       <Modal show={modalOpen} onHide={handleClosesubprogram}>
         <Modal.Header closeButton>
-          <Modal.Title>Add SubProgram </Modal.Title>
+          <Modal.Title>Add Outcome </Modal.Title>
           <button
             type="button"
             className="close"

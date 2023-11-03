@@ -16,22 +16,23 @@ const AddOutComeModal = ({  index }) => {
     };
     fetchProgram();
   }, []);
+ 
   //------------------------------------
 
   const id = index;
   const OutcomeId=0;
 
   const [outComeName, setOutComeName] = useState("");
-  const [fiscalYearID, setFiscalYearID] = useState(0);
+  const [fiscalyearid, setFiscalYearID] = useState(0);
   const [description, setDescription] = useState("");
 
   const handleSubmit = async (e) => {
     
     try {
       e.preventDefault();
-     await Outcome.addoutcome(OutcomeId,id,outComeName,fiscalYearID,description );
-      toast.success(`Program data with SubprogramID:${id} and OutcomeID: ${OutcomeId} and FiscalYear ${fiscalYearID} and  ${outComeName} and ${description}  has been updated successful`);
-    window.location.reload(false);
+     await Outcome.addoutcome(OutcomeId,id,outComeName,fiscalyearid,description );
+      toast.success(`Program data with SubprogramID:${id} and OutcomeID: ${OutcomeId} and FiscalYear ${fiscalyearid} and  ${outComeName} and ${description}  has been updated successful`);
+   // window.location.reload(false);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -72,12 +73,15 @@ const AddOutComeModal = ({  index }) => {
         <Form.Control
           as="Select"
           custom
-          name="fiscalYearID"
-          value={fiscalYearID}
+          name="fiscalyearid"
+          value={fiscalyearid}
           onChange={(e) => setFiscalYearID(e.target.value)}>
+            <option>
+
+            </option>
           {fiscalYear.map(fiscalYear => (
-          <option key={fiscalYear.FiscalYearId} value={fiscalYear.FiscalYearId}>
-            {fiscalYear.FiscalYear}
+          <option key={fiscalYear.fiscalyearid} value={fiscalYear.fiscalyearid}>
+            {fiscalYear.fiscalyear}
           </option>
         ))}
        </Form.Control>   

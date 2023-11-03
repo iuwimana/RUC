@@ -4,6 +4,8 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import Joi from "joi-browser";
 import * as auth from "../../services/authService";
 import Form from "../common/form";
+import Resetpassword from "./resetpasswordModal";
+import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import App from "../../App";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -11,10 +13,10 @@ import { toast } from "react-toastify";
 import "./welcome.css";
 import myLogo from "./Rwanda_Coat0fArm.png";
 
-
 class Index extends Form {
-   state = {
+  state = {
     data: { username: "", password: "" },
+    openModal: false,
     errors: {},
   };
   schema = {
@@ -22,26 +24,35 @@ class Index extends Form {
     password: Joi.string().required().label("Password"),
   };
 
-  componentDidMount() {
+  componentDidMount() {}
+
+  usernameHandler(e) {
+    this.setState({ username: e.target.value });
+  }
+  passwordHandler(e) {
+    this.setState({ password: e.target.value });
   }
 
-   doSubmit = async (e) => {
+  onClickButton = () => this.setState({ openModal: true });
+
+  onCloseModal = () => this.setState({ openModal: false });
+
+  handleClick = async (e) => {
     try {
       const { data } = this.state;
-      if (data.username === "" && data.password === "") {
+      if (this.state.username === "" && this.state.password === "") {
         toast.info(
-          `Those Field are Required, Please fill it!! ${data.username} and ${data.password}`
+          `Those Field are Required, Please fill it!! ${this.state.username} and ${this.state.password}`
         );
-      } else if (data.username === "") {
+      } else if (this.state.username === "") {
         toast.info("Email is Required, Please fill it!!");
-      } else if (data.password === "") {
+      } else if (this.state.password === "") {
         toast.info("password is Required, Please fill it!!");
       } else {
-        await auth.login(data.username, data.password);
+        await auth.login(this.state.username, this.state.password);
         const { state } = this.props.location;
         window.location = state ? state.from.pathname : "/welcome";
-        toast.success(`Dear  ${data.username} you are login successful`);
-       
+        toast.success(`Dear  ${this.state.username} you are login successful`);
       }
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -54,44 +65,108 @@ class Index extends Form {
         errors.username = ex.response.data;
         toast.error("Error:" + errors.username);
         this.setState({ errors });
-      } 
+      }
     }
   };
 
   render() {
-    //if (auth.getCurrentUser()) return <Redirect to="/" />; 
+    //if (auth.getCurrentUser()) return <Redirect to="/" />;
     return (
-             
-          <div className="App">
-      <div className="byose">
+      <div className="App">
+        <div className="byose">
           <div className="emblem">
             <img src={myLogo} className="myLogo" alt="logo" />
-            <h1>Welcome to Road User Charging System <br/> <big><b>RUCS</b></big></h1>
+            <h1>
+              Welcome to Road User Charging System <br />{" "}
+              <big>
+                <b>RUCS</b>
+              </big>
+            </h1>
           </div>
           <div className="form">
-            <form onSubmit={this.handleSubmit}>
-              <h2>Signin to Your Account</h2>
-              <div className="input-box">
-               
-               
-                  {this.renderInput("username", "Username")}
+            <h2>Signin to Your Account</h2>
+            <div className="input-box">
+              <div className="mb-3">
+                <div className="row">
+                  <div className="col">
+                    <div className="col-auto">
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="username"
+                        id="username"
+                        placeholder="Enter username"
+                        value={this.state.username}
+                        onChange={(e) => this.usernameHandler(e)}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="input-box">
-                
-                {this.renderInput("password", "Password", "password")}
+            </div>
+            <div className="input-box">
+              <div className="row">
+                <div className="col">
+                  <div className="col-auto">
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="password"
+                      id="password"
+                      placeholder="Enter Password"
+                      value={this.state.password}
+                      onChange={(e) => this.passwordHandler(e)}
+                    />
+                  </div>
+                </div>
               </div>
-              <br/>
-              <button type="submit" className="btns" >Login</button>
-              <div className="register">
-                {/*<p>Don't have an Account? <a href="#">Register</a></p>*/}
-              </div>
-    
-            </form>
+            </div>
+            <br />
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-primary"
+                data-dismiss="modal"
+                onClick={this.handleClick}
+              >
+                Login
+              </button>
+            </div>
+            <div className="register">
+              <p>
+                Do you forgot your password?{" "}
+                <div className="btn" onClick={() => this.onClickButton()}>
+                  Reset
+                </div>
+              </p>
+            </div>
 
+            <Modal
+              dialogClassName="my-modal"
+              show={this.state.openModal}
+              onHide={this.onCloseModal}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Reset Password</Modal.Title>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                  onClick={this.onCloseModal}
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </Modal.Header>
+
+              <Modal.Body>
+                <Resetpassword />
+              </Modal.Body>
+              <Modal.Footer></Modal.Footer>
+            </Modal>
           </div>
-            
+        </div>
       </div>
-    </div>
     );
   }
 }

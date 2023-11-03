@@ -3,6 +3,7 @@ import http from "./httpService";
 import  apiUrl  from '../config.json';
 
 const apiEndpoint = apiUrl.apiUrl + "/auth/logins";
+const apiEndpointreset = apiUrl.apiUrl + "/auth/resetpassword";
 const tokenKey = "token";
 
 http.setJwt(getJwt());
@@ -12,6 +13,9 @@ export async function login(username,password) {
   localStorage.setItem(tokenKey, jwt);
   
 }
+
+
+
 
 export function loginWithJwt(jwt) { 
   localStorage.setItem(tokenKey, jwt);

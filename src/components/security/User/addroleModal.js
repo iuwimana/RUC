@@ -15,16 +15,16 @@ class AddroleModal extends Form {
 
     this.state = {
       data: {
-        username: "", 
-        password: "", 
+        username: "",
+        password: "",
         name: "",
-        IdNumber:""
+        IdNumber: "",
       },
 
       username: "",
-       password: "",
-        name: "",
-        IdNumber:"",
+      password: "",
+      name: "",
+      IdNumber: "",
       user: {},
       errors: {},
       banks: [],
@@ -33,14 +33,11 @@ class AddroleModal extends Form {
       paternerStatuses: [],
     };
   }
- 
 
   async componentDidMount() {
     const user = auth.getJwt();
     this.setState({ user });
   }
-  
-  
 
   usernameHandler(e) {
     this.setState({ username: e.target.value });
@@ -51,14 +48,15 @@ class AddroleModal extends Form {
   nameHandler(e) {
     this.setState({ name: e.target.value });
   }
-  
-  
 
   handleClick = async (e) => {
     try {
-      
-      const response = await userService.register(this.state.username,this.state.password,this.state.name);
-      auth.loginWithJwt(response.headers["x-auth-token"]);
+      const response = await userService.register(
+        this.state.username,
+        this.state.password,
+        this.state.name
+      );
+      // auth.loginWithJwt(response.headers["x-auth-token"]);
       window.location = "/";
       toast.success(`user  has been updated successful:
        username: ${this.state.username},
@@ -66,19 +64,16 @@ class AddroleModal extends Form {
        name: ${this.state.name},IdNumber:${this.state.IdNumber}
         `);
     } catch (ex) {
-      if (ex.response ) {
+      if (ex.response) {
         const errors = { ...this.state.errors };
         errors.username = ex.response.data;
         this.setState({ errors });
-        toast.error(`error occur:${JSON.stringify(errors)}`)
+        toast.error(`error occur:${JSON.stringify(errors)}`);
       }
     }
   };
- 
 
   render() {
-    
-
     return (
       <div
         className="modal fade"
@@ -111,21 +106,18 @@ class AddroleModal extends Form {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-             
+
             <div className="row">
               <div className="col">
                 <Card className=" shadow border-0">
-                  <div className="text-muted text-right mt-2 mb-3">
-                   
-                  </div>
+                  <div className="text-muted text-right mt-2 mb-3"></div>
                   <div className="btn-wrapper text-start">
                     {/**------------------------------------------- */}
-                       
-                         {/**------------------------------------------- */}
+
+                    {/**------------------------------------------- */}
                     <div className="row">
                       <div className="col">
-
-                         {/**------------------------------------------- */}
+                        {/**------------------------------------------- */}
                         <div className="mb-3">
                           <div className="row">
                             <div className="col">
@@ -146,9 +138,7 @@ class AddroleModal extends Form {
                                   name="username"
                                   id="username"
                                   value={this.state.username}
-                                  onChange={(e) =>
-                                    this.usernameHandler(e)
-                                  }
+                                  onChange={(e) => this.usernameHandler(e)}
                                 />
                               </div>
                             </div>
@@ -156,11 +146,9 @@ class AddroleModal extends Form {
                         </div>
 
                         {/**------------------------------------------- */}
-
                       </div>
                       <div className="col">
-
-                         {/**------------------------------------------- */}
+                        {/**------------------------------------------- */}
 
                         <div className="mb-3">
                           <div className="row">
@@ -183,27 +171,19 @@ class AddroleModal extends Form {
                                   name="password"
                                   id="password"
                                   value={this.state.password}
-                                  onChange={(e) =>
-                                    this.passwordHandler(e)
-                                  }
+                                  onChange={(e) => this.passwordHandler(e)}
                                 />
-
                               </div>
                             </div>
                           </div>
                         </div>
 
                         {/**------------------------------------------- */}
-
                       </div>
                     </div>
                     <div className="row">
+                      <div className="col"></div>
                       <div className="col">
-                        
-                        
-                      </div>
-                      <div className="col">
-
                         {/**------------------------------------------- */}
                         <div className="mb-3">
                           <div className="row">
@@ -229,31 +209,23 @@ class AddroleModal extends Form {
                                 />
                               </div>
                             </div>
-                            
                           </div>
                         </div>
 
                         {/**------------------------------------------- */}
-
                       </div>
-                      
                     </div>
-                    
+
                     <div className="row">
                       <div className="col">
-                      <div className="col-auto">
-                        
+                        <div className="col-auto"></div>
                       </div>
                     </div>
-                      
-                    </div>
-                    
 
                     <br></br>
                   </div>
                 </Card>
               </div>
-              
             </div>
 
             <div className="modal-footer">

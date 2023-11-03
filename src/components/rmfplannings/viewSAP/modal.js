@@ -14,7 +14,7 @@ class Modal extends Component {
     this.handleSave = this.handleSave.bind(this);
     this.state = {
       data: {
-        OutcomeId: 0,
+        OutcomeId: 2,
         OutComeName: "",
         FiscalYear: "",
         statuses: "",
@@ -22,7 +22,7 @@ class Modal extends Component {
         SubProgramName: "",
         ProgramName: "",
       },
-      OutcomeId: 0,
+      OutcomeId: 2,
       OutComeName: "",
       FiscalYear: "",
       statuses: "",
@@ -38,7 +38,7 @@ class Modal extends Component {
   }
 
  
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps (nextProps) {
     this.setState({
       OutcomeId: nextProps.OutcomeId,
       OutComeName: nextProps.OutComeName,
@@ -49,16 +49,18 @@ class Modal extends Component {
       ProgramName: nextProps.ProgramName,
       
     });
-    
+    const { data: outcomes } = await Outcome.getoutcomeforSAP(nextProps.OutcomeId);
+    this.setState({ outcomes });
   }
    async populateBanks() {
     try {
+      console.log(this.state.OutcomeId)
       const item = this.state;
       const { data: banks } = await bank.getbanks();
-      const { data: outcomes } = await Outcome.getoutcomeforSAP(4);
+      
       const { data: paternerStatuses } =
         await PaternerStatuses.getpaternerstatuses();
-      this.setState({ banks, paternerStatuses,outcomes });
+      this.setState({ banks, paternerStatuses });
     } catch (ex) {
       toast.error("Loading issues......");
     }
@@ -108,20 +110,22 @@ class Modal extends Component {
       return (
         
         <tr key={outcomes.OutcomeId}>
-          <td>{outcomes.ProgramName}</td>
-          <td>{outcomes.SubProgramName}</td>
-          <td>{outcomes.OutPutName}</td>
-          <td>{outcomes.IndicatorName}</td>
-          <td>{outcomes.BaselineName}</td>
+          <td>{outcomes.programname}
+          by {outcomes.outputname}
+           </td>
+          <td>{outcomes.subprogramname}</td>
+          <td>{outcomes.outputname}</td>
+          <td>{outcomes.indicatorname}</td>
+          <td>{outcomes.baselinename}</td>
           <td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-            {outcomes.StartingQuarter}</td>            
+            {outcomes.startingquarter}</td>            
             <td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-              {outcomes.EndingQuarter}</td>
-            <td>{outcomes.TargetName}</td>
-          <td>{outcomes.ActivityName}</td>
-          <td>{outcomes.StakeHolderName}</td>
-          <td>{outcomes.EstimatedBudget}</td>
-          <td>{outcomes.SourceoffundName}</td>
+              {outcomes.endingquarter}</td>
+            <td>{outcomes.targetname}</td>
+          <td>{outcomes.activityname}</td>
+          <td>{outcomes.stakeholdername}</td>
+          <td>{outcomes.estimatedbudget}</td>
+          <td>{outcomes.sourceoffundname}</td>
                    
           
         </tr>
