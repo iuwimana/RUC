@@ -84,9 +84,9 @@ const ContractorType = ({ projectid, roadname ,cancreateserviceorder}) => {
         <td colspan="3">
           <div class="row">
             <div class="col" >
-              
-                {roadname}
-              
+              <br/>
+               Road: - {roadname}
+              <br/>
             </div>
           </div>
         </td>

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 //import { ToastContainer } from "react-toastify";
-import { Card, CardHeader, CardBody, Col, Row  } from "reactstrap";
+import { Card, CardHeader, CardBody, Col, Row } from "reactstrap";
+import { NavLink } from "react-router-dom";
 //import auth from "./Services/authService";
 import jwtDecode from "jwt-decode";
 import NavBar from "./components/navBar";
@@ -74,7 +75,7 @@ import UpdateRole from "./components/security/updateRole";
 import AddRole from "./components/security/Role/addRole";
 //-----------------------Revenu Collection
 import RevMenu from "./components/revenueCorrection/revenuMenu";
-import Revmen from "./components/revenueCorrection/revenunavbar";
+import Currency from "./components/revenueCorrection/currency/currency";
 import RevHome from "./components/revenueCorrection/revenuHome";
 import Sources from "./components/revenueCorrection/sourceoffunds/sourceofFunds";
 import Product from "./components/revenueCorrection/revenuProduct/revenuProduct";
@@ -100,68 +101,94 @@ import roadCharacteristic from "./components/ContractManagemenrt/RoadRefference/
 import roadClassification from "./components/ContractManagemenrt/RoadRefference/RoadClassification/roadClassification";
 import Contractor from "./components/ContractManagemenrt/ContractSettings/contractor/contractor";
 import Contract from "./components/ContractManagemenrt/ContractSettings/contract/contract";
+import ContractEmm from "./components/ContractManagemenrt/ContractSettings/contractEmmargency/contract";
 
 import ServiceOrder from "./components/ContractManagemenrt/ContractSettings/serviceorders/serviceorder";
 import RoadInpection from "./components/ContractManagemenrt/RoadInspection/inspectionindex";
 import ContractInpection from "./components/ContractManagemenrt/ContractSettings/contractinspection/inspection";
+import EmmargencyContractInpection from "./components/ContractManagemenrt/ContractSettings/Emmagencycontractinspection/inspection";
+
 import ContractPayment from "./components/ContractManagemenrt/ContractSettings/contractpayment/contractpayment";
 
-
 import roadType from "./components/ContractManagemenrt/RoadRefference/RoadType/roadType";
-
+import * as FiscalYear from "./services/RMFPlanning/fiscalYearService";
 //------------------------------------------------------------------------
 
 //------------------------------------End Contract Management
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 import "./App.css";
 import { Container } from "react-bootstrap";
 
-
 class Welcome extends Component {
   state = {
-    user:[],
-    useraccesseses:[],
-    username:[],
-    accessusername:[],
+    fiscalyearid: 0,
+    fiscalyearname:"",
+    user: [],
+    useraccesseses: [],
+    username: [],
+    accessusername: [],
+    fiscalyear: [],
   };
-   async populateBanks() {
+  async populateBanks() {
     try {
-        const username = auth.getJwt();
-        this.setState({ username });
-        const accessusername=jwtDecode(username)
-        this.setState({ accessusername });
-        
-       
-        } catch (ex) {
-         toast.error("current user data Loading issues......"+ex);
-     
+      const username = auth.getJwt();
+      this.setState({ username });
+      const accessusername = jwtDecode(username);
+      this.setState({ accessusername });
+      const { data: fiscalyear } = await FiscalYear.getFiscalyears();
+
+      this.setState({ fiscalyear });
+      const fiscalyearid = [];
+      const people = fiscalyear.map((fiscalyear) => {
+        fiscalyearid.push(fiscalyear.fiscalyearid);
+      });
+      this.setState({ fiscalyearid: fiscalyearid[0] });
+      const fiscalyearname = [];
+      const FiscalYearName = fiscalyear.map((fiscalyear) => {
+        fiscalyearname.push(fiscalyear.fiscalyear);
+      });
+      this.setState({ fiscalyearname: fiscalyearname[0] });
+      
+    } catch (ex) {
+      toast.error("current user data Loading issues......" + ex);
     }
   }
 
   async componentDidMount() {
     try {
-       
-      await this.populateBanks();     
-              
+      await this.populateBanks();
+
       const user = await auth.getCurrentUser();
       this.setState({ user });
       //toast.error("Loading issues......"+user.username);
     } catch (ex) {
       toast.error("Loading user issues......");
-     
     }
-      
+  }
+  fiscalyearidHandler(e) {
+    this.setState({ fiscalyearid: e.target.value });
+    <NavLink
+      className="nav-item nav-link"
+      to={{
+        pathname: "/revenu/revenupayment",
+        state: { fiscalyearid: this.state.fiscalyearid },
+      }}
+    ></NavLink>;
+    {
+      window.location.reload(false);
+    }
   }
 
   render() {
     const { user } = this.state;
-    const useraccesseses=this.state.useraccesseses
-    
+    const useraccesseses = this.state.useraccesseses;
+    const fiscalyear = this.state.fiscalyear;
+
     return (
       <React.Fragment>
-       
-        <div  >
+        <div>
           <Col
             style={{
               textAlign: "left",
@@ -169,36 +196,40 @@ class Welcome extends Component {
               justifyContent: "center",
             }}
           >
-           
             <Card className=" shadow border-0">
-              <CardBody >
+              <CardBody>
                 <Row>
                   <Col>
-                  <Autmenu user={user} />
+                    <Autmenu user={user} />
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                  <Header />
+                    <Header />
+                    <Col>
+                      <div className="row">
+                        <div className="col" style={{ width: 20 }}></div>
+                        <div className="col" style={{ width: 20 }}></div>
+                        <div className="col" style={{ width: 60 }}>
+                         
+                        </div>
+                      </div>
+                    </Col>
                   </Col>
                 </Row>
-                <Row  >
-                  <Col xs={5} sm={5} md={3} lg={3}>
+                <Row>
+                  <Col xs={0} sm={0} md={3} lg={3}>
                     <>
-                      
-                        <NavBar
-                          user={user} 
-                          
-                        />
-                      
-                    </> 
-                    
-                  </Col > 
-                  <Col xs={5} sm={5} md={6.04} lg={9}>
-                  
-                {/*<WelcomeNav/> */}
-                
-                <Switch>
+                      <NavBar
+                        user={user}
+                        fiscalyearid={this.state.fiscalyearid}
+                      />
+                    </>
+                  </Col>
+                  <Col xs={10} sm={10} md={8} lg={9}>
+                    {/*<WelcomeNav/> */}
+
+                    <Switch>
                       {/**------------common */}
                       <Route path="/not-found" component={NotFound} />
                       <Route path="/home" component={Home} />
@@ -224,19 +255,33 @@ class Welcome extends Component {
                         path="/security/updaterole"
                         component={UpdateRole}
                       />
-                       {/**--------------------revenu collection--------------------------------- */}
+                      {/**--------------------revenu collection--------------------------------- */}
                       <Route path="/revenu/home" component={RevHome} />
                       <Route path="/revenu/sourceoffunds" component={Sources} />
                       <Route path="/revenu/revenuproduct" component={Product} />
-                      <Route path="/revenu/revenupayment" component={Payment} />
+                      {/*<Route path="/revenu/revenupayment" component={Payment} />*/}
+
+                      <Route
+                        path="/revenu/revenupayment"
+                        render={() => (
+                          <Payment fiscalyearid={this.state.fiscalyearid} />
+                        )}
+                      />
+                      
+
                       <Route
                         path="/revenu/revenucorrection"
-                        component={RevCorrection}
+                        render={() => (
+                          <RevCorrection fiscalyearid={this.state.fiscalyearid} fiscalyearname={this.state.fiscalyearname} />
+                        )}
+                        
                       />
                       <Route
                         path="/revenu/viewpaternerservicepayment"
                         component={ViewPayment}
                       />
+                      <Route path="/revenu/currency" component={Currency} />
+
                       <Route
                         path="/revenu/businesspaterner"
                         component={Business}
@@ -254,7 +299,7 @@ class Welcome extends Component {
                         component={PaternerServicePayment}
                       />
                       <Route path="/revenu/upload" component={Revupload} />
-                       {/**----------------------------------------------------- */}
+                      {/**----------------------------------------------------- */}
 
                       <Route path="/planing/program" component={Program} />
                       <Route
@@ -263,8 +308,8 @@ class Welcome extends Component {
                       />
                       <Route path="/planing/sap" component={ViewSAP} />
 
-                       {/**----------------------------------------------------- */}
-                       <Route
+                      {/**----------------------------------------------------- */}
+                      <Route
                         path="/ContractManagemenrt/contract/fiscalyearcontracttype"
                         component={FiscalYearContractType}
                       />
@@ -273,8 +318,8 @@ class Welcome extends Component {
                         component={Project}
                       />
 
-                       {/**----------------------------------------------------- */}
-                       <Route
+                      {/**----------------------------------------------------- */}
+                      <Route
                         path="/ContractManagemenrt/RoadRefference/road"
                         component={road}
                       />
@@ -300,41 +345,40 @@ class Welcome extends Component {
                         component={ContractInpection}
                       />
                       <Route
+                        path="/ContractManagemenrt/contract/emmergencycontractinspection"
+                        component={EmmargencyContractInpection}
+                      />
+                      <Route
                         path="/ContractManagemenrt/contract/contractpayment"
                         component={ContractPayment}
                       />
-                      
 
-                      
-                      <Route 
+                      <Route
                         path="/ContractManagemenrt/contract/contract"
                         component={Contract}
                       />
+                       <Route
+                        path="/ContractManagemenrt/contract/contractemmergency"
+                        component={ContractEmm}
+                      />
                       
+
                       <Route
                         path="/ContractManagemenrt/contract/ServiceOrder"
                         component={ServiceOrder}
                       />
-                      
-                      
-                      
 
                       <Route
                         path="/ContractManagemenrt/inspection"
                         component={RoadInpection}
                       />
 
-
-
                       {/**----------------------------------------------------- */}
-                       
+
                       <Redirect from="/security" exact to="/security/addrole" />
 
                       <Redirect from="/welcome" exact to="/Home" />
-                      
-                    </Switch> 
-                    
-                    
+                    </Switch>
                   </Col>
                 </Row>
                 <Row>
@@ -343,9 +387,8 @@ class Welcome extends Component {
               </CardBody>
             </Card>
           </Col>
-       </div>
-        
-      </React.Fragment> 
+        </div>
+      </React.Fragment>
     );
   }
 }

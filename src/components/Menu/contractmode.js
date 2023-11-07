@@ -51,11 +51,14 @@ import ContractorMenu from "../Menu/contract";
 import * as ContractData from "../../services/ContractManagement/ContractSetting/contractservice";
 
 import "../../home.css";
-const ContractMode= ({ contractmodeid, contractmode,projectid ,cancreateserviceorder}) => {
-
-
-   //---------------------------------------
-   const { isOpen, toggle } = useOpenController(false);
+const ContractMode = ({
+  contractmodeid,
+  contractmode,
+  projectid,
+  cancreateserviceorder,
+}) => {
+  //---------------------------------------
+  const { isOpen, toggle } = useOpenController(false);
   const { isOpenrec, togglerec } = useOpenController(false);
   const { isOpenplan, toggleplan } = useOpenController(false);
   const { isOpencont, toggleCont } = useOpenController(false);
@@ -63,15 +66,17 @@ const ContractMode= ({ contractmodeid, contractmode,projectid ,cancreateserviceo
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
   const { isOpenproject, toggleproject } = useOpenController(false);
   //---------------------------------------
-const [contractsmodeid,setcontractmodeid]= useState(0);
-const [contracts, setcontracts]=useState([]);
+  const [contractsmodeid, setcontractmodeid] = useState(0);
+  const [contracts, setcontracts] = useState([]);
   //---------------------------------------
 
   //const { data: business } = await ContractData.getcontractBycontractmode(state.contractmodeid);
   try {
     useEffect(() => {
       const fetchProgram = async () => {
-        const { data } = await ContractData.getcontractBycontractmode(contractmodeid);
+        const { data } = await ContractData.getcontractBycontractmode(
+          contractmodeid
+        );
         setcontracts(data);
       };
       fetchProgram();
@@ -82,57 +87,78 @@ const [contracts, setcontracts]=useState([]);
     );
   }
   //---------------------------------------
-   const handleshowcontractor=async()=>{
-     try {
+  const handleshowcontractor = async () => {
+    try {
       <NavLink
-            className="nav-item nav-link"
-              to={{
-                pathname:
-                  "/ContractManagemenrt/contract/contract",
-                state: { contractmodeid: contractmodeid },
-              }}        
-              
-              >
-                {window.location.reload(false)}
-              </NavLink>
+        className="nav-item nav-link"
+        to={{
+          pathname: "/ContractManagemenrt/contract/contract",
+          state: { contractmodeid: contractmodeid },
+        }}
+      >
+        {window.location.reload(false)}
+      </NavLink>;
     } catch (ex) {
       toast.error(
         "An Error Occured, while Loading contracttype data.........." + ex
       );
     }
-   }
+  };
 
-
-   return (
+  return (
     <>
-      <tr key={contractmodeid}>
+      {cancreateserviceorder && (<tr key={contractmodeid}>
         <td colspan="3">
-          
-          <div class="row" >
-            <div class="col" ></div>
-            <div class="col"></div>
-            <div class="col"></div>
-  
-            
-            <div class="col"onClick={handleshowcontractor} >
+          <div class="row">
+            <div class="col" onClick={handleshowcontractor}>
               <NavLink
-            className="nav-item nav-link"
-              to={{
-                pathname:
-                  "/ContractManagemenrt/contract/contract",
-                state: { contractmodeid: contractmodeid },
-              }}        
-              
+                className="nav-item nav-link"
+                to={{
+                  pathname: "/ContractManagemenrt/contract/contract",
+                  state: { contractmodeid: contractmodeid },
+                }}
               >
-                {contractmode}
+                <br />
+                Contract for - {contractmode}
+                <br />
               </NavLink>
             </div>
-            
           </div>
-          
         </td>
 
-        
+        <td>
+          {" "}
+          <div className="whitespace-nowrap">
+            <DiSqllite
+              isOpencontracttype={isOpencontracttype}
+              toggle={togglecontracttype}
+            />
+            <ExpendableButton
+              isOpencontracttype={isOpencontracttype}
+              toggle={togglecontracttype}
+            />
+          </div>
+        </td>
+      </tr>)}
+      {!cancreateserviceorder &&(
+        <tr key={contractmodeid}>
+        <td colspan="3">
+          <div class="row">
+            <div class="col" onClick={handleshowcontractor}>
+              <NavLink
+                className="nav-item nav-link"
+                to={{
+                  pathname: "/ContractManagemenrt/contract/contractemmergency",
+                  state: { contractmodeid: contractmodeid },
+                }}
+              >
+                <br />
+                Contract for - {contractmode}
+                <br />
+              </NavLink>
+            </div>
+          </div>
+        </td>
 
         <td>
           {" "}
@@ -148,26 +174,20 @@ const [contracts, setcontracts]=useState([]);
           </div>
         </td>
       </tr>
+      )}
       {isOpencontracttype && (
-        
-          <>
+        <>
           {contracts.map((contracts) => (
             <ContractorMenu
-              contractid={
-                contracts.contractid
-              }
+              contractid={contracts.contractid}
               contractorname={contracts.contractorname}
               projectid={projectid}
               cancreateserviceorder={cancreateserviceorder}
             />
           ))}
-          </>
-          )}
-
-      
-     
-      
+        </>
+      )}
     </>
   );
-}
+};
 export default ContractMode;

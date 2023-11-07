@@ -109,14 +109,13 @@ const [contracts, setcontracts]=useState([]);
         <td colspan="3">
           
           <div class="row" >
-            <div class="col" ></div>
-            
+                       
   
             
             <div class="col"onClick={handleshowcontractor} >
-             
-                {contractmode}
-             
+             <br/>
+               Contract Mode: - {contractmode}
+             <br/>
             </div>
             
           </div>

@@ -9,31 +9,31 @@ import { FcPlus } from "react-icons/fc";
 
 import * as ContractInspection from "../../../../services/contractinpection/contractinspect";
 
-const AddInspectionModal = ({ serviceorderid}) => {
-  const [Serviceorderid, setServiceorderid] = useState(serviceorderid);
-  const [Inspectionid, setinspectionid ] = useState(0);
-  const [Inspectorname, setinspectorname ] = useState("");
-  const [Purposeofinspection, setpurposeofinspection ] = useState("");
-  const [Observations, setobservations ] = useState("");
+const UpdateInspectionModal = ({ inspectionid,inspectorfullname, observations ,purposeofinspection,contractid}) => {
+  const [Contractid, setContractid] = useState(contractid);
+  const [Inspectionid, setinspectionid] = useState(inspectionid);
+  const [Inspectorfullname, setInspectorfullname] = useState(inspectorfullname);
+  const [Purposeofinspection, setpurposeofinspection] = useState(purposeofinspection);
+  const [Observations, setobservations] = useState(observations);
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      await ContractInspection.addcontractinspection(
+      await ContractInspection.addemmergencycontractinspection(
         Inspectionid,
-        Serviceorderid,
-        Inspectorname,
+        contractid,
+        Inspectorfullname,
         Purposeofinspection,
         Observations
       );
-      {/**setobservations setpurposeofinspection setinspectorname setinspectionid setServiceorderid **/}
+
       toast.success(`Business Paterner with   has been updated successful:
-       serviceorderid; ${Serviceorderid},
-       inspectorname: ${Inspectorname},
-       purposeofinspection: ${Purposeofinspection},
-       observations: ${Observations},
-       inspectionid: ${Inspectionid} `);
-       window.location.reload(false);
+       serviceorderid; ${contractid},
+       inspectorname: ${Inspectorfullname},
+       purposeofinspection: ${purposeofinspection},
+       observations: ${observations},
+       inspectionid: ${inspectionid} `);
+       //window.location.reload(false);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -56,15 +56,13 @@ const AddInspectionModal = ({ serviceorderid}) => {
   
   return (
     <div>
-     
-      
        <Form >
       <Form.Group>
         <Form.Control
           type="hidden"
-          placeholder="Inspectionid *"
-          name="Inspectionid"
-          value={Inspectionid}
+          placeholder="inspectionid *"
+          name="inspectionid"
+          value={inspectionid}
           onChange={(e) => setinspectionid(e.target.value)}
           required
         />
@@ -72,13 +70,12 @@ const AddInspectionModal = ({ serviceorderid}) => {
        <Form.Group>
         <Form.Control
           type="hidden"
-          placeholder="Serviceorderid *"
-          name="Serviceorderid"
-          value={Serviceorderid}
-          onChange={(e) => setServiceorderid(e.target.value)}
+          placeholder="Contractid *"
+          name="Contractid"
+          value={Contractid}
+          onChange={(e) => setContractid(e.target.value)}
           required
         />
-        
       </Form.Group>
       <Form.Group>
         <label htmlFor="exampleFormControlInput1" className="form-label">
@@ -88,9 +85,9 @@ const AddInspectionModal = ({ serviceorderid}) => {
         <Form.Control
           type="text"
           placeholder="Inspector name *"
-          name="Inspectorname"
-          value={Inspectorname}
-          onChange={(e) => setinspectorname(e.target.value)}
+          name="inspectorname"
+          value={Inspectorfullname}
+          onChange={(e) => setInspectorfullname(e.target.value)}
           required
           autoFocus
           enable={true}
@@ -98,7 +95,7 @@ const AddInspectionModal = ({ serviceorderid}) => {
       </Form.Group>
       <br/>
       <br/>
-      
+
       <Form.Group>
         <label htmlFor="exampleFormControlInput1" className="form-label">
                 Observation
@@ -108,14 +105,13 @@ const AddInspectionModal = ({ serviceorderid}) => {
           as="textarea"
           placeholder="detailed explanation of contract service"
           rows={3}
-          name="Observations"
+          name="observations"
           value={Observations}
           onChange={(e) => setobservations(e.target.value)}
         />
       </Form.Group>
       <br/>
       <br/>
-      
        <Form.Group>
         <label htmlFor="exampleFormControlInput1" className="form-label">
                 Purpose of inspection
@@ -125,7 +121,7 @@ const AddInspectionModal = ({ serviceorderid}) => {
           as="textarea"
           placeholder="detailed explanation of purpose of assignment"
           rows={3}
-          name="Purposeofinspection"
+          name="purposeofinspection"
           value={Purposeofinspection}
           onChange={(e) => setpurposeofinspection(e.target.value)}
         />
@@ -140,4 +136,4 @@ const AddInspectionModal = ({ serviceorderid}) => {
     </div>
   );
 };
-export default AddInspectionModal;
+export default UpdateInspectionModal;

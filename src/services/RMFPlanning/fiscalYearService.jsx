@@ -16,6 +16,14 @@ export async function getFiscalyears() {
   
 
 }
+export async function getFiscalyearAll() {
+  try {
+    const Fiscalyear = await http.get(apiEndpoints);
+    return Fiscalyear;
+  } catch (ex) {
+    return null;
+  }
+}
 
 
 export async function deleteFiscalyear(FiscalYearId) {
@@ -26,30 +34,24 @@ export async function deleteFiscalyear(FiscalYearId) {
     return toast.error("An Error Occured, while deleting Fiscalyear Please try again later"+ex);
   }
 }
-export async function addFiscalyear(FiscalYearId,FiscalYear) {
+export async function addFiscalyear(fiscalyearid, fiscalyear, islocked, isselected) {
   try {
-    //fetch(apiEndpoint, {
-      //method: 'POST',
-     // body: JSON.stringify({
-       //  RoleID: RoleID,
-      //   RoleName: RoleName,
-       //  Description: Description,
-      //   IsSystemRole: IsSystemRole,
-     // }),
-     // headers: {
-      //   'Content-type': 'application/json; charset=UTF-8',
-     // },
-  // })
-  
-     await http.post(apiEndpoint,{FiscalYearId,FiscalYear});
     
+
+    await http.post(apiEndpoint, {
+      fiscalyearid,
+      fiscalyear,
+      islocked,
+      isselected,
+    });
   } catch (ex) {
-    return toast.error("An Error Occured, while saving Fiscalyear of funds Please try again later" + ex );;
+    return toast.error(
+      "An Error Occured, while saving Fiscalyear of funds Please try again later" +
+        ex
+    );
   }
 }
  
-   
-
 
 
  

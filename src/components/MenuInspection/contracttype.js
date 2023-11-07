@@ -199,7 +199,11 @@ const ContractType = ({ fiscalyearid, fiscalyear }) => {
         <td colspan="3">
           <div class="row">
             
-              <div class="col">{fiscalyear}</div>
+              <div class="col">
+                <br/>
+                Fiscal Year -{fiscalyear}
+                <br/>
+                </div>
            
           </div>
         </td>

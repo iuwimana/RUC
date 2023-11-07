@@ -5,6 +5,8 @@ const apiEndpoint = apiUrl.apiUrl + "/revenucorrection/revenucorrection";
 const apiEndpointtotal = apiUrl.apiUrl + "/revenucorrection/revenucorrectiontotal";
 const apiEndpointproduct = apiUrl.apiUrl + "/revenucorrection/RevenueCorrectiontotalperrevenueproduct";
 const apiEndpointpercentage = apiUrl.apiUrl + "/revenucorrection/RevenueCorrectionpercentage";
+const apiEndpointrevbyfiscalyear = apiUrl.apiUrl+"/revenucorrection/revenucorrectionbyfiscalyear";
+
 
 export async function getrevenucorrections() {
   try {
@@ -50,6 +52,16 @@ export async function getrevenucorrectionpercentage() {
 export async function getrevenucorrectionById(RevenueCorrectionId) {
   try {
     return await http.get(apiEndpoint,RevenueCorrectionId);
+  } catch (ex) {
+    return toast.error("An Error Occured, while fetching revenucorrection data, Please try again later"+ex);
+  }
+}
+
+export async function getrevenucorrectionByFiscalYearID(fiscalyearid) {
+  try {
+    const revenucorrectionget = await http.post(apiEndpointrevbyfiscalyear,{fiscalyearid});
+    return revenucorrectionget
+     
   } catch (ex) {
     return toast.error("An Error Occured, while fetching revenucorrection data, Please try again later"+ex);
   }

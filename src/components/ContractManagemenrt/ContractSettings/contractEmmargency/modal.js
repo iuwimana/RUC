@@ -1,88 +1,80 @@
-import React from "react";
-//import * as source from "../../../services/RevenuRessources/sourceofFundsServices";
+import React, { Component } from "react";
 import Joi from "joi-browser";
-import * as bank from "../../../../services/RevenuRessources/bankservices";
-
-import { Card, CardHeader, CardBody, Col } from "reactstrap";
-//import * as RevenuType from "../../../services/RevenuRessources/revenuTypeServices";
 import { toast } from "react-toastify";
 import * as auth from "../../../../services/authService";
-import Form from "../../../common/form";
+import * as bank from "../../../../services/RevenuRessources/bankservices";
 import * as PaternerStatuses from "../../../../services/RevenuRessources/paternerStatusServices";
 import * as BusinessPaterner from "../../../../services/RevenuRessources/businessPaternerServices";
+import { Card, CardHeader, CardBody, Col } from "reactstrap";
 import * as ContractorData from "../../../../services/ContractManagement/ContractSetting/ContractorService";
 import * as ContractData from "../../../../services/ContractManagement/ContractSetting/contractservice";
 
-class AddroleModal extends Form {
+
+class Modal extends Component {
   constructor(props) {
     super(props);
-    //this.handleSave = this.handleSave.bind(this);
-
+    this.handleSave = this.handleSave.bind(this);
     this.state = {
-      data: {
+      data: { 
         contractid: 0,
         contractdiscription: "",
+        contractorname:"",
         budget: 0,
-       
         contractmodeid:0,
-        ContractorId: 0,
+        contractorid: 0,
         startdate: "",
-        enddate: "",
-      },
-
+        enddate: "",},
       contractid: 0,
       contractdiscription: "",
+      contractorname:"",
       budget: 0,
-      
       contractmodeid:0,
-      ContractorId: 0,
+      contractorid: 0,
       startdate: "",
       enddate: "",
-      InstitutionPartenerId: 0,
-      InstitutionPartenerName: "",
-      PartenerStatusName: "",
-      partenerstatusid: 0,
-      SourceofFundId: 0,
-      SourceofFundname: "",
-      AccountNumber: "",
-      bankid: 0,
-      Bankname: "",
-      user: {},
+      user:{},
       errors: {},
-      banks: [],
       contractors: [],
-      contractmodes: [],
+      banks: [],
       paternerStatuses: [],
     };
   }
+  
   async populateBanks() {
-    try {
+    try{
       const { data: banks } = await bank.getbanks();
-      const { data: paternerStatuses } =
-        await PaternerStatuses.getpaternerstatuses();
-      const { data: contractors } = await ContractorData.getcontractors();
-      this.setState({ banks, paternerStatuses,contractors });
-    } catch (ex) {
-      toast.error("Loading issues......" + ex);
-    }
-  }
+    const { data: paternerStatuses } = await PaternerStatuses.getpaternerstatuses();
+    const { data: contractors } = await ContractorData.getcontractors();
+    this.setState({ banks,paternerStatuses,contractors });
 
-  async componentDidMount() { 
+    }catch (ex) {
+    toast.error("Loading issues......");
+  }
+    
+    
+  }
+  async componentDidMount() {
     await this.populateBanks();
     const user = auth.getJwt();
     this.setState({ user });
   }
+
   componentWillReceiveProps(nextProps) {
     this.setState({
+      
       contractid: nextProps.contractid,
       contractdiscription: nextProps.contractdiscription,
       budget: nextProps.budget,
-      contractmodeid:nextProps.contractmodeid,
-      ContractorId: nextProps.ContractorId,
+      contractmodeid: nextProps.contractmodeid,
+      contractorid: nextProps.contractorid,
+      contractorname:nextProps.contractorname,
       startdate: nextProps.startdate,
       enddate: nextProps.enddate,
+
+      
     });
   }
+  
 
   contractidHandler(e) {
     this.setState({ contractid: e.target.value });
@@ -96,8 +88,8 @@ class AddroleModal extends Form {
   contractmodeidHandler(e) {
     this.setState({ contractmodeid: e.target.value });
   }
-  ContractorIdHandler(e) {
-    this.setState({ ContractorId: e.target.value });
+  contractoridHandler(e) {
+    this.setState({ contractorid: e.target.value });
   }
   startdateHandler(e) {
     this.setState({ startdate: e.target.value });
@@ -106,30 +98,42 @@ class AddroleModal extends Form {
     this.setState({ enddate: e.target.value });
   }
 
-  handleClick = async (e) => {
+
+
+
+
+
+  async handleSave() {
+   // const { user } = this.state;
+   
     try {
-      const data  = this.state;
-      const contractid = 0;
-      const budget=0;
-      //await source.addsource(SourceofFundId,data.SourceofFundname,data.AccountNumber,data.BankId,data.RevenueTypeId,data.StartDate,data.EndDate);
-      
+    const data = this.state;
+    
       await ContractData.addcontract(
-        contractid,
+        data.contractid,
         data.contractdiscription,
-        budget,
+        data.budget,
         data.contractmodeid,
-        data.ContractorId,
+        data.contractorid,
         data.startdate,
-        data.enddate
+        data.enddate 
       );
+
       toast.success(`contractor  has been updated successful:
-       ${contractid},
+       ${data.contractid},
         ${data.contractdiscription},
-        ${budget},
+        ${data.budget},
         ${data.contractmodeid},
-        ${data.ContractorId},
+        ${data.contractorid},
         ${data.startdate},
         ${data.enddate} `);
+      
+    
+    //this.props.saveModalDetails(item);
+    //(myString.toLowerCase() === 'true');
+     //toast.info(` ${item.roleid} and ${item.rolename} and ${item.isSystemRole} and ${item.description}`);
+   // const item = this.state;
+    //this.props.saveModalDetails(item);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -142,39 +146,32 @@ class AddroleModal extends Form {
         toast.error("Error:" + errors.rolename);
         this.setState({ errors });
       } else {
-        toast.error(
-          "An Error Occured, while saving Bussiness parterner Please try again later" +
-            ex
-        );
-      }
+        
+        toast.error("An Error Occured, while saving role Please try again later");
     }
-  };
+    }
+  }
 
   render() {
     const contractors = this.state.contractors;
-
     return (
       <div
         className="modal fade"
-        id="exampleAddModal"
+        id="exampleModal"
         tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div
-          className="modal-dialog"
-          role="document"
-          style={{
+        <div className="modal-dialog" role="document" style={{
             maxWidth: "1370px",
             width: "100%",
             height: "100%",
-          }}
-        >
+          }}>
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Add Contractor
+                Update contractor
               </h5>
               <button
                 type="button"
@@ -186,7 +183,9 @@ class AddroleModal extends Form {
               </button>
             </div>
 
-            <div className="row">
+
+            <div className="modal-body">
+              <div className="row">
               <div className="col">
                 <Card className=" shadow border-0">
                   <div className="text-muted text-right mt-2 mb-3">
@@ -195,12 +194,20 @@ class AddroleModal extends Form {
                   <div className="btn-wrapper text-start">
                     {/**------------------------------------------- */}
                         <input
-                          type="hidden"
+                          type="text"
                           className="form-control"
-                          name="contractmodeid"
-                          id="contractmodeid"
+                          name="contractid"
+                          id="contractid"
+                          value={this.state.contractid}
+                          onChange={(e) => this.contractidHandler(e)}
+                        />
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="ContractModeid"
+                          id="ContractModeid"
                           value={this.state.contractmodeid}
-                          onChange={(e) => this.contractmodeidHandler(e)}
+                          onChange={(e) => this.ContractModeidHandler(e)}
                         />
                          {/**------------------------------------------- */}
                     <div className="row">
@@ -262,11 +269,13 @@ class AddroleModal extends Form {
                                   name="contractorid"
                                   id="contractorid"
                                   className="form-control"
-                                  onChange={(e) => this.ContractorIdHandler(e)}
+                                  onChange={(e) => this.contractoridHandler(e)}
                                 >
                                   <option
-                                    value={this.state.ContractorId}
-                                  ></option>
+                                    value={this.state.contractorid}
+                                  >
+                                    {this.state.contractorname}
+                                  </option>
                                   {contractors.map((contractors) => (
                                     <option
                                       key={contractors.contractorid}
@@ -364,7 +373,7 @@ class AddroleModal extends Form {
                       <div className="col">
                        {/**------------------------------------------- */}
 
-                        {/** <div className="mb-3">
+                        <div className="mb-3">
                           <div className="row">
                             <div className="col">
                               <div className="col-auto">
@@ -390,7 +399,7 @@ class AddroleModal extends Form {
                               </div>
                             </div>
                           </div>
-                        </div>*/}
+                        </div>
                         
 
                         {/**------------------------------------------- */}
@@ -404,22 +413,26 @@ class AddroleModal extends Form {
               </div>
               
             </div>
+               
 
+            </div>
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-primary"
-                data-dismiss="modal"
-                onClick={this.handleClick}
-              >
-                AddNew
-              </button>
               <button
                 type="button"
                 className="btn btn-secondary"
                 data-dismiss="modal"
               >
                 Close
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                data-dismiss="modal"
+                onClick={() => {
+                  this.handleSave();
+                }}
+              >
+                Update
               </button>
             </div>
           </div>
@@ -429,4 +442,4 @@ class AddroleModal extends Form {
   }
 }
 
-export default AddroleModal;
+export default Modal;

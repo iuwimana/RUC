@@ -13,7 +13,15 @@ class Modal extends Component {
     super(props);
     this.handleSave = this.handleSave.bind(this);
     this.state = {
-      data: {RevenueProductId:0,RevenueProductname:"",sourceoffundid:0 , sourceoffundname: ""},
+      data: {revenueproductid:0,
+      revenueproductname:"",
+      accountnumber:"",
+      sourceoffundname:"",
+      sourceoffundid:0,
+      bankname:"",
+      revenuetypename:"",
+      startdate:"",
+      enddate:""},
       
       user:{},
       sources: [],
@@ -23,14 +31,14 @@ class Modal extends Component {
     };
   }
   schema = {
-    RevenueProductId: Joi.number()
+    revenueproductid: Joi.number()
                        .required(),
-    RevenueProductname: Joi.string()
+    revenueproductname: Joi.string()
                         .required()
                         .label("RevenueProductname"),
-    SourceofFundId: Joi.number()
+    sourceoffundid: Joi.number()
                        .required(),
-    SourceofFundname: Joi.string()
+    sourceoffundname: Joi.string()
                          .required()
                          .label("SourceofFundname"),
     
@@ -57,18 +65,18 @@ class Modal extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       
-      RevenueProductId: nextProps.RevenueProductId,
-      RevenueProductname: nextProps.RevenueProductname,
-      SourceofFundId: nextProps.SourceofFundId,
-      SourceofFundname: nextProps.SourceofFundname,
-      AccountNumber: nextProps.AccountNumber,
-      BankId: nextProps.BankId,
-      BankName: nextProps.BankName,
-      Bankname: nextProps.Bankname,
-      RevenueTypeId: nextProps.RevenueTypeId,
-      RevenueTypename: nextProps.RevenueTypename,
-      StartDate: nextProps.StartDate,
-      EndDate: nextProps.EndDate,
+      revenueproductid: nextProps.revenueproductid,
+      revenueproductname: nextProps.revenueproductname,
+      accountnumber: nextProps.accountnumber,
+      sourceoffundname: nextProps.sourceoffundname,
+      sourceoffundid: nextProps.sourceoffundid,
+      bankname: nextProps.bankname,
+      revenuetypename: nextProps.revenuetypename,
+      startdate: nextProps.startdate,
+      enddate: nextProps.enddate,      
+      
+      
+      
       
     });
   }
@@ -79,10 +87,10 @@ sourceofFundIdHandler(e) {
     this.setState({ sourceoffundid: e.target.value });
   }
 RevenueProductIdHandler(e) {
-    this.setState({ RevenueProductId: e.target.value });
+    this.setState({ revenueproductid: e.target.value });
   }
 RevenueProductnameHandler(e) {
-    this.setState({ RevenueProductname: e.target.value });
+    this.setState({ revenueproductname: e.target.value });
   }
 SourceofFundnamedHandler(e) {
     
@@ -99,8 +107,8 @@ SourceofFundnamedHandler(e) {
    
      try {
       const data  = this.state;
-      await Product.addRevenueProduct(data.RevenueProductId,data.RevenueProductname,data.sourceoffundid);
-      toast.success(`Revenue Product data RevenueProductname:  ${data.RevenueProductname} and SourceofFund: ${data.sourceoffundid}  has been updated successful`);
+      await Product.addRevenueProduct(data.revenueproductid,data.revenueproductname,data.sourceoffundid);
+      toast.success(`Revenue Product data RevenueProductname:  ${data.revenueproductname} and SourceofFund: ${data.sourceoffundid}  has been updated successful`);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -164,7 +172,7 @@ SourceofFundnamedHandler(e) {
                 <input
                   type="text"
                   className="form-control"
-                  value={this.state.RevenueProductname}
+                  value={this.state.revenueproductname}
                   onChange={(e) => this.RevenueProductnameHandler(e)}
                   placeholder="RevenueProductname"
                 />
@@ -177,9 +185,10 @@ SourceofFundnamedHandler(e) {
                 </label></div>
                  <div className="col-auto">
 
-
-                  <select name="SourceofFundId" id="SourceofFundId" className="form-control" onChange={(e) => this.sourceofFundIdHandler(e)}>
-                  <option value={this.state.SourceofFundId}>{this.state.SourceofFundname}
+                   
+                  <select name="SourceofFundId" id="SourceofFundId" className="form-control" 
+                  onChange={(e) => this.sourceofFundIdHandler(e)}>
+                  <option value={this.state.sourceoffundid}>{this.state.sourceoffundname}
                     </option>
                   {sources.map(sources => (
                      <option key={sources.sourceoffundid} value={sources.sourceoffundid} >

@@ -195,9 +195,9 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
         <td colspan="3">
           <div class="row">
             <div class="col" onClick={handleshowproject}>
-              
-                {contracttypename}
-              
+              <br/>
+               Contract type: - {contracttypename}
+              <br/>
             </div>
           </div>
         </td>

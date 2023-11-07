@@ -82,8 +82,7 @@ const handleshowproject = async () => {
         <td colspan="3">
           
           <div class="row" >
-            <div class="col" ></div>
-            <div class="col" ></div>
+            
   
             
             <div class="col" onClick={handleshowproject}>
@@ -97,7 +96,9 @@ const handleshowproject = async () => {
               }}        
               
               >
-                {contractorname}
+                <br/>
+               contractor: - {contractorname}
+               <br/>
               </NavLink>
             </div>
             
@@ -114,15 +115,15 @@ const handleshowproject = async () => {
         <td colspan="3">
           
           <div class="row" >
-            <div class="col" ></div>
-            <div class="col" ></div>
+           
+            
   
             
             <div class="col" >
               
-              
-                {contractorname}
-            
+              <br/>
+              contractor:-  {contractorname}
+             <br/>
             </div>
             
           </div>

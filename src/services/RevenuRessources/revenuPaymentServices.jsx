@@ -2,7 +2,7 @@ import http from "../httpService";
 import apiUrl from "../../config.json";
 import { toast } from "react-toastify";
 const apiEndpoint = apiUrl.apiUrl + "/revenupayment/revenupayment";
-
+const apiEndpoints = apiUrl.apiUrl + "/revenupayment/revenupayments";
 export async function getrevenupayments() {
   try {
     const revenupaymentget = await http.get(apiEndpoint);
@@ -22,10 +22,10 @@ export async function getrevenupaymentById(RevenuePaymentId) {
     );
   }
 }
-export async function deleteRevenuePayment(RevenuePaymentId) {
+export async function deleteRevenuePayment(revenuepaymentid) {
   try {
     await http.delete(apiEndpoint, {
-      data: { RevenuePaymentId: RevenuePaymentId },
+      data: { revenuepaymentid: revenuepaymentid },
     });
   } catch (ex) {
     return toast.error(
@@ -38,7 +38,8 @@ export async function addRevenuepayment(
   RevenuePaymentId,
   paymentmodeid,
   revenueproductid,
-  Value
+  Value,
+  fiscalyearid
 ) {
   try {
     await http.post(apiEndpoint, {
@@ -46,7 +47,23 @@ export async function addRevenuepayment(
       paymentmodeid,
       revenueproductid,
       Value,
+      fiscalyearid,
     });
+    
+  } catch (ex) {
+    return toast.error(
+      "An Error Occured, while saving RevenuePayment of funds Please try again later" +
+        ex
+    );
+  }
+}
+
+export async function getrevenupaymentByFiscalyear( fiscalyearid) {
+  try {
+     const revenupaymentget = await http.post(apiEndpoints, {
+       fiscalyearid,
+     });
+     return revenupaymentget;
   } catch (ex) {
     return toast.error(
       "An Error Occured, while saving RevenuePayment of funds Please try again later" +

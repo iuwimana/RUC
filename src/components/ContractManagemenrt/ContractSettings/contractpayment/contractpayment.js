@@ -178,7 +178,7 @@ class Inspection extends Component {
       const brochure = business.map((business, index) => {
         return (
           <tr key={business.contractpaymentid}>
-            <td>{business.contractdiscription}</td>
+            <td>#00{business.contractpaymentid}</td>
 
             <td>{business.payedamount + "Rwf"}</td>
             <td>{business.contractamount + "Rwf"}</td>
@@ -254,13 +254,57 @@ class Inspection extends Component {
             ></Col>
             <Card className=" shadow border-0">
               <CardHeader className="bg-transparent ">
-                <div className="text-muted text-center mt-2 mb-3">
-                  <h1>
-                    <div style={{ textAlign: "center" }}>
-                      <h1>Contract Payment</h1>
-                    </div>
-                  </h1>
+                <div
+                data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
+                className="rectangle9"
+              >
+                <div
+                  data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
+                  className="revPr"
+                >
+                  <div className="row">
+                    <big style={{ fontSize: 22 }}>RefNumber:</big><br/>
+                    
+                  </div>
+                  <div className="row">
+                    <big style={{ fontSize: 22 }}>Contractor:</big><br/>
+                  </div>
+                  <div className="row">
+                    <big style={{ fontSize: 22 }}>Service Order Amount:</big>
+                  </div>
                 </div>
+                <div >
+                  <div className="row">
+                  Paied Amount{" "}
+                  <big style={{ fontSize: 28 }}>
+                    {" "}
+                    {new Intl.NumberFormat().format(this.state.totaldeposit) +
+                      " " +
+                      "Rwf"}
+                  </big>
+                </div>
+                <div className="row">
+                  Remain Amount on Service order{" "}
+                  <big style={{ fontSize: 28 }}>
+                    {" "}
+                    {new Intl.NumberFormat().format(this.state.totaldeposit) +
+                      " " +
+                      "Rwf"}
+                  </big>
+                </div>
+                <div className="row">
+                  Consumed{" "}
+                  <big style={{ fontSize: 28 }}>
+                    {" "}
+                    {new Intl.NumberFormat().format(this.state.totaldeposit) +
+                      " " +
+                      "Rwf"}
+                  </big>
+                </div>
+                </div>
+              </div>
+              
+              
                 <div className="btn-wrapper text-center"></div>
               </CardHeader>
               <CardBody className="px-lg-5 py-lg-5">
@@ -312,10 +356,10 @@ class Inspection extends Component {
                         <table className="table">
                           <thead>
                             <tr>
-                              <th>Contract Description</th>
-                              <th>Amount Payed</th>
-                              <th>contract Budget</th>
-                              <th>Remaining Amount</th>
+                              <th>Invoice No</th>
+                              <th>Invoice Amount</th>
+                              <th>Due amount</th>
+                              <th>pending Amount</th>
                               <th>payment Date</th>
 
                               

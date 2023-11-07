@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../revenueCorrection/revenuCorrection/collection.css"
 const ListGroup = ({
   items,
   textProperty,
@@ -9,6 +9,7 @@ const ListGroup = ({
 }) => {
   return (
     <ul className="list-group">
+      
       {items.map((item) => (
         <li
           onClick={() => onItemSelect(item)}
@@ -20,6 +21,7 @@ const ListGroup = ({
           {item[textProperty]}
         </li>
       ))}
+      
     </ul>
   );
 };

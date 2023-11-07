@@ -16,6 +16,7 @@ import SelectCharacteristic from "./selectCharacteristic";
 import SelectRoadType from "./selectRoadType";
 import SelectPavettype from "./selectPavettype";
 import SelectShoulder from "./selectShoulder";
+import SelectCurr from "./selectcurr";
 import Check from "./check";
 
 class Form extends Component {
@@ -277,6 +278,20 @@ class Form extends Component {
 
     return (
       <SelectrevT
+        name={name}
+        value={data[name]}
+        label={label}
+        options={options}
+        onChange={this.handleChange}
+        error={errors[name]}
+      />
+    );
+  }
+  renderSelectcurr(name, label, options) {
+    const { data, errors } = this.state;
+
+    return (
+      <SelectCurr
         name={name}
         value={data[name]}
         label={label}

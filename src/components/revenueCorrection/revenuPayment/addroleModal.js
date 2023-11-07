@@ -18,6 +18,7 @@ class AddroleModal extends Form {
         paymentmodeid: 0,
         revenueproductid: 0,
         Value: 0,
+        fiscalyearid: this.props.fiscalyearid,
       },
       user: {},
       products: [],
@@ -54,6 +55,7 @@ class AddroleModal extends Form {
       Bankname: nextProps.Bankname,
       RevenueTypename: nextProps.RevenueTypename,
       Value: nextProps.Value,
+      fiscalyearid:nextProps.fiscalyearid,
     });
   }
   schema = {
@@ -67,13 +69,19 @@ class AddroleModal extends Form {
     try {
       const { data } = this.state;
       const RevenuePaymentId = 0;
-      await Payment.addRevenuepayment(
+       await Payment.addRevenuepayment(
         RevenuePaymentId,
         data.paymentmodeid,
         data.revenueproductid,
-        data.Value
-      );
-      toast.success(`Revenuepayment data   has been updated successful paymentmodeid:${data.paymentmodeid}, revenueproductid:${data.revenueproductid} Value: ${data.Value}`);
+        data.Value,
+        data.fiscalyearid
+      ); 
+       
+      toast.success(`Revenuepayment data   has been updated successful paymentmodeid:
+      ${data.paymentmodeid}, 
+      revenueproductid:${data.revenueproductid} 
+      Value: ${data.Value}
+      fiscalyearid:${data.fiscalyearid}`);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -104,7 +112,11 @@ class AddroleModal extends Form {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog" role="document">
+        <div className="modal-dialog" role="document" style={{
+            maxWidth: "870px",
+            width: "100%",
+            height: "100%",
+          }}>  
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">

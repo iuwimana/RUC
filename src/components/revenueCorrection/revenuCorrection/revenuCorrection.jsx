@@ -4,18 +4,21 @@ import React, { Component } from "react";
 import { Card, CardHeader, CardBody, Col } from "reactstrap";
 
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import * as Source from "../../../services/RevenuRessources/revenuCorrectionService";
-//import * as Services from "../../../services/RevenuRessources/paternerServiceServices";
-//import AddRole from "./addRole";
-//import History from "./history";
+import * as RevProdData from "../../../services/RevenuRessources/revenuPaymentServices";
+import * as FiscalYear from "../../../services/RMFPlanning/fiscalYearService";
+import {
+  FcCurrencyExchange,
+} from "react-icons/fc";
 import Pagination from "../../common/pagination";
-//import Form from "../common/form";
 import { paginate } from "../../../utils/paginate";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SearchBox from "../../searchBox";
 import { FcPlus } from "react-icons/fc";
 import _ from "lodash";
+import './collection.css'
+import ListGroup from './../../common/listGroup';
 
 class RevenuCorrection extends Component {
   constructor(props) {
@@ -24,8 +27,17 @@ class RevenuCorrection extends Component {
     this.replaceModalItem = this.replaceModalItem.bind(this);
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
+      fiscalyearid: this.props.fiscalyearid,
+      fiscalyearname: this.props.fiscalyearname,
+      
+      revenuproductid: 0,
+      revenuproductname: "",
+      totaldeposit: 0,
       sources: [],
       services: [],
+      revprod: [],
+      revprods: [],
+      fiscalyear: [],
       currentPage: 1,
       pageSize: 4,
       requiredItem: 0,
@@ -36,15 +48,70 @@ class RevenuCorrection extends Component {
       sortColumn: { path: "title", order: "asc" },
     };
   }
+  async populateBanks() {
+    try {
+      if (this.state.fiscalyearid === 0) {
+        const { data: fiscalyear } = await FiscalYear.getFiscalyears();
+        this.setState({ fiscalyear });
+        const fiscalyearid = [];
+        const people = fiscalyear.map((fiscalyear) => {
+          fiscalyearid.push(fiscalyear.fiscalyearid);
+        });
+        this.setState({ fiscalyearid: fiscalyearid[0] });
+
+        const fiscalyearname = [];
+        const FiscalYearName = fiscalyear.map((fiscalyear) => {
+          fiscalyearname.push(fiscalyear.fiscalyear);
+        });
+        this.setState({ fiscalyearname: fiscalyearname[0] });
+        const { data } = await RevProdData.getrevenupaymentByFiscalyear(
+          fiscalyearid[0]
+        );
+        const revprods = [
+          { revenuepaymentid: 0, revenueproductname: "All Products" },
+          ...data,
+        ];
+        this.setState({ revprods });
+      } else {
+        const { data: fiscalyear } = await FiscalYear.getFiscalyears();
+        this.setState({ fiscalyear });
+        const { data } = await RevProdData.getrevenupaymentByFiscalyear(
+           this.state.fiscalyearid
+        );
+        const revprods = [
+          { revenuepaymentid: 0, revenueproductname: "All Products" },
+          ...data,
+        ];
+        this.setState({ revprods });
+        
+      }
+    } catch (ex) {
+      toast.error("current user data Loading issues......" + ex);
+    }
+  }
   async componentDidMount() {
     try {
-      const { data: sources } = await Source.getrevenucorrections();
-
+      await this.populateBanks();
+      const { data: sources } = await Source.getrevenucorrectionByFiscalYearID(
+        this.state.fiscalyearid
+      );
       this.setState({ sources });
+
+      const deposit = [];
+      const amount = 0;
+      const deplist = sources.map((sources) => {
+        deposit.push(sources.deposit);
+      });
+
+      this.setState({
+        totaldeposit: deposit.reduce(
+          (accumulator, currentValue) => accumulator + currentValue,
+          0
+        ),
+      });
     } catch (ex) {
       return toast.error(
-        "An Error Occured, while rfetching role data Please try again later" +
-          ex
+        "An Error Occured, while fetching role data Please try again later" + ex
       );
     }
   }
@@ -58,6 +125,15 @@ class RevenuCorrection extends Component {
   };
   handleSort = (sortColumn) => {
     this.setState({ sortColumn });
+  };
+  handleselect = (revprod) => {
+    this.setState({ selectedrole: revprod, searchQuery: "", currentPage: 1 });
+    const revenuproduct = JSON.stringify(revprod.revenuepaymentid);
+    const revenuproducts = JSON.stringify(revprod.revenueproductname);
+    this.setState({
+      revenuproductid: revenuproduct,
+      revenuproductname: revenuproducts,
+    });
   };
   getPagedData = () => {
     const {
@@ -76,7 +152,7 @@ class RevenuCorrection extends Component {
           m.revenueproductname
             .toLowerCase()
             .startsWith(searchQuery.toLowerCase()) ||
-          m.raymentmodename
+          m.paymentmodename
             .toLowerCase()
             .startsWith(searchQuery.toLowerCase()) ||
           m.sourceoffundname
@@ -97,9 +173,9 @@ class RevenuCorrection extends Component {
             .startsWith(searchQuery.toLowerCase()) ||
           m.poref.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
-    else if (selectedrole && selectedrole.partenerserviceid)
+    else if (selectedrole && selectedrole.revenuepaymentid)
       filtered = allsources.filter(
-        (m) => m.Services.partenerserviceid === selectedrole.partenerserviceid
+        (m) => m.revenuepaymentid === selectedrole.revenuepaymentid
       );
     ///////////////////////////////////////////
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
@@ -111,6 +187,13 @@ class RevenuCorrection extends Component {
     this.setState({
       requiredItem: index,
     });
+  }
+
+  async fiscalyearidHandler(e) {
+    this.setState({ fiscalyearid: e.target.value });
+    await this.componentDidMount();
+    console.log("current fiscayear:" + this.state.fiscalyearid);
+    this.setState({ fiscalyearname: " "});
   }
 
   saveModalDetails(sources) {
@@ -151,21 +234,27 @@ class RevenuCorrection extends Component {
 
   render() {
     const { length: count } = this.state.sources;
-    const { pageSize, currentPage, searchQuery } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      selectedrole,
+      searchQuery,
+      sources: allsources,
+    } = this.state;
 
     const { totalCount, data: sources } = this.getPagedData();
-
+    const countproduct = this.state.revenuproductid;
+    const fiscalyear = this.state.fiscalyear;
     const brochure = sources.map((sources, index) => {
       return (
         <tr key={sources.revenuecorrectionid}>
           <td>{sources.revenueproductname}</td>
-          <td>{sources.paymentmodename}</td>
+          <td>{sources.bordername}</td>
           <td>{sources.sourceoffundname}</td>
-          <td>{sources.accountnumber}</td>
-          <td>{sources.bankname}</td>
+          {/*<td>{sources.accountnumber}</td>
+          <td>{sources.bankname}</td>*/}
           <td>{sources.correctiondate}</td>
           <td>{sources.deposit}</td>
-          <td>{sources.transactiondetails}</td>
         </tr>
       );
     });
@@ -186,6 +275,22 @@ class RevenuCorrection extends Component {
             justifyContent: "center",
           }}
         >
+          <select
+            name="fiscalyearid"
+            id="fiscalyearid"
+            className="form-control"
+            onChange={(e) => this.fiscalyearidHandler(e)}
+            onClick={(e) => this.fiscalyearidHandler(e)}
+          >
+            {fiscalyear.map((fiscalyear) => (
+              <option
+                key={fiscalyear.fiscalyearid}
+                value={fiscalyear.fiscalyearid}
+              >
+                {fiscalyear.fiscalyear}
+              </option>
+            ))}
+          </select>
           <Col
             style={{
               alignItems: "center",
@@ -195,61 +300,133 @@ class RevenuCorrection extends Component {
           ></Col>
           <Card className=" shadow border-0">
             <CardHeader className="bg-transparent ">
-              <div className="text-muted text-center mt-2 mb-3">
-                <h1>
-                  <div style={{ textAlign: "center" }}>
-                    <h1>RMF Resource Collection- revenu Collection</h1>
+              <div
+                data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
+                className="rectangle9"
+              >
+                <div
+                  data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
+                  className="revPr"
+                >
+                  <div className="row">
+                    <big style={{ fontSize: 48 }}>revenu collection</big>
                   </div>
-                </h1>
+                  <div className="row">
+                    @{this.state.revenuproductname}
+                    {"- on fiscay Year - "}
+                    {""}
+                    <small>{this.state.fiscalyearname}</small> <br />
+                  </div>
+                </div>
+                <div
+                  data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
+                  className="revsum"
+                >
+                  Total revenu collected{" "}
+                  <big style={{ fontSize: 28 }}>
+                    {" "}
+                    {new Intl.NumberFormat().format(this.state.totaldeposit) +
+                      " " +
+                      "Rwf"}
+                  </big>
+                </div>
               </div>
+              <svg
+                data-layer="503cdd18-2d99-4021-824e-3d8e0cce609d"
+                preserveAspectRatio="none"
+                viewBox="0 0 82 83"
+                className="ellipse3"
+              >
+                <FcCurrencyExchange />
+              </svg>
               <div className="btn-wrapper text-center"></div>
             </CardHeader>
             <CardBody className="px-lg-5 py-lg-5">
-              <div>
-                <div>
-                  {count === 0 && (
-                    <>
-                      <Link to="/revenu/upload" className="btn btn-success">
-                        <FcPlus /> AddRevenu
-                      </Link>
-                      <p>There are revenu correction Payment in Database.</p>
-                    </>
-                  )}
-                  {count !== 0 && (
-                    <>
-                      <Link to="/revenu/upload" className="btn btn-success">
-                        <FcPlus />
-                        AddRevenu
-                      </Link>
-                      <div style={{ textAlign: "center" }}>
-                        <SearchBox
-                          value={searchQuery}
-                          onChange={this.handleSearch}
-                        />
-                      </div>
-                      <table className="table">
-                        <thead>
-                          <tr>
-                            <th>RevenueProductname</th>
-                            <th>PaymentModename</th>
-                            <th>SourceofFundname</th>
-                            <th>AccountNumber</th>
-                            <th>Bankname</th>
-                            <th>Service Period</th>
-                            <th>Deposit</th>
-                            <th>Description</th>
-                          </tr>
-                        </thead>
-                        <tbody>{brochure}</tbody>
-                      </table>
-                    </>
-                  )}
-                  <Pagination
-                    itemsCount={totalCount}
-                    pageSize={pageSize}
-                    currentPage={currentPage}
-                    onPageChange={this.handlePageChange}
-                  />
+              <div className="row">
+                <div className="col-3">
+                  <br />
+                  <br />
+                  <br />
+                  <div className="card" style={{ height: 380 }}>
+                    <ListGroup
+                      items={this.state.revprods}
+                      textProperty="revenueproductname"
+                      valueProperty="revenuepaymentid"
+                      selectedItem={this.state.selectedrole}
+                      onItemSelect={this.handleselect}
+                    />
+                  </div>
+                </div>
+                <div className="col">
+                  <div>
+                    <div>
+                      {count === 0 && (
+                        <>
+                          {countproduct && countproduct !== "0" && (
+                            <Link
+                              to="/revenu/upload"
+                              className="btn btn-success"
+                            >
+                              <FcPlus /> AddRevenu
+                            </Link>
+                          )}
+                          <p>
+                            There are revenu correction Payment in Database.
+                          </p>
+                        </>
+                      )}
+                      {count !== 0 && (
+                        <>
+                          {countproduct && countproduct !== "0" && (
+                            <NavLink
+                              to={{
+                                pathname: "/revenu/upload",
+                                state: {
+                                  revenuproductid: this.state.revenuproductid,
+                                  revenuproductname:
+                                    this.state.revenuproductname,
+                                },
+                              }}
+                              className="btn btn-success"
+                            >
+                              <FcPlus />
+                              AddRevenu
+                            </NavLink>
+                          )}
+                          {console.log(
+                            `revenuproductid:${this.state.revenuproductid} revenuproductname${this.state.revenuproductname}`
+                          )}
+
+                          <div style={{ textAlign: "center" }}>
+                            <SearchBox
+                              value={searchQuery}
+                              onChange={this.handleSearch}
+                            />
+                          </div>
+                          <table className="table">
+                            <thead>
+                              <tr>
+                                <th>RevenueProductname</th>
+                                <th>Nation border</th>
+                                <th>SourceofFundname</th>
+                                {/*} <th>AccountNumber</th>
+                                <th>Bankname</th>*/}
+                                <th>Service Period</th>
+                                <th>Deposit</th>
+                              </tr>
+                            </thead>
+                            <tbody>{brochure}</tbody>
+                          </table>
+                        </>
+                      )}
+                      <Pagination
+                        itemsCount={totalCount}
+                        pageSize={pageSize}
+                        currentPage={currentPage}
+                        onPageChange={this.handlePageChange}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardBody>

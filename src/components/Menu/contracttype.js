@@ -47,6 +47,8 @@ import * as FiscalYearContractType from "../../services/ContractManagement/Contr
 import * as Projectdata from "../../services/ContractManagement/ContractSetting/projectservice";
 import ProjectMenu from "../Menu/projector";
 import "../../home.css";
+import ContractorType from './../MenuInspection/contractortype';
+import AddRole from './../security/Role/addRole';
 
 const ContractType = ({ fiscalyearid, fiscalyear }) => {
   const { isOpen, toggle } = useOpenController(false);
@@ -195,7 +197,9 @@ const ContractType = ({ fiscalyearid, fiscalyear }) => {
   );
   return (
     <>
-      <tr key={fiscalyearid}>
+      
+          <tr key={fiscalyearid}>
+        
         <td colspan="3">
           <div class="row">
             <NavLink
@@ -206,8 +210,10 @@ const ContractType = ({ fiscalyearid, fiscalyear }) => {
                 state: { fiscalyearid: fiscalyearid },
               }}
             >
+              <br/>
               
-              <div class="col">{fiscalyear}</div>
+              <div class="col">Contract Type- {fiscalyear}</div>
+              <br/>
             </NavLink>
           </div>
         </td>

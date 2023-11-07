@@ -7,6 +7,7 @@ const apiEndpointcontractmodes =apiUrl.apiUrl +"/contract/contractmodes"
 const apiEndpointt = apiUrl.apiUrl + "/contract/contracttype";
 const apiEndpointprojectcontract = apiUrl.apiUrl + "/contractproject/contractproject";
 const apiEndpointprojectcontracts = apiUrl.apiUrl + "/contractproject/contractprojects";
+const apiEndpointcontractid = apiUrl.apiUrl + "/contract//contractbycontractid";
 
 export async function getcontracts() {
   try {
@@ -36,6 +37,18 @@ export async function getcontractBycontractmode(ContractModeid) {
     );
   }
 }
+
+export async function getcontractBycontractID(contractid) {
+  try {
+    return await http.post(apiEndpointcontractid, {contractid});
+  } catch (ex) {
+    return toast.error(
+      "An Error Occured, while fetching contract data, Please try again later" +
+        ex
+    );
+  }
+}
+
 
 export async function getcontractById(contractorId) {
   try {

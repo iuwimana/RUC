@@ -9,12 +9,12 @@ import { FcPlus } from "react-icons/fc";
 
 import * as ContractInspection from "../../../../services/contractinpection/contractinspect";
 
-const AddInspectionModal = ({ serviceorderid}) => {
+const UpdateInspectionModal = ({ inspectionid,inspectorname, observations ,purposeofinspection,serviceorderid}) => {
   const [Serviceorderid, setServiceorderid] = useState(serviceorderid);
-  const [Inspectionid, setinspectionid ] = useState(0);
-  const [Inspectorname, setinspectorname ] = useState("");
-  const [Purposeofinspection, setpurposeofinspection ] = useState("");
-  const [Observations, setobservations ] = useState("");
+  const [Inspectionid, setinspectionid] = useState(inspectionid);
+  const [Inspectorname, setinspectorname] = useState(inspectorname);
+  const [Purposeofinspection, setpurposeofinspection] = useState(purposeofinspection);
+  const [Observations, setobservations] = useState(observations);
 
   const handleSubmit = async (e) => {
     try {
@@ -26,13 +26,13 @@ const AddInspectionModal = ({ serviceorderid}) => {
         Purposeofinspection,
         Observations
       );
-      {/**setobservations setpurposeofinspection setinspectorname setinspectionid setServiceorderid **/}
+
       toast.success(`Business Paterner with   has been updated successful:
        serviceorderid; ${Serviceorderid},
-       inspectorname: ${Inspectorname},
-       purposeofinspection: ${Purposeofinspection},
-       observations: ${Observations},
-       inspectionid: ${Inspectionid} `);
+       inspectorname: ${inspectorname},
+       purposeofinspection: ${purposeofinspection},
+       observations: ${observations},
+       inspectionid: ${inspectionid} `);
        window.location.reload(false);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -56,15 +56,13 @@ const AddInspectionModal = ({ serviceorderid}) => {
   
   return (
     <div>
-     
-      
        <Form >
       <Form.Group>
         <Form.Control
           type="hidden"
-          placeholder="Inspectionid *"
-          name="Inspectionid"
-          value={Inspectionid}
+          placeholder="inspectionid *"
+          name="inspectionid"
+          value={inspectionid}
           onChange={(e) => setinspectionid(e.target.value)}
           required
         />
@@ -72,13 +70,12 @@ const AddInspectionModal = ({ serviceorderid}) => {
        <Form.Group>
         <Form.Control
           type="hidden"
-          placeholder="Serviceorderid *"
-          name="Serviceorderid"
+          placeholder="serviceorderid *"
+          name="serviceorderid"
           value={Serviceorderid}
           onChange={(e) => setServiceorderid(e.target.value)}
           required
         />
-        
       </Form.Group>
       <Form.Group>
         <label htmlFor="exampleFormControlInput1" className="form-label">
@@ -88,7 +85,7 @@ const AddInspectionModal = ({ serviceorderid}) => {
         <Form.Control
           type="text"
           placeholder="Inspector name *"
-          name="Inspectorname"
+          name="inspectorname"
           value={Inspectorname}
           onChange={(e) => setinspectorname(e.target.value)}
           required
@@ -98,7 +95,7 @@ const AddInspectionModal = ({ serviceorderid}) => {
       </Form.Group>
       <br/>
       <br/>
-      
+
       <Form.Group>
         <label htmlFor="exampleFormControlInput1" className="form-label">
                 Observation
@@ -108,14 +105,13 @@ const AddInspectionModal = ({ serviceorderid}) => {
           as="textarea"
           placeholder="detailed explanation of contract service"
           rows={3}
-          name="Observations"
+          name="observations"
           value={Observations}
           onChange={(e) => setobservations(e.target.value)}
         />
       </Form.Group>
       <br/>
       <br/>
-      
        <Form.Group>
         <label htmlFor="exampleFormControlInput1" className="form-label">
                 Purpose of inspection
@@ -125,7 +121,7 @@ const AddInspectionModal = ({ serviceorderid}) => {
           as="textarea"
           placeholder="detailed explanation of purpose of assignment"
           rows={3}
-          name="Purposeofinspection"
+          name="purposeofinspection"
           value={Purposeofinspection}
           onChange={(e) => setpurposeofinspection(e.target.value)}
         />
@@ -140,4 +136,4 @@ const AddInspectionModal = ({ serviceorderid}) => {
     </div>
   );
 };
-export default AddInspectionModal;
+export default UpdateInspectionModal;

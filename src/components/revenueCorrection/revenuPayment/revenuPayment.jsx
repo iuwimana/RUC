@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useLocation } from "react";
 import Modal from "./modal";
 import AddModal from "./addroleModal";
 import { toast } from "react-toastify";
@@ -11,6 +11,7 @@ import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { FcPlus } from "react-icons/fc";
 import _ from "lodash";
 import { Card, CardHeader, CardBody, Col } from "reactstrap";
+import * as FiscalYear from "../../../services/RMFPlanning/fiscalYearService";
 
 class RevenuPayment extends Component {
   constructor(props) {
@@ -19,7 +20,16 @@ class RevenuPayment extends Component {
     this.replaceModalItem = this.replaceModalItem.bind(this);
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
+      fiscalyearid: this.props.fiscalyearid,
+      revenuepaymentid: 0,
+      revenueproductname: "",
+      paymentmodename: "",
+      paymentmodeid: 0,
+      Revenueproductname: "",
+      revenueproductid: 0,
+      value: 0,
       products: [],
+      fiscalyear: [],
       currentPage: 1,
       pageSize: 4,
       requiredItem: 0,
@@ -30,11 +40,37 @@ class RevenuPayment extends Component {
       sortColumn: { path: "title", order: "asc" },
     };
   }
+  async populateBanks() {
+    try {
+      if (this.state.fiscalyearid === 0) {
+        const { data: fiscalyear } = await FiscalYear.getFiscalyears();
+        this.setState({ fiscalyear });
+        const fiscalyearid = [];
+        const people = fiscalyear.map((fiscalyear) => {
+          fiscalyearid.push(fiscalyear.fiscalyearid);
+        });
+        this.setState({ fiscalyearid: fiscalyearid[0] });
+        const { data: products } = await Payment.getrevenupaymentByFiscalyear(
+          fiscalyearid[0]
+        );
+
+        this.setState({ products });
+      } else {
+        const { data: fiscalyear } = await FiscalYear.getFiscalyears();
+        this.setState({ fiscalyear });
+        const { data: products } = await Payment.getrevenupaymentByFiscalyear(
+          this.state.fiscalyearid
+        );
+
+        this.setState({ products });
+      }
+    } catch (ex) {
+      toast.error("current user data Loading issues......" + ex);
+    }
+  }
   async componentDidMount() {
     try {
-      const { data: products } = await Payment.getrevenupayments();
-
-      this.setState({ products });
+      await this.populateBanks();
     } catch (ex) {
       return toast.error(
         "An Error Occured, while rfetching revenu Payment data Please try again later" +
@@ -93,10 +129,33 @@ class RevenuPayment extends Component {
 
     return { totalCount: filtered.length, data: products };
   };
-  replaceModalItem(index) {
+  replaceModalItem(
+    
+    revenuepaymentid,
+    revenueproductname,
+    paymentmodename,
+    paymentmodeid,
+    Revenueproductname,
+    revenueproductid,
+    fiscalyearid,
+    value
+
+  ) {
     this.setState({
-      requiredItem: index,
+      revenuepaymentid: revenuepaymentid,
+      revenueproductname: revenueproductname,
+      paymentmodename: paymentmodename,
+      paymentmodeid: paymentmodeid,
+      Revenueproductname: Revenueproductname,
+      revenueproductid: revenueproductid,
+      fiscalyearid: fiscalyearid,
+      value: value,
     });
+  }
+
+  async fiscalyearidHandler(e) {
+    this.setState({ fiscalyearid: e.target.value });
+    await this.componentDidMount();
   }
 
   saveModalDetails(products) {
@@ -141,22 +200,32 @@ class RevenuPayment extends Component {
     const { length: count } = this.state.products;
     const { pageSize, currentPage, searchQuery } = this.state;
     const { totalCount, data: products } = this.getPagedData();
+
     const brochure = products.map((products, index) => {
       return (
         <tr key={products.revenuepaymentid}>
           <td>{products.revenueproductname}</td>
           <td>{products.paymentmodename}</td>
           <td>{products.sourceoffundname}</td>
-          <td>{products.accountnumber}</td>
-          <td>{products.bankname}</td>
-          <td>{products.revenuetypename}</td>
+          <td>{products.fiscalyear}</td>
           <td>{products.value}</td>
           <td>
             <button
               className="btn btn-primary"
               data-toggle="modal"
               data-target="#exampleModal"
-              onClick={() => this.replaceModalItem(index)}
+              onClick={() =>
+                this.replaceModalItem(
+                  products.revenuepaymentid,
+                  products.revenueproductname,
+                  products.paymentmodename,
+                  products.paymentmodeid,
+                  products.revenueproductname,
+                  products.revenueproductid,
+                  products.fiscalyearid,
+                  products.value
+                )
+              }
             >
               <AiFillEdit />
               Update
@@ -177,7 +246,7 @@ class RevenuPayment extends Component {
 
     const requiredItem = this.state.requiredItem;
     let modalData = this.state.products[requiredItem];
-
+    const fiscalyear = this.state.fiscalyear;
     return (
       <div
         style={{
@@ -192,6 +261,25 @@ class RevenuPayment extends Component {
             justifyContent: "center",
           }}
         >
+          <select
+            name="fiscalyearid"
+            id="fiscalyearid"
+            className="form-control"
+            onChange={(e) => this.fiscalyearidHandler(e)}
+            onClick={(e) => this.fiscalyearidHandler(e)}
+          >
+            {fiscalyear.map((fiscalyear) => (
+              <option
+                key={fiscalyear.fiscalyearid}
+                value={fiscalyear.fiscalyearid}
+              >
+                {fiscalyear.fiscalyear}
+              </option>
+            ))}
+          </select>
+
+          <Col />
+
           <Col
             style={{
               alignItems: "center",
@@ -224,7 +312,7 @@ class RevenuPayment extends Component {
                         AddPayment
                       </button>
                       <p>There are revenu Payment in Database.</p>
-                      <AddModal />
+                      <AddModal fiscalyearid={this.state.fiscalyearid} />
                     </>
                   )}
                   {count !== 0 && (
@@ -246,12 +334,10 @@ class RevenuPayment extends Component {
                       <table className="table">
                         <thead>
                           <tr>
-                            <th>RevenueProductname</th>
-                            <th>PaymentModename</th>
-                            <th>SourceofFundname</th>
-                            <th>AccountNumber</th>
-                            <th>Bankname</th>
-                            <th>RevenueTypename</th>
+                            <th>Product name</th>
+                            <th>Payment mode</th>
+                            <th>Source of fund</th>
+                            <th>Fiscal year</th>
                             <th>Amount to pay</th>
                             <th>Update</th>
                             <th>Delete</th>
@@ -261,19 +347,20 @@ class RevenuPayment extends Component {
                         <tbody>{brochure}</tbody>
                       </table>
 
-                      <AddModal />
+                      <AddModal fiscalyearid={this.state.fiscalyearid} />
 
                       <Modal
-                        RevenuePaymentId={modalData.revenuepaymentid}
-                        RevenueProductId={modalData.revenueproductid}
-                        PaymentModeId={modalData.paymentmodeid}
-                        RevenueProductname={modalData.revenueproductname}
-                        PaymentModename={modalData.paymentmodename}
-                        SourceofFundname={modalData.sourceoffundname}
-                        AccountNumber={modalData.accountnumber}
-                        Bankname={modalData.bankname}
-                        RevenueTypename={modalData.revenuetypename}
-                        Value={modalData.value}
+                        RevenuePaymentId={this.state.revenuepaymentid}
+                        RevenueProductId={this.state.revenueproductid}
+                        paymentmodeid={this.state.paymentmodeid}
+                        RevenueProductname={this.state.revenueproductname}
+                        PaymentModename={this.state.paymentmodename}
+                        SourceofFundname={this.state.sourceoffundname}
+                        AccountNumber={this.state.accountnumber}
+                        Bankname={this.state.bankname}
+                        RevenueTypename={this.state.revenuetypename}
+                        Value={this.state.value}
+                        fiscalyearid={this.state.fiscalyearid}
                         saveModalDetails={this.saveModalDetails}
                       />
                     </>

@@ -3,6 +3,7 @@ import * as source from "../../../services/RevenuRessources/sourceofFundsService
 import Joi from "joi-browser";
 import * as bank from "../../../services/RevenuRessources/bankservices";
 import * as RevenuType from "../../../services/RevenuRessources/revenuTypeServices";
+import * as CurrencyData from "../../../services/RevenuRessources/currencyServices";
 import { toast } from "react-toastify";
 import * as auth from "../../../services/authService";
 import Form from "../../common/form";
@@ -12,10 +13,11 @@ class AddroleModal extends Form {
     //this.handleSave = this.handleSave.bind(this);
     
     this.state = {
-     data: { SourceofFundId:0, SourceofFundname: "", AccountNumber: "", bankid:0,  Bankname:"", revenuetypeid:0, RevenueTypename:"", StartDate:"", EndDate:""}
+     data: { SourceofFundId:0, SourceofFundname: "", AccountNumber: "", bankid:0,  Bankname:"", revenuetypeid:0,currencyid:0, RevenueTypename:"", StartDate:"", EndDate:""}
      ,user:{},
      banks: [],
      revenues: [],
+     currencies:[],
       errors: {}
     };
   }
@@ -23,7 +25,8 @@ async populateBanks() {
   try{
     const { data: banks } = await bank.getbanks();
     const { data: revenues } = await RevenuType.getrevenuTypes();
-    this.setState({ banks,revenues });
+    const { data: currencies } = await CurrencyData.getcurrencies();
+    this.setState({ banks,revenues,currencies });
     
   }catch (ex) {
     toast.error("Loading issues......");
@@ -41,6 +44,7 @@ async populateBanks() {
     this.setState({
       
       SourceofFundId: nextProps.SourceofFundId,
+      currencyid:nextProps.currencyid,
       SourceofFundname: nextProps.SourceofFundname,
       AccountNumber: nextProps.AccountNumber,
       bankid: nextProps.bankid,
@@ -65,6 +69,8 @@ async populateBanks() {
     revenuetypeid: Joi.number()
                       .required()
                       .label("RevenueType"),
+      currencyid: Joi.number()
+                      .required(),
     StartDate: Joi.date(),
     EndDate: Joi.date()
   };
@@ -74,7 +80,7 @@ async populateBanks() {
     try {
     const { data } = this.state;
     const SourceofFundId=0
-    await source.addsource(SourceofFundId,data.SourceofFundname,data.AccountNumber,data.bankid,data.revenuetypeid,data.StartDate,data.EndDate);
+    await source.addsource(SourceofFundId,data.SourceofFundname,data.AccountNumber,data.bankid,data.revenuetypeid,data.currencyid,data.StartDate,data.EndDate);
     toast.success(`source of funds data SourceofFundname:  ${data.SourceofFundname} ,AccountNumber: ${data.AccountNumber}, bankID: ${data.bankid} and RevenuTypeid:${data.revenuetypeid},${data.StartDate},${data.EndDate} has been updated successful`);
    } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -127,6 +133,7 @@ doSubmit = async(e) => {
   render() {
     const banks=this.state.banks
     const revenues=this.state.revenues
+    const currencies=this.state.currencies;
     
     return (
       
@@ -139,11 +146,15 @@ doSubmit = async(e) => {
         aria-hidden="true"
          
       >
-        <div className="modal-dialog" role="document">
+        <div className="modal-dialog" role="document" style={{
+            maxWidth: "1370px",
+            width: "100%",
+            height: "100%",
+          }}>
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Add Source of Funds
+                RMF Revenu Collection- Add Source of Funds
               </h5>
               <button
                 type="button"
@@ -156,12 +167,39 @@ doSubmit = async(e) => {
             </div>
 
             <form onSubmit={this.handleSubmit}>
-              {this.renderInput("SourceofFundname", "SourceofFundname")}
-              {this.renderInput("AccountNumber", "AccountNumber")}
-              {this.renderSelect("bankid", "Bank", this.state.banks)}
-              {this.renderSelectRev("revenuetypeid", "RevenueType", this.state.revenues)}
-              {this.renderInput("StartDate", "StartDate","date")}
-              {this.renderInput("EndDate", "EndDate","date")}
+              
+                 {this.renderInput("SourceofFundname", "SourceofFundname")}
+              
+               <div className="row">
+                <div className="col">
+                   {this.renderInput("AccountNumber", "AccountNumber")}
+                </div>
+                <div className="col">
+                  {this.renderSelect("bankid", "Bank", this.state.banks)}
+                </div>
+              </div>
+               <div className="row">
+                <div className="col">
+                  {this.renderSelectRev("revenuetypeid", "RevenueType", this.state.revenues)}
+                </div>
+                <div className="col">
+                  {this.renderSelectcurr("currencyid", "currencyname", this.state.currencies)}
+                </div>
+              </div>
+               <div className="row">
+                <div className="col">
+                   {this.renderInput("StartDate", "StartDate","date")}
+                </div>
+                <div className="col">
+                  {this.renderInput("EndDate", "EndDate","date")}
+                </div>
+              </div>
+             
+             
+              
+              
+             
+              
 
               
               <div className="modal-footer">

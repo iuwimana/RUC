@@ -9,31 +9,31 @@ import { FcPlus } from "react-icons/fc";
 
 import * as ContractInspection from "../../../../services/contractinpection/contractinspect";
 
-const AddInspectionModal = ({ serviceorderid}) => {
-  const [Serviceorderid, setServiceorderid] = useState(serviceorderid);
+const AddInspectionModal = ({contractid}) => {
+  const [Contractid, setContractid] = useState(contractid);
   const [Inspectionid, setinspectionid ] = useState(0);
-  const [Inspectorname, setinspectorname ] = useState("");
+  const [Inspectorfullname, setinspectorfullname ] = useState("");
   const [Purposeofinspection, setpurposeofinspection ] = useState("");
   const [Observations, setobservations ] = useState("");
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      await ContractInspection.addcontractinspection(
+      await ContractInspection.addemmergencycontractinspection(
         Inspectionid,
-        Serviceorderid,
-        Inspectorname,
+        contractid,
+        Inspectorfullname,
         Purposeofinspection,
         Observations
       );
       {/**setobservations setpurposeofinspection setinspectorname setinspectionid setServiceorderid **/}
       toast.success(`Business Paterner with   has been updated successful:
-       serviceorderid; ${Serviceorderid},
-       inspectorname: ${Inspectorname},
+       serviceorderid; ${contractid},
+       inspectorname: ${Inspectorfullname},
        purposeofinspection: ${Purposeofinspection},
        observations: ${Observations},
        inspectionid: ${Inspectionid} `);
-       window.location.reload(false);
+       //window.location.reload(false);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -47,7 +47,7 @@ const AddInspectionModal = ({ serviceorderid}) => {
         this.setState({ errors });
       } else {
         toast.error(
-          "An Error Occured, while saving role Please try again later"
+          "An Error Occured, while saving Inspection Please try again later"+ex
         );
       }
     }
@@ -72,10 +72,10 @@ const AddInspectionModal = ({ serviceorderid}) => {
        <Form.Group>
         <Form.Control
           type="hidden"
-          placeholder="Serviceorderid *"
-          name="Serviceorderid"
-          value={Serviceorderid}
-          onChange={(e) => setServiceorderid(e.target.value)}
+          placeholder="contractid *"
+          name="contractid"
+          value={Contractid}
+          onChange={(e) => setContractid(e.target.value)}
           required
         />
         
@@ -89,8 +89,8 @@ const AddInspectionModal = ({ serviceorderid}) => {
           type="text"
           placeholder="Inspector name *"
           name="Inspectorname"
-          value={Inspectorname}
-          onChange={(e) => setinspectorname(e.target.value)}
+          value={Inspectorfullname}
+          onChange={(e) => setinspectorfullname(e.target.value)}
           required
           autoFocus
           enable={true}

@@ -23,6 +23,17 @@ class SourceofFunds extends Component {
     this.replaceModalItem = this.replaceModalItem.bind(this);
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
+      sourceoffundid: 0,
+      sourceoffundname: "",
+      accountnumber: "",
+      bankname: "",
+      bankid: 0,
+      revenuetypeid: 0,
+      currencyid: 0,
+      revenuetypename: "",
+      currencyname: "",
+      startdate: "",
+      enddate: "",
       sources: [],
       currentPage: 1,
       pageSize: 4,
@@ -92,9 +103,31 @@ class SourceofFunds extends Component {
 
     return { totalCount: filtered.length, data: sources };
   };
-  replaceModalItem(index) {
+  replaceModalItem(
+    sourceoffundid,
+    sourceoffundname,
+    accountnumber,
+    bankid,
+    revenuetypeid,
+    currencyid,
+    currencyname,
+    bankname,
+    revenuetypename,
+    startdate,
+    enddate
+  ) {
     this.setState({
-      requiredItem: index,
+      sourceoffundid: sourceoffundid,
+      sourceoffundname: sourceoffundname,
+      accountnumber: accountnumber,
+      bankid: bankid,
+      revenuetypeid: revenuetypeid,
+      currencyid: currencyid,
+      currencyname: currencyname,
+      bankname: bankname,
+      revenuetypename: revenuetypename,
+      startdate: startdate,
+      enddate: enddate,
     });
   }
 
@@ -105,15 +138,17 @@ class SourceofFunds extends Component {
     this.setState({ sources: tempbrochure });
   }
 
-  async deleteItem(SourceofFundID) {
+  async deleteItem(sourceoffundid) {
     //const { user } = this.state;
 
     try {
-      if (!SourceofFundID) {
-        toast.info(`the Role you selected ${SourceofFundID} doesnot exist`);
+      if (!sourceoffundid) {
+        toast.info(`the Role you selected ${sourceoffundid} doesnot exist`);
       } else {
-        await Source.deleteSource(SourceofFundID);
-        toast.success(`this Role has been deleted successful`);
+        await Source.deleteSource(sourceoffundid);
+        toast.success(
+          `this Role ${sourceoffundid} has been deleted successful`
+        );
       }
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -147,6 +182,7 @@ class SourceofFunds extends Component {
           <td>{sources.accountnumber}</td>
           <td>{sources.bankname}</td>
           <td>{sources.revenuetypename}</td>
+          <td>{sources.currencyname}</td>
           <td>{sources.startdate}</td>
           <td>{sources.enddate}</td>
           <td>
@@ -154,7 +190,21 @@ class SourceofFunds extends Component {
               className="btn btn-primary"
               data-toggle="modal"
               data-target="#exampleModal"
-              onClick={() => this.replaceModalItem(index)}
+              onClick={() =>
+                this.replaceModalItem(
+                  sources.sourceoffundid,
+                  sources.sourceoffundname,
+                  sources.accountnumber,
+                  sources.bankid,
+                  sources.revenuetypeid,
+                  sources.currencyid,
+                  sources.currencyname,
+                  sources.bankname,
+                  sources.revenuetypename,
+                  sources.startdate,
+                  sources.enddate
+                )
+              }
             >
               <AiFillEdit />
               Update
@@ -163,7 +213,7 @@ class SourceofFunds extends Component {
           <td>
             <button
               className="btn btn-danger"
-              onClick={() => this.deleteItem(sources.SourceofFundID)}
+              onClick={() => this.deleteItem(sources.sourceoffundid)}
             >
               <AiFillDelete />
               Delete
@@ -248,6 +298,7 @@ class SourceofFunds extends Component {
                             <th>AccountNumber</th>
                             <th>BankName</th>
                             <th>RevenueType</th>
+                            <th>currency</th>
                             <th>StartDate</th>
                             <th>EndDate</th>
                             <th>Update</th>
@@ -259,16 +310,18 @@ class SourceofFunds extends Component {
                       <AddModal />
 
                       <Modal
-                        SourceofFundId={modalData.sourceoffundid}
-                        SourceofFundname={modalData.sourceoffundname}
-                        AccountNumber={modalData.accountnumber}
-                        BankId={modalData.bankid}
+                        SourceofFundId={this.state.sourceoffundid}
+                        SourceofFundname={this.state.sourceoffundname}
+                        AccountNumber={this.state.accountnumber}
+                        BankId={this.state.bankid}
                         BankName={modalData.bankname}
                         Bankname={modalData.bankname}
-                        RevenueTypeId={modalData.revenuetypeid}
+                        RevenueTypeId={this.state.revenuetypeid}
                         RevenueTypename={modalData.revenuetypename}
-                        StartDate={modalData.startdate}
-                        EndDate={modalData.enddate}
+                        currencyid={this.state.currencyid}
+                        currencyname={this.state.currencyname}
+                        StartDate={this.state.startdate}
+                        EndDate={this.state.enddate}
                         saveModalDetails={this.saveModalDetails}
                       />
                     </>

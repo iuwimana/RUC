@@ -110,13 +110,12 @@ class AddroleModal extends Form {
     try {
       const data  = this.state;
       const contractid = 0;
-      const budget=0;
       //await source.addsource(SourceofFundId,data.SourceofFundname,data.AccountNumber,data.BankId,data.RevenueTypeId,data.StartDate,data.EndDate);
       
       await ContractData.addcontract(
         contractid,
         data.contractdiscription,
-        budget,
+        data.budget,
         data.contractmodeid,
         data.ContractorId,
         data.startdate,
@@ -125,7 +124,7 @@ class AddroleModal extends Form {
       toast.success(`contractor  has been updated successful:
        ${contractid},
         ${data.contractdiscription},
-        ${budget},
+        ${data.budget},
         ${data.contractmodeid},
         ${data.ContractorId},
         ${data.startdate},
@@ -364,7 +363,7 @@ class AddroleModal extends Form {
                       <div className="col">
                        {/**------------------------------------------- */}
 
-                        {/** <div className="mb-3">
+                        <div className="mb-3">
                           <div className="row">
                             <div className="col">
                               <div className="col-auto">
@@ -390,7 +389,7 @@ class AddroleModal extends Form {
                               </div>
                             </div>
                           </div>
-                        </div>*/}
+                        </div>
                         
 
                         {/**------------------------------------------- */}

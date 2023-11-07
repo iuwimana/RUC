@@ -87,8 +87,6 @@ const [contracts, setcontracts]=useState([]);
         <td colspan="3">
           
           <div class="row" >
-            <div class="col" ></div>
-            <div class="col" ></div>
   
             
             <div class="col" onClick={handleshowproject}>
@@ -102,7 +100,9 @@ const [contracts, setcontracts]=useState([]);
               }}        
               
               >
-                {contractorname}
+                <br/>
+               Service Order for - {contractorname}
+               <br/>
               </NavLink>
             </div>
             
@@ -119,14 +119,14 @@ const [contracts, setcontracts]=useState([]);
         <td colspan="3">
           
           <div class="row" >
-            <div class="col" ></div>
-            <div class="col" ></div>
+            
   
             
             <div class="col" >
               
-              
+              <br/>
                 {contractorname}
+                <br/>
             
             </div>
             

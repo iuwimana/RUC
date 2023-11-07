@@ -84,12 +84,7 @@ const [contracts, setcontracts]=useState([]);
       {cancreateserviceorder && (
       <tr key={contractid}>
         <td colspan="3">
-          
-          <div class="row" >
-            <div class="col" ></div>
-            <div class="col" ></div>
-  
-            
+          <div class="row" >  
             <div class="col" onClick={handleshowproject} >
               
               <NavLink
@@ -101,7 +96,9 @@ const [contracts, setcontracts]=useState([]);
               }}        
               
               >
-                {contractorname}
+                <br/>
+               Contractor: - {contractorname}
+               <br/>
               </NavLink>
             </div>
             
@@ -116,17 +113,22 @@ const [contracts, setcontracts]=useState([]);
       {!cancreateserviceorder &&(
         <tr key={contractid}>
         <td colspan="3">
-          
-          <div class="row" >
-            <div class="col" ></div>
-            <div class="col" ></div>
-  
-            
-            <div class="col" >
+          <div class="row" >  
+            <div class="col" onClick={handleshowproject} >
               
+              <NavLink
+            className="nav-item nav-link"
+              to={{
+                pathname:
+                  "/ContractManagemenrt/contract/emmergencycontractinspection",
+                state: { contractid: contractid,projectid: projectid },
+              }}        
               
-                {contractorname}
-            
+              >
+                <br/>
+               Contractor: - {contractorname}
+               <br/>
+              </NavLink>
             </div>
             
           </div>

@@ -3,48 +3,28 @@ import Modal from "./modal";
 import AddModal from "./addroleModal";
 import { toast } from "react-toastify";
 //import { Link } from "react-router-dom";
-import * as Source from "../../../../services/RevenuRessources/sourceofFundsServices";
-import * as Business from "../../../../services/RevenuRessources/businessPaternerServices";
-import * as ContractData from "../../../../services/ContractManagement/ContractSetting/contractservice";
-
+import * as Source from "../../../services/RevenuRessources/sourceofFundsServices";
+import * as Business from "../../../services/RevenuRessources/currencyServices";
 import { Card, CardHeader, CardBody, Col } from "reactstrap";
 
 //import AddRole from "./addRole";
 //import History from "./history";
-import Pagination from "../../../common/pagination";
+import Pagination from "../../common/pagination";
 //import Form from "../common/form";
-import { paginate } from "../../../../utils/paginate";
+import { paginate } from "../../../utils/paginate";
 import "bootstrap/dist/css/bootstrap.min.css";
-import SearchBox from "../../../searchBox";
+import SearchBox from "../../searchBox";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { FcPlus } from "react-icons/fc";
 import _ from "lodash";
 
-class Contract extends Component {
+class Currency extends Component {
   constructor(props) {
     super(props);
 
     this.replaceModalItem = this.replaceModalItem.bind(this);
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
-      data: {
-        contractid: 0,
-        contractdiscription: "",
-        budget: 0,
-        ContractModeid: 0,
-        ContractorId: 0,
-        startdate: "",
-        enddate: "",
-      },
-      value: this.props.location.state,
-      contractmodeid: 0,
-      contractid: 0,
-      contractdiscription: "",
-      budget: 0,
-      ContractModeid: 0,
-      ContractorId: 0,
-      startdate: "",
-      enddate: "",
       sources: [],
       business: [],
       banks: [],
@@ -60,20 +40,12 @@ class Contract extends Component {
   }
   async componentDidMount() {
     try {
-      const { state } = this.props.location;
-      if (!state.contractmodeid) {
-        toast.error(
-          `error while loading Fiscal year:${state.contractmodeid}`
-        );
+      const { data: sources } = await Source.getSource();
+      const { data: business } = await Business.getcurrencies();
+      if (!business || !sources) {
+        return toast.error("An Error Occured,data fetching ...");
       } else {
-        const contractmodeid = state.contractmodeid;
-        const { data: sources } = await Source.getSource();
-        const { data: business } = await ContractData.getcontractBycontractmode(state.contractmodeid);
-        if (!business || !sources) {
-          return toast.error("An Error Occured,data fetching ...");
-        } else {
-          this.setState({ sources, business,contractmodeid });
-        }
+        this.setState({ sources, business });
       }
     } catch (ex) {
       return toast.error(
@@ -107,43 +79,37 @@ class Contract extends Component {
     if (searchQuery)
       filtered = allsources.filter(
         (m) =>
-          m.contractdiscription
+          m.currencyname
             .toLowerCase()
             .startsWith(searchQuery.toLowerCase()) ||
-          m.contractbudget
-            .toString()
+          m.countryname
             .toLowerCase()
             .startsWith(searchQuery.toLowerCase()) ||
-          m.contractorname
-            .toLowerCase()
-            .startsWith(searchQuery.toLowerCase()) ||
-          m.contractorstartdate
-            .toLowerCase()
-            .startsWith(searchQuery.toLowerCase()) ||
-          m.contractorenddate
-            .toLowerCase()
-            .startsWith(searchQuery.toLowerCase())
+          m.activeon.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+          m.buyrate.toString().toLowerCase().startsWith(searchQuery.toLowerCase())||
+          m.salerate.toString().toLowerCase().startsWith(searchQuery.toLowerCase())
       );
-    else if (selectedrole && selectedrole.institutionpartenerid)
+    else if (selectedrole && selectedrole.currencyid)
       filtered = allsources.filter(
         (m) =>
-          m.Business.institutionpartenerid ===
-          selectedrole.institutionpartenerid
+          m.Business.currencyid ===
+          selectedrole.currencyid
       );
-    ///////////////////////////////////////////contractdiscription contractbudget contractorname contractorstartdate contractorenddate
+    ///////////////////////////////////////////
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
     const business = paginate(sorted, currentPage, pageSize);
 
     return { totalCount: filtered.length, data: business };
   };
-  replaceModalItem(index) {
+  replaceModalItem(currencyid,currencyname,countryname,buyrate,salerate) {
+    
     this.setState({
-      requiredItem: index,
+      currencyid:currencyid,
+      currencyname:currencyname,
+      countryname:countryname,
+      buyrate:buyrate,
+      salerate:salerate,
     });
-  }
-
-   handleshow(contractmodeid) {
-    this.setState({ contractmodeid: contractmodeid });
   }
 
   saveModalDetails(business) {
@@ -153,15 +119,15 @@ class Contract extends Component {
     this.setState({ business: tempbrochure });
   }
 
-  async deleteItem(contractid) {
+  async deleteItem(InstitutionPartenerId) {
     //const { user } = this.state;
 
     try {
-      if (!contractid) {
-        toast.info(`the contract you selected  doesnot exist`);
+      if (!InstitutionPartenerId) {
+        toast.info(`the Institution Partener you selected  doesnot exist`);
       } else {
-        await ContractData.deletecontract(contractid);
-        toast.success(`this contract has been deleted successful`);
+        await Business.deletecurrencies(InstitutionPartenerId);
+        toast.success(`this Institution Partener has been deleted successful`);
       }
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -176,7 +142,7 @@ class Contract extends Component {
         this.setState({ errors });
       } else {
         toast.error(
-          "An Error Occured, while saving contract Please try again later"
+          "An Error Occured, while saving InstitutionPartener Please try again later"
         );
       }
     }
@@ -191,21 +157,21 @@ class Contract extends Component {
       return toast.error("An Error Occured,data fetching ...");
     } else {
       const brochure = business.map((business, index) => {
+        index=(this.state.currentPage*this.state.pageSize)-(this.state.pageSize-index)
         return (
-          <tr key={business.contractdiscription}>
-            <td>{business.refnumber}</td>
-            <td>{business.contractdiscription}</td>
-            <td>{business.contractorname}</td>
-            <td>{business.contractbudget}</td>
-            <td>{business.contractorstartdate}</td>
-            <td>{business.contractorenddate}</td>
-
+          <tr key={business.currencyid}>
+            <td>{business.currencyname}</td>
+            <td>{business.countryname}</td>
+            <td>{business.buyrate}</td>
+            <td>{business.salerate}</td>
+            <td>{business.activeon}</td>
             <td>
+              
               <button
                 className="btn btn-primary"
                 data-toggle="modal"
                 data-target="#exampleModal"
-                onClick={() => this.replaceModalItem(index)}
+                onClick={() => this.replaceModalItem(business.currencyid,business.currencyname,business.countryname,business.buyrate,business.salerate)}
               >
                 <AiFillEdit />
                 Update
@@ -214,7 +180,7 @@ class Contract extends Component {
             <td>
               <button
                 className="btn btn-danger"
-                onClick={() => this.deleteItem(business.contractid)}
+                onClick={() => this.deleteItem(business.institutionpartenerid)}
               >
                 <AiFillDelete />
                 Delete
@@ -226,7 +192,6 @@ class Contract extends Component {
 
       const requiredItem = this.state.requiredItem;
       let modalData = this.state.business[requiredItem];
-      const contractmodeid =this.state.contractmodeid
       return (
         <div
           style={{
@@ -253,7 +218,7 @@ class Contract extends Component {
                 <div className="text-muted text-center mt-2 mb-3">
                   <h1>
                     <div style={{ textAlign: "center" }}>
-                      <h1>Contract Management- Contractors</h1>
+                      <h1>Resource Collection- Currency</h1>
                     </div>
                   </h1>
                 </div>
@@ -268,17 +233,12 @@ class Contract extends Component {
                           className="btn btn-success"
                           data-toggle="modal"
                           data-target="#exampleAddModal"
-                           onClick={() =>
-                            this.handleshow(this.state.contractmodeid)
-                          }
                         >
                           <FcPlus />
                           Addsource
                         </button>
-                        <p>There are no contractor in Database.</p>
-                        <AddModal 
-                        contractmodeid={contractmodeid}
-                        />
+                        <p>There are no Currenct  in Database.</p>
+                        <AddModal />
                       </>
                     )}
                     {count !== 0 && (
@@ -287,12 +247,9 @@ class Contract extends Component {
                           className="btn btn-success"
                           data-toggle="modal"
                           data-target="#exampleAddModal"
-                           onClick={() =>
-                            this.handleshow(this.state.contractmodeid)
-                          }
                         >
                           <FcPlus />
-                          Addsource
+                          AddCurrency
                         </button>
 
                         <div style={{ textAlign: "center" }}>
@@ -304,12 +261,11 @@ class Contract extends Component {
                         <table className="table">
                           <thead>
                             <tr>
-                              <th>RefNumber</th>
-                              <th>Contract Description</th>
-                              <th>Contractor</th>
-                              <th>Contract Amount</th>
-                              <th>StartDate</th>
-                              <th>EndDate</th>
+                              <th>currency</th>
+                              <th>countryname</th>
+                              <th>Buying Value</th>
+                              <th>Selling Value</th>
+                              <th>Available On</th>
 
                               <th>Update</th>
                               <th>Delete</th>
@@ -317,25 +273,19 @@ class Contract extends Component {
                           </thead>
                           <tbody>{brochure}</tbody>
                         </table>
-                        <AddModal 
-                        contractmodeid={contractmodeid}
-                        />
+                        <AddModal />
 
                         <Modal
-                        
-                        contractmodeid={contractmodeid}
-                          contractid={
-                            modalData.contractid
+                          currencyid={
+                            this.state.currencyid
                           }
-                          contractdiscription={
-                            modalData.contractdiscription
+                          currencyname={
+                            this.state.currencyname
                           }
-                          budget={modalData.contractbudget}
-                          ContractModeid={modalData.ContractModeid}
-                          contractorid={modalData.contractorid}
-                          startdate={modalData.contractorstartdate}
-                          enddate={modalData.contractorenddate}
-                          contractorname={modalData.contractorname}
+                          countryname={this.state.countryname}
+                          buyrate={this.state.buyrate}
+                          salerate={this.state.salerate}
+                          
                           saveModalDetails={this.saveModalDetails}
                         />
                       </>
@@ -357,4 +307,4 @@ class Contract extends Component {
   }
 }
 
-export default Contract;
+export default Currency;

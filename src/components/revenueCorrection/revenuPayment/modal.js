@@ -14,8 +14,13 @@ class Modal extends Component {
     super(props);
     this.handleSave = this.handleSave.bind(this);
     this.state = {
-      data: {RevenuePaymentId:0,paymentmodeid:0,RevenueProductId:0,Value:0},
-      
+      data: {RevenuePaymentId:0,paymentmodeid:0,RevenueProductId:0,Value:0,fiscalyearid:this.props.fiscalyearid},
+      RevenuePaymentId:0,
+      paymentmodeid:0,
+      RevenueProductId:0,
+      paymentmodename:"",
+      Value:0,
+      fiscalyearid:this.props.fiscalyearid,
       user:{},
       sources: [],
       errors: {},
@@ -64,7 +69,7 @@ class Modal extends Component {
       RevenueProductname: nextProps.RevenueProductname,
       PaymentModename: nextProps.PaymentModename,
       RevenueProductId: nextProps.RevenueProductId,
-      PaymentModeId: nextProps.PaymentModeId,
+      paymentmodeid: nextProps.paymentmodeid,
       SourceofFundname: nextProps.SourceofFundname,
       AccountNumber: nextProps.AccountNumber,
       Bankname: nextProps.Bankname,
@@ -91,11 +96,11 @@ valueHandler(e) {
 
 handleSave=async(e)=> {
    // const { user } = this.state;
-   
+   //RevenuePaymentId,paymentmodeid,RevenueProductId,Value,fiscalyearid
      try {
       const  data  = this.state;
-      await Payment.addRevenuepayment(data.RevenuePaymentId,data.paymentmodeid,data.RevenueProductId,data.Value);
-      toast.success(`Revenuepayment data ${data.RevenuePaymentId} and${data.paymentmodeid} and${data.RevenueProductId} and${data.Value} and  has been updated successful`);
+      await Payment.addRevenuepayment(data.RevenuePaymentId,data.paymentmodeid,data.RevenueProductId,data.Value,data.fiscalyearid);
+      toast.success(`Revenuepayment data ${data.RevenuePaymentId} and${data.paymentmodeid} and${data.RevenueProductId} and${data.Value}  fiscalyearid:${data.fiscalyearid} and  has been updated successful`);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -126,7 +131,11 @@ handleSave=async(e)=> {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog" role="document">
+        <div className="modal-dialog" role="document"style={{
+            maxWidth: "870px",
+            width: "100%",
+            height: "100%",
+          }}>
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
@@ -160,8 +169,8 @@ handleSave=async(e)=> {
                  <div className="col-auto">
 
 
-                  <select name="PaymentModeId" id="PaymentModeId" className="form-control" onChange={(e) => this.PaymentModeIdHandler(e)}>
-                  <option value={this.state.PaymentModeId}>{this.state.PaymentModename}
+                  <select name="paymentmodeid" id="paymentmodeid" className="form-control" onChange={(e) => this.PaymentModeIdHandler(e)}>
+                  <option value={this.state.paymentmodeid}>{this.state.paymentmodename}
                     </option>
                   {paymentModes.map(paymentModes => (
                      <option key={paymentModes.paymentmodeid} value={paymentModes.paymentmodeid} >

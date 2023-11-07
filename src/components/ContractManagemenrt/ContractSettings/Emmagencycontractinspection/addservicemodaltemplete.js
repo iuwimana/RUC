@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Component } from "react";
 import Joi from "joi-browser";
 import { Card, CardHeader, CardBody, Col } from "reactstrap";
 import { toast } from "react-toastify";
@@ -16,142 +16,319 @@ import * as Road from "../../../../services/ContractManagement/RoadRefference/ro
 import * as Maintenance from "../../../../services/ContractManagement/ContractSetting/maintenanceTypeService";
 
 import AddinspectioneModal from "./addinspectionmodal";
-import UpdateinspectioneModal from "./updateInspectionModal";
 import * as PaternerStatuses from "../../../../services/RevenuRessources/paternerStatusServices";
 import * as BusinessPaterner from "../../../../services/RevenuRessources/businessPaternerServices";
 import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import "react-responsive-modal/styles.css";
-const  AddServiceModal =({serviceorderid,
-                          damagedlevel,
-                          serviceorderdescription,
-                          projectid,
-                          contractid,
-                          contractdiscription,
-                          contractbudget,
-                          contractorstartdate,
-                          contractorenddat,
-                          contractmodeid,
-                          contractmode,
-                          contractorid,
-                          contractorname,
-                          islocal,
-                          contractoraddress,
-                          contractoremail,
-                          contractorphonenumber,
-                          tinnumber,
-                          contactpersonfirstname,
-                          contactpersonmiddlename,
-                          contactpersonlastname,
-                          contactpersonemail,
-                          contactpersonphonenumber,
-                          maintenancetypeid,
-                          maintenancetypename,
-                          roadid,
-                          roadname,
-                          roaddistance,
-                          targetid,
-                          targetname,
-                          startquartid,
-                          startquarter,
-                          endquarterid,
-                          endquarter,
-                          fiscalyearid,
-                          fiscalyear,
-                          projecttypeid,
-                          projecttypename,
-                          projectdescription,
-                          budgetallocatetotheroad,
-                          projectstartingdate,
-                          projectendingdate,
-                          status,
-                          projectlength,
-                          projectref,
-                          measurementname})=>{
+class AddServiceModal extends Component {
+  constructor(props) {
+    super(props);
+    //this.handleSave = this.handleSave.bind(this);
 
-  const [openModal,setopenModal]= useState(false)
-  const [openupdateModal,setupdateopenModal]= useState(false)
-  const [business,setbusiness]= useState([])
+    this.state = {
+      data: {
+        serviceid: 0,
+        serviceorderid: 0,
+        servicename: "",
+        discription: "",
+        measurementid: 0,
+        servicebudget: 0,
+        areaofmaintenance: 0,
+        serviceorderid: 0,
+        damagedlevel: "",
+        serviceorderdescription: "",
 
-  //------------------------------------------------
-const [Serviceorderid,setServiceorderid]= useState(serviceorderid)
-const [Damagedlevel,setdamagedlevel]=useState(damagedlevel)
-const [Serviceorderdescription,setServiceorderdescription ]=useState(serviceorderdescription)
-const [Projectid,setprojectid ]=useState(projectid)
-const [Contractid,setcontractid ]=useState(contractid)
-const [Contractdiscription,setcontractdiscription ]=useState(contractdiscription)
-const [Contractbudget,setcontractbudget ]=useState(contractbudget)
-const [Contractorstartdate,setcontractorstartdate ]=useState(contractorstartdate)
-const [Contractorenddat,setcontractorenddat ]=useState(contractorenddat)
-const [Contractmodeid,setcontractmodeid ]=useState(contractmodeid)
-const [Contractmode,setcontractmode ]=useState(contractmode)
-const [Contractorid,setcontractorid ]=useState(contractorid)
-const [Contractorname,setcontractorname ]=useState(contractorname)
-const [Islocal,setislocal ]=useState(islocal)
-const [Contractoraddress,setcontractoraddress ]=useState(contractoraddress)
-const [Contractoremail,setcontractoremail]=useState(contractoremail)
-const [Contractorphonenumber,setcontractorphonenumber ]=useState(contractorphonenumber)
-const [Tinnumber,settinnumber ]=useState(tinnumber)
-const [Contactpersonfirstname,setcontactpersonfirstname ]=useState(contactpersonfirstname)
-const [Contactpersonmiddlename,setcontactpersonmiddlename ]=useState(contactpersonmiddlename)
-const [Contactpersonlastname,setcontactpersonlastname ]=useState(contactpersonlastname)
-const [Contactpersonemail,setcontactpersonemail ]=useState(contactpersonemail)
-const [Contactpersonphonenumber,setcontactpersonphonenumber ]=useState(contactpersonphonenumber)
-const [Maintenancetypeid,setmaintenancetypeid ]=useState(maintenancetypeid)
-const [Maintenancetypename,setmaintenancetypename ]=useState(maintenancetypename)
-const [Roadid,setroadid ]=useState(roadid)
-const [Roadname,setroadname ]=useState(roadname)
-const [Roaddistance,setroaddistance ]=useState(roaddistance)
-const [Targetid,settargetid ]=useState(targetid)
-const [Targetname,settargetname ]=useState(targetname)
-const [Startquartid,setstartquartid ]=useState(startquartid)
-const [Startquarter,setstartquarter ]=useState(startquarter)
-const [Endquarterid,setendquarterid ]=useState(endquarterid)
-const [Endquarter,setendquarter ]=useState(endquarter)
-const [Fiscalyearid,setfiscalyearid ]=useState(fiscalyearid)
-const [Fiscalyear,setfiscalyear ]=useState(fiscalyear)
-const [Projecttypeid,setprojecttypeid ]=useState(projecttypeid)
-const [Projecttypename,setprojecttypename ]=useState(projecttypename)
-const [Projectdescription,setprojectdescription ]=useState(projectdescription)
-const [Budgetallocatetotheroad,setbudgetallocatetotheroad ]=useState(budgetallocatetotheroad)
-const [Projectstartingdate,setprojectstartingdate ]=useState(projectstartingdate)
-const [Projectendingdate,setprojectendingdate ]=useState(projectendingdate)
-const [Status,setstatus ]=useState(status)
-const [Projectlength,setprojectlength ]=useState(projectlength)
-const [Projectref,setprojectref ]=useState(projectref)
-const [Measurementname,setmeasurementname]=useState(measurementname)
+        projectid: 0,
+        contractid: 0,
+        contractdiscription: "",
+        contractbudget: 0,
+        contractorstartdate: "",
+        contractorenddat: "",
+        contractmodeid: 0,
+        contractmode: "",
+        contractorid: 0,
+        contractorname: "",
+        contractoraddress: "",
+        contractoremail: "",
+        contractorphonenumber: "",
+        tinnumber: "",
+        contactpersonfirstname: "",
+        contactpersonmiddlename: "",
+        contactpersonlastname: "",
+        contactpersonemail: "",
+        contactpersonphonenumber: "",
+        maintenancetypeid: 0,
+        maintenancetypename: "",
+        roadid: 0,
+        roadname: "",
+        roaddistance: 0,
+        targetid: 0,
+        targetname: "",
+        startquartid: 0,
+        startquarter: "",
+        endquarterid: 0,
+        endquarter: "",
+        fiscalyearid: 0,
+        fiscalyear: "",
+        projecttypeid: 0,
+        projecttypename: "",
+        projectid: 0,
+        projectdescription: "",
+        budgetallocatetotheroad: 0,
+        projectstartingdate: "",
+        projectendingdate: "",
+        status: "",
+        projectlength: 0,
+        projectref: "",
+        measurementname: "",
 
-  //------------------------------------------------
-
-  const onClickButton = () => setopenModal(true );
-
-  const onCloseModal = () => setopenModal(false );
-
-  const HancdleonClick = () => setupdateopenModal(true );
-
-  const HandleonClose = () => setupdateopenModal(false );
-
-
-  //-------------------------------------------------------------------------
-   useEffect(() => {
-    const fetchProgram = async () => {
-      const { data } = await ContractInspection.getcontractinspectionByserviceorder(Serviceorderid);
-      setbusiness(data);
+        inspectionid: 0,
+        serviceorderid: 0,
+        isworkloadfinished: false,
+        istimelineexpected: false,
+        observations: "",
+        isreadyforpayment: false,
+        serviceorderdescription: "",
+        damagedlevel: "",
+        inspectorname: "",
+        purposeofinspection: "",
+        inspectiondate: "",
+      },
+      openModal: false,
+      inspectionid: 0,
+      serviceorderid: 0,
+      inspectorname: "",
+      purposeofinspection: "",
+      inspectiondate: "",
+      isworkloadfinished: false,
+      istimelineexpected: false,
+      observations: "",
+      isreadyforpayment: false,
+      serviceorderdescription: "",
+      damagedlevel: "",
+      projectid: 0,
+      contractid: 0,
+      contractdiscription: "",
+      contractbudget: 0,
+      contractorstartdate: "",
+      contractorenddat: "",
+      contractmodeid: 0,
+      contractmode: "",
+      contractorid: 0,
+      contractorname: "",
+      contractoraddress: "",
+      contractoremail: "",
+      contractorphonenumber: "",
+      tinnumber: "",
+      contactpersonfirstname: "",
+      contactpersonmiddlename: "",
+      contactpersonlastname: "",
+      contactpersonemail: "",
+      contactpersonphonenumber: "",
+      maintenancetypeid: 0,
+      maintenancetypename: "",
+      roadid: 0,
+      roadname: "",
+      roaddistance: 0,
+      targetid: 0,
+      targetname: "",
+      startquartid: 0,
+      startquarter: "",
+      endquarterid: 0,
+      endquarter: "",
+      fiscalyearid: 0,
+      fiscalyear: "",
+      projecttypeid: 0,
+      projecttypename: "",
+      projectid: 0,
+      projectdescription: "",
+      budgetallocatetotheroad: 0,
+      projectstartingdate: "",
+      projectendingdate: "",
+      status: "",
+      projectlength: 0,
+      projectref: "",
+      measurementname: "",
+      serviceid: 0,
+      serviceorderid: 0,
+      servicename: "",
+      discription: "",
+      measurementid: 0,
+      servicebudget: 0,
+      areaofmaintenance: 0,
+      user: {},
+      errors: {},
+      measurement: [],
+      banks: [],
+      projectType: [],
+      fiscalYear: [],
+      target: [],
+      road: [],
+      maintenance: [],
+      paternerStatuses: [],
+      business: [],
     };
-    fetchProgram();
-  }, []);
+  }
 
-  //----------------------------------------------------------------------
- 
-  const  handledelete=async (inspectionid) => {
+  async populateBanks() {
     try {
-      
-      await ContractInspection.deletecontractinspection(
-        inspectionid
-        
+      const { data: measurement } = await Measurement.getmeasurements();
+      const { data: projectType } = await ProjectType.getcontracttypes();
+      const { data: fiscalYear } = await FiscalYear.getFiscalyears();
+      const { data: target } = await Target.gettargets();
+      const { data: road } = await Road.getroads();
+      const { data: maintenance } = await Maintenance.getmaintenances();
+      const { data: business } =
+        await ContractInspection.getcontractinspections();
+
+      const { data: banks } = await bank.getbanks();
+      const { data: paternerStatuses } =
+        await PaternerStatuses.getpaternerstatuses();
+      this.setState({
+        business,
+        banks,
+        paternerStatuses,
+        projectType,
+        fiscalYear,
+        target,
+        road,
+        maintenance,
+        measurement,
+      });
+    } catch (ex) {
+      toast.error("Loading issues......");
+    }
+  }
+
+  async componentDidMount() {
+    await this.populateBanks();
+    const user = auth.getJwt();
+    this.setState({ user });
+  }
+
+
+
+  onClickButton = () => this.setState({ openModal: true });
+
+  onCloseModal = () => this.setState({ openModal: false });
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      serviceorderid: nextProps.serviceorderid,
+      damagedlevel: nextProps.damagedlevel,
+      serviceorderdescription: nextProps.serviceorderdescription,
+
+      projectid: nextProps.projectid,
+      inspectorname: nextProps.inspectorname,
+      purposeofinspection: nextProps.purposeofinspection,
+      inspectiondate: nextProps.inspectiondate,
+
+      contractid: nextProps.contractid,
+      contractdiscription: nextProps.contractdiscription,
+      contractbudget: nextProps.contractbudget,
+      contractorstartdate: nextProps.contractorstartdate,
+      contractorenddat: nextProps.contractorenddat,
+      contractmodeid: nextProps.contractmodeid,
+      contractmode: nextProps.contractmode,
+      contractorid: nextProps.contractorid,
+      contractorname: nextProps.contractorname,
+      contractoraddress: nextProps.contractoraddress,
+      contractoremail: nextProps.contractoremail,
+      contractorphonenumber: nextProps.contractorphonenumber,
+      tinnumber: nextProps.tinnumber,
+      contactpersonfirstname: nextProps.contactpersonfirstname,
+      contactpersonmiddlename: nextProps.contactpersonmiddlename,
+      contactpersonlastname: nextProps.contactpersonlastname,
+      contactpersonemail: nextProps.contactpersonemail,
+      contactpersonphonenumber: nextProps.contactpersonphonenumber,
+      maintenancetypeid: nextProps.maintenancetypeid,
+      maintenancetypename: nextProps.maintenancetypename,
+      roadid: nextProps.roadid,
+      roadname: nextProps.roadname,
+      roaddistance: nextProps.roaddistance,
+      targetid: nextProps.targetid,
+      targetname: nextProps.targetname,
+      startquartid: nextProps.startquartid,
+      startquarter: nextProps.startquarter,
+      endquarterid: nextProps.endquarterid,
+      endquarter: nextProps.endquarter,
+      fiscalyearid: nextProps.fiscalyearid,
+      fiscalyear: nextProps.fiscalyear,
+      projecttypeid: nextProps.projecttypeid,
+      projecttypename: nextProps.projecttypename,
+      projectid: nextProps.projectid,
+      projectdescription: nextProps.projectdescription,
+      budgetallocatetotheroad: nextProps.budgetallocatetotheroad,
+      projectstartingdate: nextProps.projectstartingdate,
+      projectendingdate: nextProps.projectendingdate,
+      status: nextProps.status,
+      projectlength: nextProps.projectlength,
+      projectref: nextProps.projectref,
+      measurementname: nextProps.measurementname,
+      serviceid: nextProps.serviceid,
+      serviceorderid: nextProps.serviceorderid,
+      servicename: nextProps.servicename,
+      discription: nextProps.discription,
+      measurementid: nextProps.measurementid,
+      servicebudget: nextProps.servicebudget,
+      areaofmaintenance: nextProps.areaofmaintenance,
+    });
+    toast.success(`Business Paterner with   has been updated successful:${nextProps.areaofmaintenance}`)
+  }
+  //----------------------------------------------------------------------
+
+  inspectioniddHandler(e) {
+    this.setState({ inspectionid: e.target.value });
+  }
+  inspectornameHandler(e) {
+    this.setState({ inspectorname: e.target.value });
+  }
+  purposeofinspectionHandler(e) {
+    this.setState({ purposeofinspectiond: e.target.value });
+  }
+  inspectiondateHandler(e) {
+    this.setState({ inspectiondate: e.target.value });
+  }
+  serviceorderidHandler(e) {
+    this.setState({ serviceorderid: e.target.value });
+  }
+  isworkloadfinishedHandler(e) {
+    this.setState({ isworkloadfinished: e.target.value });
+  }
+  istimelineexpectedHandler(e) {
+    this.setState({ istimelineexpected: e.target.checked });
+  }
+  observationsHandler(e) {
+    this.setState({ observations: e.target.value });
+  }
+  isreadyforpaymentHandler(e) {
+    this.setState({ isreadyforpayment: e.target.checked });
+  }
+  serviceorderdescriptionHandler(e) {
+    this.setState({ serviceorderdescription: e.target.value });
+  }
+  damagedlevelHandler(e) {
+    this.setState({ damagedlevel: e.target.value });
+  }
+
+  handleClick = async (e) => {
+    try {
+      const data = this.state;
+      const inspectionid = 0;
+      await ContractInspection.addcontractinspection(
+        inspectionid,
+        data.serviceorderid,
+        data.inspectorname,
+        data.purposeofinspection,
+        data.observations
       );
 
-      toast.success("you have delete inspection successfull");
-       
+      toast.success(`Business Paterner with   has been updated successful:
+       serviceorderid; ${data.serviceorderid},
+       inspectorname: ${data.inspectorname},
+       purposeofinspection: ${data.purposeofinspection},
+       observations: ${data.observations},
+       inspectionid: ${data.inspectionid} `);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -165,13 +342,20 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
         this.setState({ errors });
       } else {
         toast.error(
-          "An Error Occured,"+ex
+          "An Error Occured, while saving role Please try again later"
         );
       }
     }
   };
-  //--------------------------------------------------
-  const brochure = business.map((business, index) => {
+  render() {
+    const fiscalYear = this.state.fiscalYear;
+    const projectType = this.state.projectType;
+    const target = this.state.target;
+    const road = this.state.road;
+    const maintenance = this.state.maintenance;
+    const measurement = this.state.measurement;
+    const business = this.state.business;
+    const brochure = business.map((business, index) => {
       return (
         <tr key={business.inspectionid}>
           <td>{business.inspectorname}</td>
@@ -184,55 +368,29 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
           <td>
             <button
               className="btn btn-primary"
-              
-                      data-toggle="modal"
-                      onClick={ HancdleonClick }
+              data-toggle="modal"
+              data-target="#addinspectionModal"
+              onClick={() =>
+                this.handleshow(this.state.projectid, this.state.contractid)
+              }
             >
               <AiFillEdit />
               Update
             </button>
           </td>
           <td>
-             <button
+            <button
               className="btn btn-danger"
-              onClick={() => handledelete(business.inspectionid)}
+              onClick={() => this.deleteItem(business.institutionpartenerid)}
             >
-            
               <AiFillDelete />
               Delete
             </button>
           </td>
-     
-          <Modal  dialogClassName="my-modal" show={openupdateModal} onHide={HandleonClose}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>UpdateInspection</Modal.Title>
-                      <button
-                        type="button"
-                        className="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                        onClick={HandleonClose}
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </Modal.Header>
-
-                    <Modal.Body>
-                  
-                      <UpdateinspectioneModal
-                      inspectionid={business.inspectionid}
-                      inspectorname={business.inspectorname}
-                      observations={business.observations}
-                      purposeofinspection={business.purposeofinspection}
-                      serviceorderid={business.serviceorderid} />
-                    </Modal.Body>
-                    <Modal.Footer>
-                      
-                    </Modal.Footer>
-                  </Modal>
         </tr>
       );
     });
+
     return (
      
           <div className="modal-content">
@@ -278,20 +436,12 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                         <div className="col">
                           <div className="col-auto">
                             <input
-                              type="hidden"
-                              disabled={true}
-                              className="form-control"
-                              name="targetname"
-                              id="targetname"
-                              value={Serviceorderid}
-                            />
-                            <input
                               type="text"
                               disabled={true}
                               className="form-control"
                               name="targetname"
                               id="targetname"
-                              value={Targetname}
+                              value={this.state.targetname}
                             />
                           </div>
                         </div>
@@ -319,7 +469,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                               className="form-control"
                               name="fiscalyear"
                               id="fiscalyear"
-                              value={Fiscalyear}
+                              value={this.state.fiscalyear}
                             />
                           </div>
                         </div>
@@ -347,9 +497,9 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                               name="startquarter"
                               id="startquarter"
                               value={
-                                Startquarter +
+                                this.state.startquarter +
                                 " / " +
-                                Endquarter
+                                this.state.endquarter
                               }
                             />
                           </div>
@@ -403,7 +553,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                             className="form-control"
                             name="roadname"
                             id="roadname"
-                            value={Roadname}
+                            value={this.state.roadname}
                           />
                         </div>
                       </div>
@@ -432,9 +582,9 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                             name="roaddistance"
                             id="roaddistance"
                             value={
-                              Roaddistance +
+                              this.state.roaddistance +
                               " " +
-                              Measurementname
+                              this.state.measurementname
                             }
                           />
                         </div>
@@ -463,7 +613,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                             className="form-control"
                             name="projectlength"
                             id="projectlength"
-                            value={Projectlength}
+                            value={this.state.projectlength}
                           />
                         </div>
                       </div>
@@ -523,7 +673,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                                 className="form-control"
                                 name="projectlength"
                                 id="projectlength"
-                                value={Maintenancetypename}
+                                value={this.state.maintenancetypename}
                               />
                             </div>
                           </div>
@@ -539,7 +689,8 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                                 className="form-control"
                                 name="contractorname"
                                 id="contractorname"
-                                value={Projectid}
+                                value={this.state.projectid}
+                                onChange={(e) => this.projectidHandler(e)}
                               />
                             </div>
                             <div className="col-auto">
@@ -559,7 +710,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                                 className="form-control"
                                 name="projectlength"
                                 id="projectlength"
-                                value={Projecttypename}
+                                value={this.state.projecttypename}
                               />
                             </div>
                           </div>
@@ -587,7 +738,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                                 disabled={true}
                                 id="serviceorderdescription"
                                 name="serviceorderdescription"
-                                value={Serviceorderdescription}
+                                value={this.state.serviceorderdescription}
                                 rows="4"
                                 cols="8"
                               ></textarea>
@@ -621,7 +772,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                                 className="form-control"
                                 name="contractbudget"
                                 id="contractbudget"
-                                value={Contractbudget}
+                                value={this.state.contractbudget}
                               />
                             </div>
                           </div>
@@ -651,7 +802,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                                 className="form-control"
                                 name="contractorstartdate"
                                 id="contractorstartdate"
-                                value={Contractorstartdate}
+                                value={this.state.contractorstartdate}
                               />
                             </div>
                           </div>
@@ -684,7 +835,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                                 className="form-control"
                                 name="contractorenddat"
                                 id="contractorenddat"
-                                value={Contractorenddat}
+                                value={this.state.contractorenddat}
                               />
                             </div>
                           </div>
@@ -724,7 +875,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                     <button
                       className="btn btn-success"
                       data-toggle="modal"
-                      onClick={onClickButton}
+                      onClick={this.onClickButton}
                     >
                       <FcPlus />
                       AddNew
@@ -747,7 +898,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                     <tbody>{brochure}</tbody>
                   </table>
                   
-                  <Modal  dialogClassName="my-modal" show={openModal} onHide={onCloseModal}>
+                  <Modal  dialogClassName="my-modal" show={this.state.openModal} onHide={this.onCloseModal}>
                     <Modal.Header closeButton>
                       <Modal.Title>Add New Inspection</Modal.Title>
                       <button
@@ -755,7 +906,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                         className="close"
                         data-dismiss="modal"
                         aria-label="Close"
-                        onClick={onCloseModal}
+                        onClick={this.onCloseModal}
                       >
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -764,7 +915,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                     <Modal.Body>
                   
                       <AddinspectioneModal
-                      serviceorderid={serviceorderid} />
+                      serviceorderid={this.state.serviceorderid} />
                     </Modal.Body>
                     <Modal.Footer>
                       
@@ -781,14 +932,19 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
               </div>
             </div>
 
-            
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
           </div>
         
     );
-  
-  
+  }
 }
-  
-
 
 export default AddServiceModal;

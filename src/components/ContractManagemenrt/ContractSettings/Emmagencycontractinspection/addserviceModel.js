@@ -21,9 +21,7 @@ import * as PaternerStatuses from "../../../../services/RevenuRessources/paterne
 import * as BusinessPaterner from "../../../../services/RevenuRessources/businessPaternerServices";
 import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import "react-responsive-modal/styles.css";
-const  AddServiceModal =({serviceorderid,
-                          damagedlevel,
-                          serviceorderdescription,
+const  AddServiceModal =({
                           projectid,
                           contractid,
                           contractdiscription,
@@ -73,9 +71,9 @@ const  AddServiceModal =({serviceorderid,
   const [business,setbusiness]= useState([])
 
   //------------------------------------------------
-const [Serviceorderid,setServiceorderid]= useState(serviceorderid)
-const [Damagedlevel,setdamagedlevel]=useState(damagedlevel)
-const [Serviceorderdescription,setServiceorderdescription ]=useState(serviceorderdescription)
+//const [Serviceorderid,setServiceorderid]= useState(serviceorderid)
+//const [Damagedlevel,setdamagedlevel]=useState(damagedlevel)
+//const [Serviceorderdescription,setServiceorderdescription ]=useState(serviceorderdescription)
 const [Projectid,setprojectid ]=useState(projectid)
 const [Contractid,setcontractid ]=useState(contractid)
 const [Contractdiscription,setcontractdiscription ]=useState(contractdiscription)
@@ -134,7 +132,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
   //-------------------------------------------------------------------------
    useEffect(() => {
     const fetchProgram = async () => {
-      const { data } = await ContractInspection.getcontractinspectionByserviceorder(Serviceorderid);
+      const { data } = await ContractInspection.getemmergencycontractinspectionByserviceorder(Contractid);
       setbusiness(data);
     };
     fetchProgram();
@@ -145,7 +143,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
   const  handledelete=async (inspectionid) => {
     try {
       
-      await ContractInspection.deletecontractinspection(
+      await ContractInspection.deleteemmergencycontractinspection(
         inspectionid
         
       );
@@ -170,16 +168,16 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
       }
     }
   };
-  //--------------------------------------------------
+   //--------------------------------------------------
   const brochure = business.map((business, index) => {
       return (
         <tr key={business.inspectionid}>
-          <td>{business.inspectorname}</td>
+          <td>{business.inspectorfullname}</td>
 
           <td>{business.purposeofinspection}</td>
           <td>{business.observations}</td>
-          <td>{business.serviceorderdescription}</td>
-          <td>{business.damagedlevel}</td>
+          <td>{business.contractdiscription}</td>
+          <td>{business.refnumber}</td>
           <td>{business.inspectiondate}</td>
           <td>
             <button
@@ -221,10 +219,10 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                   
                       <UpdateinspectioneModal
                       inspectionid={business.inspectionid}
-                      inspectorname={business.inspectorname}
+                      inspectorfullname={business.inspectorfullname}
                       observations={business.observations}
                       purposeofinspection={business.purposeofinspection}
-                      serviceorderid={business.serviceorderid} />
+                      contractid={business.contractid} />
                     </Modal.Body>
                     <Modal.Footer>
                       
@@ -233,6 +231,8 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
         </tr>
       );
     });
+  //--------------------------------------------------
+  
     return (
      
           <div className="modal-content">
@@ -277,14 +277,14 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                         </div>
                         <div className="col">
                           <div className="col-auto">
-                            <input
+                           {/**  <input
                               type="hidden"
                               disabled={true}
                               className="form-control"
                               name="targetname"
                               id="targetname"
                               value={Serviceorderid}
-                            />
+                            />*/}
                             <input
                               type="text"
                               disabled={true}
@@ -585,9 +585,9 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                             <div className="col-auto">
                               <textarea
                                 disabled={true}
-                                id="serviceorderdescription"
-                                name="serviceorderdescription"
-                                value={Serviceorderdescription}
+                                id="contractdiscription"
+                                name="contractdiscription"
+                                value={contractdiscription}
                                 rows="4"
                                 cols="8"
                               ></textarea>
@@ -737,8 +737,8 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                         <th>Inspector Name</th>
                         <th>Inspection Purpose</th>
                         <th>Observation</th>
-                        <th>service order description</th>
-                        <th>damaged level</th>
+                        <th>Contract description</th>
+                        <th>Contract RefNumber</th>
                         <th>Inspection Date</th>
 
                         <th>Evaluate</th>
@@ -764,7 +764,7 @@ const [Measurementname,setmeasurementname]=useState(measurementname)
                     <Modal.Body>
                   
                       <AddinspectioneModal
-                      serviceorderid={serviceorderid} />
+                      contractid={contractid} />
                     </Modal.Body>
                     <Modal.Footer>
                       

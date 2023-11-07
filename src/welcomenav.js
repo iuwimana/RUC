@@ -32,6 +32,8 @@ import Contract from "./components/ContractManagemenrt/ContractSettings/contract
 import ServiceOrder from "./components/ContractManagemenrt/ContractSettings/serviceorders/serviceorder";
 import RoadInpection from "./components/ContractManagemenrt/RoadInspection/inspectionindex";
 import ContractInpection from "./components/ContractManagemenrt/ContractSettings/contractinspection/inspection";
+import EmmargencyContractInpection from "./components/ContractManagemenrt/ContractSettings/Emmagencycontractinspection/inspection";
+
 import ContractPayment from "./components/ContractManagemenrt/ContractSettings/contractpayment/contractpayment";
 
 import Project from "./components/ContractManagemenrt/ContractSettings/project/project";
@@ -223,6 +225,11 @@ class WelcomeNav extends Component {
                         path="/ContractManagemenrt/contract/contractinspection"
                         component={ContractInpection}
                       />
+                       <Route
+                        path="/ContractManagemenrt/contract/emmergencycontractinspection"
+                        component={EmmargencyContractInpection}
+                      />
+                      
                       <Route
                         path="/ContractManagemenrt/contract/contractpayment"
                         component={ContractPayment}

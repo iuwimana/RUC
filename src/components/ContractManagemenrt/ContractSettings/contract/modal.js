@@ -108,11 +108,11 @@ class Modal extends Component {
    
     try {
     const data = this.state;
-    
+    const budget=0;
       await ContractData.addcontract(
         data.contractid,
         data.contractdiscription,
-        data.budget,
+        budget,
         data.contractmodeid,
         data.contractorid,
         data.startdate,
@@ -122,7 +122,7 @@ class Modal extends Component {
       toast.success(`contractor  has been updated successful:
        ${data.contractid},
         ${data.contractdiscription},
-        ${data.budget},
+        ${budget},
         ${data.contractmodeid},
         ${data.contractorid},
         ${data.startdate},
@@ -373,7 +373,7 @@ class Modal extends Component {
                       <div className="col">
                        {/**------------------------------------------- */}
 
-                        <div className="mb-3">
+                     {/**   <div className="mb-3">
                           <div className="row">
                             <div className="col">
                               <div className="col-auto">
@@ -400,6 +400,7 @@ class Modal extends Component {
                             </div>
                           </div>
                         </div>
+                        */}
                         
 
                         {/**------------------------------------------- */}

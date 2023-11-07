@@ -20,6 +20,15 @@ class RevenuProduct extends Component {
     this.replaceModalItem = this.replaceModalItem.bind(this);
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
+      revenueproductid:0,
+      revenueproductname:"",
+      accountnumber:"",
+      sourceoffundname:"",
+      sourceoffundid:0,
+      bankname:"",
+      revenuetypename:"",
+      startdate:"",
+      enddate:"",
       products: [],
       currentPage: 1,
       pageSize: 4,
@@ -92,9 +101,25 @@ class RevenuProduct extends Component {
 
     return { totalCount: filtered.length, data: products };
   };
-  replaceModalItem(index) {
+  replaceModalItem(revenueproductid,
+                revenueproductname,
+                accountnumber,
+                sourceoffundname,
+                sourceoffundid,
+                bankname,
+                revenuetypename,
+                startdate,
+                enddate) {
     this.setState({
-      requiredItem: index,
+      revenueproductid: revenueproductid,
+      revenueproductname: revenueproductname,
+      accountnumber: accountnumber,
+      sourceoffundname: sourceoffundname,
+      sourceoffundid:sourceoffundid,
+      bankname: bankname,
+      revenuetypename: revenuetypename,
+      startdate: startdate,
+      enddate: enddate,
     });
   }
 
@@ -157,7 +182,19 @@ class RevenuProduct extends Component {
               className="btn btn-primary"
               data-toggle="modal"
               data-target="#exampleModal"
-              onClick={() => this.replaceModalItem(index)}
+              onClick={() =>
+                this.replaceModalItem(
+                  products.revenueproductid,
+                  products.revenueproductname,
+                  products.accountnumber,
+                  products.sourceoffundname,
+                  products.sourceoffundid,
+                  products.bankname,
+                  products.revenuetypename,
+                  products.startdate,
+                  products.enddate
+                )
+              }
             >
               <AiFillEdit />
               Update
@@ -247,10 +284,10 @@ class RevenuProduct extends Component {
                       <table className="table">
                         <thead>
                           <tr>
-                            <th>RevenueProductname</th>
-                            <th>AccountNumber</th>
-                            <th>SourceofFundname</th>
-                            <th>Bankname</th>
+                            <th>Product name</th>
+                            <th>Account number</th>
+                            <th>Source of fund</th>
+                            <th>Bank name</th>
                             <th>RevenueTypename</th>
                             <th>StartDate</th>
                             <th>EndDate</th>
@@ -263,18 +300,16 @@ class RevenuProduct extends Component {
                       <AddModal />
 
                       <Modal
-                        RevenueProductId={modalData.revenueproductid}
-                        RevenueProductname={modalData.revenueproductname}
-                        SourceofFundId={modalData.sourceoffundid}
-                        SourceofFundname={modalData.sourceoffundname}
-                        AccountNumber={modalData.accountnumber}
-                        BankId={modalData.bankid}
-                        BankName={modalData.bankname}
-                        Bankname={modalData.bankname}
-                        RevenueTypeId={modalData.revenuetypeid}
-                        RevenueTypename={modalData.revenuetypename}
-                        StartDate={modalData.startdate}
-                        EndDate={modalData.enddate}
+                       
+                        revenueproductid={this.state.revenueproductid}
+                        revenueproductname={this.state.revenueproductname}
+                        accountnumber={this.state.accountnumber}
+                        sourceoffundname={this.state.sourceoffundname}
+                        sourceoffundid={this.state.sourceoffundid}
+                        bankname={this.state.bankname}
+                        revenuetypename={this.state.revenuetypename}
+                        startdate={this.state.startdate}
+                        enddate={this.state.enddate}
                         saveModalDetails={this.saveModalDetails}
                       />
                     </>

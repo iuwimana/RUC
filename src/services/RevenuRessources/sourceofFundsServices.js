@@ -21,31 +21,20 @@ export async function getsourceById(SourceofFundId) {
     return toast.error("An Error Occured, while fetching SourceofFund data, Please try again later"+ex);
   }
 }
-export async function deleteSource(SourceofFundId) {
+export async function deleteSource(sourceoffundid) {
   try {
-    await http.delete(apiEndpoint, { data: { SourceofFundId: SourceofFundId } });
+    await http.delete(apiEndpoint, { data: { sourceoffundid: sourceoffundid } });
   } catch (ex) {
     return toast.error(
       "An Error Occured, while deleting SourceofFund Please try again later" + ex
     );
 }
 }
-export async function addsource(SourceofFundId,SourceofFundname,AccountNumber,BankId,RevenueTypeId,StartDate,EndDate) {
+export async function addsource(SourceofFundId,SourceofFundname,AccountNumber,BankId,RevenueTypeId,currencyid,StartDate,EndDate) {
   try {
-    //fetch(apiEndpoint, {
-      //method: 'POST',
-     // body: JSON.stringify({
-       //  RoleID: RoleID,
-      //   RoleName: RoleName,
-       //  Description: Description,
-      //   IsSystemRole: IsSystemRole,
-     // }),
-     // headers: {
-      //   'Content-type': 'application/json; charset=UTF-8',
-     // },
-  // })
+    
   
-     await http.post(apiEndpoint,{ SourceofFundId,SourceofFundname,AccountNumber,BankId,RevenueTypeId,StartDate,EndDate});
+     await http.post(apiEndpoint,{ SourceofFundId,SourceofFundname,AccountNumber,BankId,RevenueTypeId,currencyid,StartDate,EndDate});
     
   } catch (ex) {
     return toast.error("An Error Occured, while saving source of funds Please try again later" + ex );;
