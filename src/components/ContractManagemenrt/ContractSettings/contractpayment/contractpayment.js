@@ -41,6 +41,9 @@ class Inspection extends Component {
       value: this.props.location.state,
       contractbudget:0,
       projectid: 0,
+      contractbudget:0,
+      refnumber:"",
+      contractorname:"",
       serviceorderid: 0,
       serviceorderdescription: "",
       damagedlevel: "",
@@ -61,10 +64,14 @@ class Inspection extends Component {
   async componentDidMount() {
     try {
       
+      
       const { state } = this.props.location;
       if (!state.contractid && state.projectid) {
         toast.error(`error while loading Fiscal year:${state.contractid}`);
       } else {
+        
+        const refnumber=state.refnumber
+        const contractorname=state.contractorname
         const contractid = state.contractid;
         const projectid = state.projectid;
         const contractbudget=state.contractbudget;
@@ -73,10 +80,24 @@ class Inspection extends Component {
         if (!business) {
           return toast.error("An Error Occured,data fetching ...");
         } else {
-          this.setState({ business, contractid, projectid,contractbudget });
+          this.setState({ business, contractid, projectid,contractbudget,refnumber,contractorname });
         }
         
       }
+      {/**const deposit = [];
+      const amount = 0;
+      const deplist = business.map((business) => {
+        deposit.push(business.budget);
+      });
+
+      this.setState({
+        totaldeposit: deposit.reduce(
+          (accumulator, currentValue) => accumulator + currentValue,
+          0
+        ),
+      });
+      */}
+
     } catch (ex) {
       return toast.error(
         "An Error Occured, while fetching business data Please try again later" +
@@ -175,19 +196,24 @@ class Inspection extends Component {
     if (business == []) {
       return toast.error("An Error Occured,data fetching ...");
     } else {
+      let cumurative=0
       const brochure = business.map((business, index) => {
+        cumurative=cumurative+business.payedamount
         return (
           <tr key={business.contractpaymentid}>
             <td>#00{business.contractpaymentid}</td>
 
             <td>{business.payedamount + "Rwf"}</td>
-            <td>{business.contractamount + "Rwf"}</td>
+            <td>{business.invoiceamount + "Rwf"}</td>
+            <td>{business.deductedamount + "Rwf"}</td>
+            <td>{cumurative}</td>
             <td>{business.remainamount + "Rwf"}</td>
             <td>{business.paymentdate}</td>
 
 
             
            <td>
+            {/** 
             <button
                 className="btn btn-primary"
                 data-toggle="modal"
@@ -197,6 +223,7 @@ class Inspection extends Component {
                 <AiFillEdit />
                 Update
               </button>{" "}
+              */}
             </td>
             <td>
               <button
@@ -261,47 +288,25 @@ class Inspection extends Component {
                 <div
                   data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
                   className="revPr"
-                >
+                >                 
+                  <div className="row">                    
+                       <big style={{ fontSize: 18 }}>RefNumber:{this.state.refnumber}</big><br/>
+                  </div>
+                  <br/>
+                  <div className="row">                    
+                      <big style={{ fontSize: 18 }}>Contractor:{this.state.contractorname}</big><br/>
+                  </div>
+                  <br/>
                   <div className="row">
-                    <big style={{ fontSize: 22 }}>RefNumber:</big><br/>
                     
+                      <big style={{ fontSize: 18 }}>contract Amount:{this.state.contractbudget}</big>
                   </div>
-                  <div className="row">
-                    <big style={{ fontSize: 22 }}>Contractor:</big><br/>
                   </div>
-                  <div className="row">
-                    <big style={{ fontSize: 22 }}>Service Order Amount:</big>
-                  </div>
-                </div>
-                <div >
-                  <div className="row">
-                  Paied Amount{" "}
-                  <big style={{ fontSize: 28 }}>
-                    {" "}
-                    {new Intl.NumberFormat().format(this.state.totaldeposit) +
-                      " " +
-                      "Rwf"}
-                  </big>
-                </div>
-                <div className="row">
-                  Remain Amount on Service order{" "}
-                  <big style={{ fontSize: 28 }}>
-                    {" "}
-                    {new Intl.NumberFormat().format(this.state.totaldeposit) +
-                      " " +
-                      "Rwf"}
-                  </big>
-                </div>
-                <div className="row">
-                  Consumed{" "}
-                  <big style={{ fontSize: 28 }}>
-                    {" "}
-                    {new Intl.NumberFormat().format(this.state.totaldeposit) +
-                      " " +
-                      "Rwf"}
-                  </big>
-                </div>
-                </div>
+
+                   
+                  
+                
+                
               </div>
               
               
@@ -359,6 +364,8 @@ class Inspection extends Component {
                               <th>Invoice No</th>
                               <th>Invoice Amount</th>
                               <th>Due amount</th>
+                              <th>reimbursable amount</th>
+                              <th>cumurative amount</th>
                               <th>pending Amount</th>
                               <th>payment Date</th>
 
@@ -376,12 +383,14 @@ class Inspection extends Component {
                         contractamount={modalData.contractamount}
                         remainamount={modalData.remainamount}
                         notes={modalData.notes}
+                        paymenttypename={modalData.paymenttypename}
+                        paymenttypeid={modalData.paymenttypeid}
                         saveModalDetails={this.saveModalDetails}
                         />
                         <ViewinspectionModal
                         contractpaymentid={modalData.contractpaymentid}
                         contractid={modalData.contractid}
-                        payedamount={modalData.payedamount}
+                        payedamount={modalData.invoiceamount}
                         contractbudget={modalData.contractbudget}
                         contractamount={modalData.contractamount}
                         remainamount={modalData.remainamount}

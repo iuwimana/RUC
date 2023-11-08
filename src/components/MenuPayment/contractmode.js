@@ -152,6 +152,7 @@ const [contracts, setcontracts]=useState([]);
               projectid={projectid}
               cancreateserviceorder={cancreateserviceorder}
               contractbudget={contracts.contractbudget}
+              refnumber={contracts.refnumber}
             />
           ))}
           </>

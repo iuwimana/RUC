@@ -9,6 +9,7 @@ import * as Measurement from "../../../../services/ContractManagement/ContractSe
 import * as Serviceorderdate from "../../../../services/ContractManagement/ContractSetting/serviceOrdersService";
 import * as ContractInspection from "../../../../services/contractinpection/contractinspect";
 import * as Contractpayment from "../../../../services/contractpayment/contractpaymentservice";
+import * as PaymenttypeData from "../../../../services/contractpayment/paymenttypeservices";
 
 import * as ProjectType from "../../../../services/ContractManagement/ContractSetting/contractTypeService";
 import * as FiscalYear from "../../../../services/RMFPlanning/fiscalYearService";
@@ -29,9 +30,10 @@ class Modal extends Component {
         contractpaymentid: 0,
         contractbudget: 0,
         contractdiscription: 0,
+        paymenttypeid:0,
         payedamount: 0,
         contractid: 0,
-        notes:"",
+        notes: "",
         contractamount: 0,
         remainamount: 0,
         paymentdate: "",
@@ -41,13 +43,15 @@ class Modal extends Component {
       contractdiscription: 0,
       payedamount: 0,
       contractid: 0,
-      notes:"",
+      notes: "",
+      paymenttypeid:0,
       contractamount: 0,
       remainamount: 0,
       paymentdate: "",
       user: {},
       errors: {},
       measurement: [],
+      paymenttypes: [],
       banks: [],
       projectType: [],
       fiscalYear: [],
@@ -66,6 +70,7 @@ class Modal extends Component {
       const { data: target } = await Target.gettargets();
       const { data: road } = await Road.getroads();
       const { data: maintenance } = await Maintenance.getmaintenances();
+      const { data: paymenttypes } = await PaymenttypeData.getpaymenttypes();
 
       const { data: banks } = await bank.getbanks();
       const { data: paternerStatuses } =
@@ -79,6 +84,7 @@ class Modal extends Component {
         road,
         maintenance,
         measurement,
+        paymenttypes,
       });
     } catch (ex) {
       toast.error("Loading issues......");
@@ -99,11 +105,11 @@ class Modal extends Component {
       remainamount: nextProps.remainamount,
       paymentdate: nextProps.paymentdate,
       contractid: nextProps.contractid,
+      paymenttypeid:nextProps.paymenttypeid,
       contractbudget: nextProps.contractbudget,
-      notes:nextProps.notes,
+      notes: nextProps.notes,
     });
   }
-
 
   notesHandler(e) {
     this.setState({ notes: e.target.value });
@@ -132,6 +138,9 @@ class Modal extends Component {
   contractbudgetHandler(e) {
     this.setState({ contractbudget: e.target.value });
   }
+  paymenttypeidHandler(e) {
+    this.setState({ paymenttypeid: e.target.value });
+  }
 
   handleClick = async (e) => {
     try {
@@ -147,13 +156,15 @@ class Modal extends Component {
           data.payedamount,
           data.contractbudget,
           remainamount,
-          data.notes
+          data.notes,
+          data.paymenttypeid
         );
         toast.success(`payment    has been updated successful:
        contractid; ${data.contractid},
        payedamount: ${data.payedamount},
        contractamount: ${data.contractbudget},
-       remainamount: ${data.remainamount} `);
+       remainamount: ${remainamount} 
+       data.paymenttypeid:${data.paymenttypeid}`);
       }
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -174,6 +185,7 @@ class Modal extends Component {
     }
   };
   render() {
+    const paymenttypes = this.state.paymenttypes;
     return (
       <div
         className="modal fade"
@@ -224,7 +236,7 @@ class Modal extends Component {
                           htmlFor="exampleFormControlInput1"
                           className="form-label"
                         >
-                          Amount on Contract
+                          Invoice Amount
                         </label>
                       </div>
                     </div>
@@ -242,21 +254,46 @@ class Modal extends Component {
                     </div>
                     <div className="col">
                       <div className="col-auto">
-                       
+                        <label
+                          htmlFor="exampleFormControlInput1"
+                          className="form-label"
+                        >
+                          Payment type
+                        </label>
                       </div>
                     </div>
                     <div className="col">
                       <div className="col-auto">
-                        
+                        <select
+                          name="paymenttypeid"
+                          id="paymenttypeid"
+                          className="form-control"
+                          onChange={(e) => this.paymenttypeidHandler(e)}
+                        >
+                          <option
+                              value={this.state.paymenttypeid}
+                            >
+                             
+                            </option>
+                          {paymenttypes.map((paymenttypes) => (
+                            <option
+                              key={paymenttypes.paymenttypeid}
+                              value={paymenttypes.paymenttypeid}
+                            >
+                              {paymenttypes.paymenttypename}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                   </div>
-                  <br/><br/>
+                  <br />
+                  <br />
                   {/**---------------------row2------------------------------------------------------ */}
                   <div className="row">
                     <div className="col">
                       <div className="col-auto">
-                         <label
+                        <label
                           htmlFor="exampleFormControlInput1"
                           className="form-label"
                         >
@@ -271,8 +308,7 @@ class Modal extends Component {
                           name="notes"
                           id="notes"
                           value={this.state.notes}
-                          onChange={(e) =>this.notesHandler(e)
-                          }
+                          onChange={(e) => this.notesHandler(e)}
                           rows="10"
                           cols="50"
                           placeholder="a note related to the payement"
@@ -288,7 +324,10 @@ class Modal extends Component {
                     </div>
                   </div>
                   {/**----------------------row3----------------------------------------------------- */}
-                  <br/><br/><br/><br/>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
                   <div className="row">
                     <div className="col">
                       <div className="col-auto"></div>
@@ -302,21 +341,21 @@ class Modal extends Component {
                           htmlFor="exampleFormControlInput1"
                           className="form-label"
                         >
-                          Total Amount
+                          Contract Total Amount
                         </label>
                       </div>
                     </div>
                     <div className="col">
                       <div className="col-auto">
                         <input
-                              type="text"
-                              disabled={true}
-                              className="form-control"
-                              name="contractbudget"
-                              id="contractbudget"
-                              value={this.state.contractbudget}
-                              onChange={(e) => this.contractbudgetHandler(e)}
-                            />
+                          type="text"
+                          disabled={true}
+                          className="form-control"
+                          name="contractbudget"
+                          id="contractbudget"
+                          value={this.state.contractbudget}
+                          onChange={(e) => this.contractbudgetHandler(e)}
+                        />
                       </div>
                     </div>
                   </div>
@@ -354,8 +393,6 @@ class Modal extends Component {
 
                   <div className="mb-3">
                     {/**-------------------------------------------------------------- */}
-                    
-                    
                   </div>
                   {/**----------------------------------------------------------------- */}
                 </Card>

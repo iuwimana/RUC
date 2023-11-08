@@ -50,7 +50,7 @@ import ContractorMenu from "../Menu/contract";
 import * as ContractData from "../../services/ContractManagement/ContractSetting/contractservice";
 
 import "../../home.css";
-const Contract= ({ contractid, contractorname,projectid,cancreateserviceorder,contractbudget }) => {
+const Contract= ({ contractid, contractorname,projectid,cancreateserviceorder,contractbudget,refnumber }) => {
   //---------------------------------------
    const { isOpen, toggle } = useOpenController(false);
   const { isOpenrec, togglerec } = useOpenController(false);
@@ -92,7 +92,7 @@ const handleshowproject = async () => {
               to={{
                 pathname:
                   "/ContractManagemenrt/contract/contractpayment",
-                state: { contractid: contractid,projectid: projectid,contractbudget },
+                state: { contractid: contractid,projectid: projectid,contractbudget:contractbudget,refnumber:refnumber,contractorname:contractorname },
               }}        
               
               >

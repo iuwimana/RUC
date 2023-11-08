@@ -385,14 +385,15 @@ function Home() {
                         <small>
                           <small>
                             <small>
-                              {contracts.map(
-                                (contracts) =>
-                                  contracts.contracttypename +
-                                  " : " +
-                                  contracts.contractnumber +
-                                  " "
-                              ).join('\n') }
-                              
+                              {contracts
+                                .map(
+                                  (contracts) =>
+                                    contracts.contracttypename +
+                                    " : " +
+                                    contracts.contractnumber +
+                                    " "
+                                )
+                                .join("\n")}
                             </small>
                           </small>
                         </small>
@@ -1300,6 +1301,7 @@ function Home() {
                   className="totalCollected"
                 >
                   <div className="res1">
+                    {/** 
                     {revenueprod.map((revenueprod) => (
                       <div className="row">
                         <div className="col">
@@ -1339,6 +1341,7 @@ function Home() {
                         </div>
                       </div>
                     ))}
+                    */}
                   </div>
                 </div>
                 <div

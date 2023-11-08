@@ -48,7 +48,7 @@ export async function deletecontractpayment(contractpaymentid) {
   }
 }
 
-export async function addcontractpayment(contractpaymentid,contractid,payedAmount,contractAmount,remainAmount,notes) {
+export async function addcontractpayment(contractpaymentid,contractid,payedAmount,contractAmount,remainAmount,notes,paymenttypeid) {
   try {
     await http.post(apiEndpoint, {
       contractpaymentid,
@@ -56,7 +56,8 @@ export async function addcontractpayment(contractpaymentid,contractid,payedAmoun
       payedAmount,
       contractAmount,
       remainAmount,
-      notes
+      notes,
+      paymenttypeid
     });
   } catch (ex) {
     return toast.error(

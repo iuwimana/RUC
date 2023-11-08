@@ -261,6 +261,7 @@ class RevenuPayment extends Component {
             justifyContent: "center",
           }}
         >
+          {/** 
           <select
             name="fiscalyearid"
             id="fiscalyearid"
@@ -277,9 +278,8 @@ class RevenuPayment extends Component {
               </option>
             ))}
           </select>
-
+          */}
           <Col />
-
           <Col
             style={{
               alignItems: "center",

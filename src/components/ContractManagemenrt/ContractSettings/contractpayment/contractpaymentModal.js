@@ -9,6 +9,7 @@ import * as Measurement from "../../../../services/ContractManagement/ContractSe
 import * as Serviceorderdate from "../../../../services/ContractManagement/ContractSetting/serviceOrdersService";
 import * as ContractInspection from "../../../../services/contractinpection/contractinspect";
 import * as Contractpayment from "../../../../services/contractpayment/contractpaymentservice";
+import * as PaymenttypeData from "../../../../services/contractpayment/paymenttypeservices";
 
 import * as ProjectType from "../../../../services/ContractManagement/ContractSetting/contractTypeService";
 import * as FiscalYear from "../../../../services/RMFPlanning/fiscalYearService";
@@ -31,6 +32,8 @@ class ContractpaymentModal extends Component {
         contractdiscription: 0,
         payedamount: 0,
         contractid: 0,
+        paymenttypename:"",
+        paymenttypeid:0,
         notes:"",
         contractamount: 0,
         remainamount: 0,
@@ -41,6 +44,8 @@ class ContractpaymentModal extends Component {
       contractdiscription: 0,
       payedamount: 0,
       contractid: 0,
+      paymenttypename:"",
+      paymenttypeid:0,
       notes:"",
       contractamount: 0,
       remainamount: 0,
@@ -48,8 +53,9 @@ class ContractpaymentModal extends Component {
       user: {},
       errors: {},
       measurement: [],
-      banks: [],
+      paymenttypes:[],
       projectType: [],
+      banks: [],
       fiscalYear: [],
       target: [],
       road: [],
@@ -66,6 +72,7 @@ class ContractpaymentModal extends Component {
       const { data: target } = await Target.gettargets();
       const { data: road } = await Road.getroads();
       const { data: maintenance } = await Maintenance.getmaintenances();
+      const { data: paymenttypes } = await PaymenttypeData.getpaymenttypes();
 
       const { data: banks } = await bank.getbanks();
       const { data: paternerStatuses } =
@@ -79,6 +86,7 @@ class ContractpaymentModal extends Component {
         road,
         maintenance,
         measurement,
+        paymenttypes,
       });
     } catch (ex) {
       toast.error("Loading issues......");
@@ -99,6 +107,8 @@ class ContractpaymentModal extends Component {
       remainamount: nextProps.remainamount,
       paymentdate: nextProps.paymentdate,
       contractid: nextProps.contractid,
+      paymenttypeid:nextProps.paymenttypeid,
+      paymenttypename:nextProps.paymenttypename,
       contractbudget: nextProps.contractbudget,
       notes:nextProps.notes,
     });
@@ -132,11 +142,13 @@ class ContractpaymentModal extends Component {
   contractbudgetHandler(e) {
     this.setState({ contractbudget: e.target.value });
   }
+  paymenttypeidHandler(e) {
+    this.setState({ paymenttypeid: e.target.value });
+  }
 
   handleClick = async (e) => {
     try {
       const data = this.state;
-      const contractpaymentid = 0;
       const remainamount = 0;
       if (data.payedamount > data.contractbudget) {
         toast.error("Amount you pay is greater than contract amount");
@@ -145,15 +157,17 @@ class ContractpaymentModal extends Component {
           data.contractpaymentid,
           data.contractid,
           data.payedamount,
-          data.contractamount,
+          data.contractbudget,
           remainamount,
-          data.notes
+          data.notes,
+          data.paymenttypeid
         );
         toast.success(`payment    has been updated successful:
        contractid; ${data.contractid},
        payedamount: ${data.payedamount},
-       contractamount: ${data.contractamount},
-       remainamount: ${data.remainamount} `);
+       contractamount: ${data.contractbudget},
+       remainamount: ${remainamount} 
+       data.paymenttypeid:${data.paymenttypeid}`);
       }
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -174,6 +188,7 @@ class ContractpaymentModal extends Component {
     }
   };
   render() {
+    const paymenttypes = this.state.paymenttypes;
     return (
       <div
         className="modal fade"
@@ -195,7 +210,7 @@ class ContractpaymentModal extends Component {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Create Invoice
+                Update Invoice
               </h5>
               <button
                 type="button"
@@ -231,7 +246,7 @@ class ContractpaymentModal extends Component {
                     <div className="col">
                       <div className="col-auto">
                         <input
-                          type="text"
+                          type="hidden"
                           className="form-control"
                           name="contractpaymentid"
                           id="contractpaymentid"
@@ -250,12 +265,37 @@ class ContractpaymentModal extends Component {
                     </div>
                     <div className="col">
                       <div className="col-auto">
-                       
+                       <label
+                          htmlFor="exampleFormControlInput1"
+                          className="form-label"
+                        >
+                          Payment type
+                        </label>
                       </div>
                     </div>
                     <div className="col">
                       <div className="col-auto">
-                        
+                        <select
+                          name="paymenttypeid"
+                          id="paymenttypeid"
+                          className="form-control"
+                          onChange={(e) => this.paymenttypeidHandler(e)}
+                        >
+                          <option
+                              value={this.state.paymenttypeid}
+                            > 
+        
+                             {this.state.paymenttypename}
+                            </option>
+                          {paymenttypes.map((paymenttypes) => (
+                            <option
+                              key={paymenttypes.paymenttypeid}
+                              value={paymenttypes.paymenttypeid}
+                            >
+                              {paymenttypes.paymenttypename}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                   </div>

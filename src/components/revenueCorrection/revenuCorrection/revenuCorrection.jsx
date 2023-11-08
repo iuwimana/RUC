@@ -275,22 +275,7 @@ class RevenuCorrection extends Component {
             justifyContent: "center",
           }}
         >
-          <select
-            name="fiscalyearid"
-            id="fiscalyearid"
-            className="form-control"
-            onChange={(e) => this.fiscalyearidHandler(e)}
-            onClick={(e) => this.fiscalyearidHandler(e)}
-          >
-            {fiscalyear.map((fiscalyear) => (
-              <option
-                key={fiscalyear.fiscalyearid}
-                value={fiscalyear.fiscalyearid}
-              >
-                {fiscalyear.fiscalyear}
-              </option>
-            ))}
-          </select>
+          
           <Col
             style={{
               alignItems: "center",

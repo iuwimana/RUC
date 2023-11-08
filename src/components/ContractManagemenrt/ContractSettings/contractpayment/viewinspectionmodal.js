@@ -16,6 +16,7 @@ import { FcPlus } from "react-icons/fc";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import _ from "lodash";
+import { async } from './../../../../services/security/userServices';
 class ViewBusiness extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +34,7 @@ class ViewBusiness extends Component {
         remainamount: 0,
         paymentdate: "",
       },
+      
       contractpaymentid: 0,
       contractbudget: 0,
       contractdiscription: 0,
@@ -58,7 +60,7 @@ class ViewBusiness extends Component {
   async populateBanks() {
     try {
       const { data: contractpayments } =
-        await Contractpayment.getcontractpaymentreport(1);
+        await Contractpayment.getcontractpaymentreport(32);
 
       this.setState({ contractpayments });
     } catch (ex) {
@@ -68,7 +70,7 @@ class ViewBusiness extends Component {
 
   async componentDidMount() {
     try {
-      await this.populateBanks();
+      
 
       const { data: revenucollections } =
         await RevenuData.getBusinessPaterners();
@@ -81,7 +83,7 @@ class ViewBusiness extends Component {
       );
     }
   }
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps (nextProps) {
     this.setState({
       contractpaymentid: nextProps.contractpaymentid,
       contractdiscription: nextProps.contractdiscription,
@@ -93,6 +95,15 @@ class ViewBusiness extends Component {
       contractbudget: nextProps.contractbudget,
       notes: nextProps.notes,
     });
+    
+    try {
+      const { data: contractpayments } =
+        await Contractpayment.getcontractpaymentreport(nextProps.contractpaymentid);
+
+      this.setState({ contractpayments });
+    } catch (ex) {
+      toast.error("Loading issues......");
+    }
   }
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
@@ -202,10 +213,10 @@ class ViewBusiness extends Component {
       return (
         <>
           <tr style={{height:345}} key={contractpayments.contractpaymentid}>
-            <td>{contractpayments.contractpaymentid}</td>
+            <td>#00{contractpayments.contractpaymentid}</td>
             <td>{contractpayments.contractorname}</td>
             <td>{contractpayments.contractdiscription}</td>
-            <td>{contractpayments.payedamount}</td>
+            <td>{contractpayments.invoiceamount}</td>
           </tr>
         </>
       );
