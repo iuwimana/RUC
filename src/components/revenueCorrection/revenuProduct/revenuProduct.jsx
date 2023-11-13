@@ -242,7 +242,7 @@ class RevenuProduct extends Component {
               <div className="text-muted text-center mt-2 mb-3">
                 <h1>
                   <div style={{ textAlign: "center" }}>
-                    <h1>RMF Resource Collection- Revenu Product</h1>
+                    <h1>RMF Resource Collection- Collection</h1>
                   </div>
                 </h1>
               </div>
@@ -259,9 +259,9 @@ class RevenuProduct extends Component {
                         data-target="#exampleAddModal"
                       >
                         <FcPlus />
-                        AddProduct
+                        AddCollection
                       </button>
-                      <p>There are Product in Database.</p>
+                      <p>There are collection in Database.</p>
                       <AddModal />
                     </>
                   )}
@@ -273,7 +273,7 @@ class RevenuProduct extends Component {
                         data-target="#exampleAddModal"
                       >
                         <FcPlus />
-                        AddProduct
+                        AddCollection
                       </button>
                       <div style={{ textAlign: "center" }}>
                         <SearchBox
@@ -281,26 +281,27 @@ class RevenuProduct extends Component {
                           onChange={this.handleSearch}
                         />
                       </div>
-                      <table className="table">
-                        <thead>
-                          <tr>
-                            <th>Product name</th>
-                            <th>Account number</th>
-                            <th>Source of fund</th>
-                            <th>Bank name</th>
-                            <th>RevenueTypename</th>
-                            <th>StartDate</th>
-                            <th>EndDate</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                          </tr>
-                        </thead>
-                        <tbody>{brochure}</tbody>
-                      </table>
+                      <div className="table-responsive mb-5">
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th>Collection</th>
+                              <th>Account number</th>
+                              <th>Source of fund</th>
+                              <th>Bank name</th>
+                              <th>RevenueTypename</th>
+                              <th>StartDate</th>
+                              <th>EndDate</th>
+                              <th>Update</th>
+                              <th>Delete</th>
+                            </tr>
+                          </thead>
+                          <tbody>{brochure}</tbody>
+                        </table>
+                      </div>
                       <AddModal />
 
                       <Modal
-                       
                         revenueproductid={this.state.revenueproductid}
                         revenueproductname={this.state.revenueproductname}
                         accountnumber={this.state.accountnumber}

@@ -30,8 +30,10 @@ class RevenuCorrectionsupload extends Component {
         DocId: {},
       },
       value: this.props.location.state,
-     
-
+      currencyid: 0,
+      currencyname: "",
+      activeon: "",
+      isactif: true,
       loadData: [],
       user: {},
       ParsedData: [],
@@ -68,17 +70,30 @@ class RevenuCorrectionsupload extends Component {
       const fiscalyearid = state.fiscalyearid;
       const revenuproductid = state.revenuproductid;
       const revenuproductname = state.revenuproductname;
-      this.setState({ fiscalyearid, revenuproductid, revenuproductname });
+      const currencyid = state.currencyid;
+      const currencyname = state.currencyname;
+      const activeon = state.activeon;
+      const currentDate = new Date().toDateString();
+      
+        this.setState({
+          fiscalyearid,
+          revenuproductid,
+          revenuproductname,
+          currencyid,
+          currencyname,
+          activeon,
+        });
+        
+        
       }
     } catch (ex) {
-      toast.error("Loading issues......");
+      toast.error("Loading issues......"+ex);
     }
   }
 
   async componentDidMount() {
     try {
          
-        
        
       await this.populateBanks();
       const user = auth.getJwt();
@@ -86,6 +101,22 @@ class RevenuCorrectionsupload extends Component {
       const TableRows = this.state.TableRows;
       const Values = this.state.Values;
       this.setState({ user, ParsedData, TableRows, Values });
+      
+      const { state } = this.props.location;
+      const currencyid = state.currencyid;
+      const currencyname = state.currencyname;
+      var activeon = JSON.parse(state.activeon);
+      var CurrentDate = new Date()
+      CurrentDate.setHours(0, 0, 0, 0);
+      var GivenDate = new Date(activeon)
+
+     console.log(`CurrentDate ${CurrentDate},GivenDate:${GivenDate}`);
+      if (
+        currencyid === "4" &&
+        GivenDate < CurrentDate
+      ) {
+        this.setState({ isactif: false });
+      }
     } catch (ex) {
       return toast.error(
         "An Error Occured, while rfetching revenu Payment data Please try again later" +
@@ -232,7 +263,7 @@ class RevenuCorrectionsupload extends Component {
                         name="RevenuePaymentId"
                         id="RevenuePaymentId"
                         className="form-control"
-                        
+                        disabled
                         onChange={(e) => this.PaymentIDHandler(e)}
                       >
                         <option value={this.state.revenuproductid}>
@@ -249,6 +280,18 @@ class RevenuCorrectionsupload extends Component {
                           </option>
                         ))}
                       </select>
+                    </div>
+                  </div>
+                </div>
+                <div className="mb-3">
+                  <div className="row">
+                    <div className="col">
+                      <label htmlFor="exampleFormControlInput1">Currency</label>
+                    </div>
+                    <div className="col">
+                      <label htmlFor="exampleFormControlInput1">
+                        {this.state.currencyname}
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -284,85 +327,98 @@ class RevenuCorrectionsupload extends Component {
               </div>
               <br />
               <br />
+              {!this.state.isactif && (
+                <Card className=" shadow border-0">
+                  <CardHeader className="bg-transparent ">
+                    <small>
+                      <div style={{ textAlign: "center",color:"red" }}>
+                        The Exchenge rate is not Update, Please go on Current to
+                        update
+                      </div>
+                    </small>
+                  </CardHeader>
+                </Card>
+              )}
+              {this.state.isactif && (
+                <Card className=" shadow border-0">
+                  <CardHeader className="bg-transparent ">
+                    <small>
+                      <div style={{ textAlign: "center" }}>
+                        Upload Bank statement
+                      </div>
+                    </small>
 
-              <Card className=" shadow border-0">
-                <CardHeader className="bg-transparent ">
-                  <small>
-                    <div style={{ textAlign: "center" }}>
-                      Upload Bank statement
-                    </div>
-                  </small>
-
-                  <div className="btn-wrapper text-right">
-                    <div className="row">
-                      <div className="col"></div>
-                      <div className="col">
-                        <button
-                          type="button"
-                          className="btn btn-primary"
-                          onClick={this.handleSave}
-                          aria-hidden="true"
-                        >
-                          Load Data...
-                        </button>
+                    <div className="btn-wrapper text-right">
+                      <div className="row">
+                        <div className="col"></div>
+                        <div className="col">
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={this.handleSave}
+                            aria-hidden="true"
+                          >
+                            Load Data...
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardHeader>
-                <CardBody className="px-lg-5 py-lg-5">
-                  <div className="row">
-                    <div className="col">
-                      <label htmlFor="exampleFormControlInput1">
-                        choose a CSV file to upload
-                      </label>
+                  </CardHeader>
+                  <CardBody className="px-lg-5 py-lg-5">
+                    <div className="row">
+                      <div className="col">
+                        <label htmlFor="exampleFormControlInput1">
+                          choose a CSV file to upload
+                        </label>
+                      </div>
+                      <div className="col">
+                        <input
+                          type="file"
+                          name="file"
+                          onChange={this.changeHandler}
+                          accept=".csv"
+                          style={{
+                            display: "block",
+                            margin: "10px auto",
+                          }}
+                        />
+                      </div>
                     </div>
-                    <div className="col">
-                      <input
-                        type="file"
-                        name="file"
-                        onChange={this.changeHandler}
-                        accept=".csv"
-                        style={{
-                          display: "block",
-                          margin: "10px auto",
-                        }}
-                      />
-                    </div>
-                  </div>
 
-                  {/* File Uploader */}
+                    {/* File Uploader */}
 
-                  <br />
-                  <br />
-                  {/* Table */}
-                  <table className=" striped bordered hover" border={1}>
-                    <thead>
-                      <tr>
-                        {TableRows.map((rows, index) => {
-                          return <th key={index}>{rows}</th>;
+                    <br />
+                    <br />
+                    {/* Table */}
+                    <table className=" striped bordered hover" border={1}>
+                      <thead>
+                        <tr>
+                          {TableRows.map((rows, index) => {
+                            return <th key={index}>{rows}</th>;
+                          })}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {products.map((value, index) => {
+                          return (
+                            <tr key={index}>
+                              {value.map((val, i) => {
+                                return <td key={i}>{val}</td>;
+                              })}
+                            </tr>
+                          );
                         })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {products.map((value, index) => {
-                        return (
-                          <tr key={index}>
-                            {value.map((val, i) => {
-                              return <td key={i}>{val}</td>;
-                            })}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                  <Pagination
-                    itemsCount={totalCount}
-                    pageSize={pageSize}
-                    currentPage={currentPage}
-                    onPageChange={this.handlePageChange}
-                  />
-                </CardBody>
-              </Card>
+                      </tbody>
+                    </table>
+                    <Pagination
+                      itemsCount={totalCount}
+                      pageSize={pageSize}
+                      currentPage={currentPage}
+                      onPageChange={this.handlePageChange}
+                    />
+                  </CardBody>
+                </Card>
+              )}
             </CardBody>
           </Card>
         </Col>

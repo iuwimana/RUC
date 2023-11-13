@@ -142,7 +142,7 @@ SourceofFundnamedHandler(e) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Revenu Product
+                Collection
               </h5>
               <button
                 type="button"
@@ -167,7 +167,7 @@ SourceofFundnamedHandler(e) {
               </div>
               <div className="mb-3">
                 <label htmlFor="exampleFormControlInput1" className="form-label">
-                  Revenue ProductName
+                  Collection
                 </label>
                 <input
                   type="text"

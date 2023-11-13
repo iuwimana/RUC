@@ -24,6 +24,7 @@ class Users extends Component {
     super(props);
 
     this.state = {
+      userid:0,
       users: [],
       currentPage: 1,
       pageSize: 4,
@@ -111,9 +112,10 @@ class Users extends Component {
 
     return { totalCount: filtered.length, data: users };
   };
-  replaceModalItem(index) {
+  replaceModalItem(index, userid) {
     this.setState({
       requiredItem: index,
+      userid: userid,
     });
   }
   saveModalDetails(users) {
@@ -162,7 +164,7 @@ class Users extends Component {
               className="btn btn-info"
               data-toggle="modal"
               data-target="#exampleModal"
-              onClick={() => this.replaceModalItem(index)}
+              onClick={() => this.replaceModalItem(index, users.user_userid)}
             >
               <MdOutlinePersonalInjury /> Grant
             </button>
@@ -233,7 +235,7 @@ class Users extends Component {
                   </table>
                   <AddRole />
                   <Modal
-                    userid={modalData.user_userid}
+                    userid={this.state.userid}
                     saveModalDetails={this.saveModalDetails}
                   />
 

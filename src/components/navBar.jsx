@@ -44,6 +44,7 @@ import {
   AiOutlineWeibo,
   AiOutlineShop,
 } from "react-icons/ai";
+import {GiPayMoney} from "react-icons/gi"
 import { toast } from "react-toastify";
 import useOpenController from "../components/ContractManagemenrt/ContractSettings/contractor/Hooks/useOpenController";
 import * as Contract from "../services/ContractManagement/ContractSetting/contractservice";
@@ -73,6 +74,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
   const [canaccessSecurity, setCanaccessSecurity] = useState();
   const [canaccessPlanning, setCanaccessPlanning] = useState();
   const [canaccesscontract, setCanaccesscontract] = useState();
+  const [canaccesslookup, setCanaccesslookup] = useState();
   const [useraccess, setuseraccess] = useState([]);
   const [emails, setemails] = useState([]);
   const [email, setemail] = useState(user.username);
@@ -185,6 +187,52 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
 
         data.forEach((object, index) => {
           setCanaccesscontract(object.canaccess);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  } //--admin portal
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserAccessData.getsecurableaccess(
+          jwt.username,
+          16
+        );
+        setuseraccess(data);
+
+        data.forEach((object, index) => {
+          setCanaccessSecurity(object.canaccess);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  } //-- lookup
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserAccessData.getsecurableaccess(
+          jwt.username,
+          28
+        );
+        setuseraccess(data);
+
+        data.forEach((object, index) => {
+          setCanaccesslookup(object.canaccess);
         });
       };
       fetchProgram();
@@ -353,7 +401,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
   );
   //----------------------------------------------------
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
-  
+
   //--------------------------------------------
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light rounded">
@@ -446,7 +494,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                             <i className="ni ni-key-25" />
                             <span className="nav-link-inner--text">
                               <FcMoneyTransfer />
-                              &nbsp;Revenus Payment
+                              &nbsp;Collections unit rate
                             </span>
                           </div>
                         </NavLink>
@@ -471,6 +519,42 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                           </div>
                         </NavLink>
                       </div>
+
+                      <div class="row">
+                        <NavLink
+                          className="nav-item nav-link"
+                          to="/revenu/administration"
+                        >
+                          <div class="col">
+                            <i className="ni ni-key-25" />
+                            <span className="nav-link-inner--text">
+                              <MdManageAccounts />
+                              &nbsp;Administration
+                            </span>
+                          </div>
+                        </NavLink>
+                      </div>
+                      <div class="row">
+                        <NavLink
+                          className="nav-item nav-link"
+                          to={{
+                            pathname: "/revenu/expenduture",
+                            state: {
+                              fiscalyearid: fiscalyearid,
+                              fiscalyearname: fiscalyearname,
+                            },
+                          }}
+                        >
+                          <div class="col">
+                            <i className="ni ni-key-25" />
+                            <span className="nav-link-inner--text">
+                              <GiPayMoney />
+                              &nbsp;Expenduture
+                            </span>
+                          </div>
+                        </NavLink>
+                      </div>
+
                       {/** 
                       <div class="row">
                         <NavLink
@@ -519,6 +603,20 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                         >
                           <div class="col">
                             <FcTimeline /> Planing Process
+                          </div>
+                        </NavLink>
+                      </div>
+                      <div class="row">
+                        <NavLink
+                          className="nav-item nav-link"
+                          to="/planing/administration"
+                        >
+                          <div class="col">
+                            <i className="ni ni-key-25" />
+                            <span className="nav-link-inner--text">
+                              <MdManageAccounts />
+                              &nbsp;Administration
+                            </span>
                           </div>
                         </NavLink>
                       </div>
@@ -678,28 +776,44 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                       ))}
                     </>
                   )}
+                  <div class="row">
+                    <NavLink
+                      className="nav-item nav-link"
+                      to="/contractmanagemenrt/administration"
+                    >
+                      <div class="col">
+                        <i className="ni ni-key-25" />
+                        <span className="nav-link-inner--text">
+                          <MdManageAccounts />
+                          &nbsp;Administration
+                        </span>
+                      </div>
+                    </NavLink>
+                  </div>
                 </>
               )}
-              <tr>
-                <td colspan="3">
-                  <div style={{ display: "inline-block" }}>
-                    <MdManageAccounts /> RMF Administration Potal
-                  </div>
-                </td>
-                <td>
-                  {/** isOpensecurity; togglesecurity; */}
-                  <div className="whitespace-nowrap">
-                    <DiSqllite
-                      isOpensecurity={isOpensecurity}
-                      toggle={togglesecurity}
-                    />
-                    <ExpendableButton
-                      isOpensecurity={isOpensecurity}
-                      toggle={togglesecurity}
-                    />
-                  </div>
-                </td>
-              </tr>
+              {canaccessSecurity && (
+                <tr>
+                  <td colspan="3">
+                    <div style={{ display: "inline-block" }}>
+                      <MdManageAccounts /> RMF Administration Potal
+                    </div>
+                  </td>
+                  <td>
+                    {/** isOpensecurity; togglesecurity; */}
+                    <div className="whitespace-nowrap">
+                      <DiSqllite
+                        isOpensecurity={isOpensecurity}
+                        toggle={togglesecurity}
+                      />
+                      <ExpendableButton
+                        isOpensecurity={isOpensecurity}
+                        toggle={togglesecurity}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              )}
               {isOpensecurity && (
                 <>
                   <td colspan="4">
@@ -760,26 +874,28 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                   </td>
                 </>
               )}
-              <tr>
-                <td colspan="3">
-                  <div style={{ display: "inline-block" }}>
-                    <GiLookAt /> RMF LookUp
-                  </div>
-                </td>
-                <td>
-                  <div className="whitespace-nowrap">
-                    <DiSqllite
-                      isOpenlookup={isOpenlookup}
-                      toggle={togglelookup}
-                    />
-                    <ExpendableButton
-                      isOpenlookup={isOpenlookup}
-                      toggle={togglelookup}
-                    />
-                    {/**isOpenlookup, togglelookup */}
-                  </div>
-                </td>
-              </tr>
+              {canaccesslookup && (
+                <tr>
+                  <td colspan="3">
+                    <div style={{ display: "inline-block" }}>
+                      <GiLookAt /> RMF LookUp
+                    </div>
+                  </td>
+                  <td>
+                    <div className="whitespace-nowrap">
+                      <DiSqllite
+                        isOpenlookup={isOpenlookup}
+                        toggle={togglelookup}
+                      />
+                      <ExpendableButton
+                        isOpenlookup={isOpenlookup}
+                        toggle={togglelookup}
+                      />
+                      {/**isOpenlookup, togglelookup */}
+                    </div>
+                  </td>
+                </tr>
+              )}
               {isOpenlookup && (
                 <>
                   <br />
@@ -844,7 +960,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                             <i className="ni ni-key-25" />
                             <span className="nav-link-inner--text">
                               <FaPeopleCarry />
-                              &nbsp; Revenus Products
+                              &nbsp; Collections
                             </span>
                           </div>
                         </NavLink>

@@ -24,18 +24,20 @@ class Securables extends Component {
     this.replaceModalItem = this.replaceModalItem.bind(this);
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
-      roleid:0,
-    rolepermissionid:0,
-    securableid:0,
-    securablename:"",
-    rolename:"",
-    issystemrole:false,
-    canview:false,
-    canmodify:false,
-    canexecute:false,
-    candelete:false,
-    cancreate:false,
-    canaccess:false,
+      roleid: 0,
+      userid: 0,
+      email: "",
+      userpermissionid: 0,
+      securableid: 0,
+      securablename: "",
+      rolename: "",
+      issystemrole: false,
+      canview: false,
+      canmodify: false,
+      canexecute: false,
+      candelete: false,
+      cancreate: false,
+      canaccess: false,
       roles: [],
       currentPage: 1,
       pageSize: 4,
@@ -50,7 +52,7 @@ class Securables extends Component {
   }
   async componentDidMount() {
     try {
-      const { data: roles } = await Securable.getsecurables();
+      const { data: roles } = await Securable.getrevenucollectionsecurables();
 
       this.setState({ roles });
     } catch (ex) {
@@ -87,7 +89,7 @@ class Securables extends Component {
       filtered = allroles.filter(
         (m) =>
           m.securablename.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
-          m.rolename.toLowerCase().startsWith(searchQuery.toLowerCase())
+          m.email.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
     else if (selectedrole && selectedrole.securableid)
       filtered = allroles.filter(
@@ -100,26 +102,29 @@ class Securables extends Component {
 
     return { totalCount: filtered.length, data: roles };
   };
-  replaceModalItem(index,
-    roleid,
-    rolepermissionid,
+
+  replaceModalItem(
+    index,
+    userid,
+    userpermissionid,
     securableid,
     securablename,
-    rolename,
+    email,
     issystemrole,
     canview,
     canmodify,
     canexecute,
     candelete,
     cancreate,
-    canaccess) {
+    canaccess
+  ) {
     this.setState({
       requiredItem: index,
-      roleid: roleid,
-      rolepermissionid: rolepermissionid,
+      userid: userid,
+      userpermissionid: userpermissionid,
       securableid: securableid,
       securablename: securablename,
-      rolename: rolename,
+      email: email,
       issystemrole: issystemrole,
       canview: canview,
       canmodify: canmodify,
@@ -150,7 +155,7 @@ class Securables extends Component {
         <tr key={roles.securableid}>
           {" "}
           <td>{roles.securablename}</td>
-          <td>{roles.rolename}</td>
+          <td>{roles.email}</td>
           <td>{roles.canview.toString()}</td>
           <td>{roles.canmodify.toString()}</td>
           <td>{roles.canexecute.toString()}</td>
@@ -165,11 +170,11 @@ class Securables extends Component {
               onClick={() =>
                 this.replaceModalItem(
                   index,
-                  roles.roleid,
-                  roles.rolepermissionid,
+                  roles.userid,
+                  roles.userpermissionid,
                   roles.securableid,
                   roles.securablename,
-                  roles.rolename,
+                  roles.email,
                   roles.issystemrole,
                   roles.canview,
                   roles.canmodify,
@@ -227,38 +232,40 @@ class Securables extends Component {
                 <div>
                   <SearchBox value={searchQuery} onChange={this.handleSearch} />
                   <div style={{ textAlign: "center" }}></div>
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Securable name</th>
-                        <th>Role name</th>
-                        <th>Can view</th>
-                        <th>Can modify</th>
-                        <th>Can execute</th>
-                        <th>Can delete</th>
-                        <th>Can create</th>
-                        <th>Can access</th>
-                        
-                        <th>Set Role Permission</th>
-                      </tr>
-                    </thead>
-                    <tbody>{brochure}</tbody>
-                  </table>
+                  <div className="table-responsive mb-5">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>Securable name</th>
+                          <th>Role name</th>
+                          <th>Can view</th>
+                          <th>Can modify</th>
+                          <th>Can execute</th>
+                          <th>Can delete</th>
+                          <th>Can create</th>
+                          <th>Can access</th>
+
+                          <th>Set Role Permission</th>
+                        </tr>
+                      </thead>
+                      <tbody>{brochure}</tbody>
+                    </table>
+                  </div>
                   <AddModal />
 
                   <Modal
-                    RoleID={this.state.roleid}
-                    RolePermissionID={this.state.rolepermissionid}
-                    SecurableID={this.state.securableid}
-                    SecurableName={this.state.securablename}
-                    RoleName={this.state.rolename}
-                    IsSystemRole={Boolean(this.state.issystemrole)}
-                    CanView={Boolean(this.state.canview)}
-                    CanModify={Boolean(this.state.canmodify)}
-                    CanExecute={Boolean(this.state.canexecute)}
-                    CanDelete={Boolean(this.state.candelete)}
-                    CanCreate={Boolean(this.state.cancreate)}
-                    CanAccess={Boolean(this.state.canaccess)}
+                    userid={this.state.userid}
+                    userpermissionid={this.state.userpermissionid}
+                    securableid={this.state.securableid}
+                    securablename={this.state.securablename}
+                    email={this.state.email}
+                    issystemrole={Boolean(this.state.issystemrole)}
+                    canview={Boolean(this.state.canview)}
+                    canmodify={Boolean(this.state.canmodify)}
+                    canexecute={Boolean(this.state.canexecute)}
+                    candelete={Boolean(this.state.candelete)}
+                    cancreate={Boolean(this.state.cancreate)}
+                    canaccess={Boolean(this.state.canaccess)}
                     saveModalDetails={this.saveModalDetails}
                   />
                   <Pagination

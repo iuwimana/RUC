@@ -120,7 +120,7 @@ class AddroleModal extends Form {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Add Revenue Payment
+                Add Collection unit rate
               </h5>
               <button
                 type="button"
@@ -140,7 +140,7 @@ class AddroleModal extends Form {
               )}
               {this.renderSelectRevenuProduct(
                 "revenueproductid",
-                "Revenue Product",
+                "collection",
                 this.state.products
               )}
               {this.renderInput("Value", "Value")}

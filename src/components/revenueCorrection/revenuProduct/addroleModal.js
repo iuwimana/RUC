@@ -146,7 +146,7 @@ doSubmit = async(e) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Add Revenue Product
+                Add Collection
               </h5>
               <button
                 type="button"
@@ -159,7 +159,7 @@ doSubmit = async(e) => {
             </div>
 
             <form onSubmit={this.handleSubmit}>
-              {this.renderInput("RevenueProductname", "RevenueProductname")}
+              {this.renderInput("RevenueProductname", "Collection")}
               
               {this.renderSelectsource("sourceoffundid", "Source of Fund", this.state.sources)}
 

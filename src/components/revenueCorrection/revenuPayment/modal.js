@@ -139,7 +139,7 @@ handleSave=async(e)=> {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Update Revenue Payment
+                Update Collection unit rate
               </h5>
               <button
                 type="button"
@@ -188,7 +188,7 @@ handleSave=async(e)=> {
             <div className="mb-3">
                  <div className="col-auto">
                 <label htmlFor="exampleFormControlInput1" >
-                  Revenu Product
+                  Collection
                 </label></div>
                  <div className="col-auto">
                   <select name="RevenueProductId" id="RevenueProductId" className="form-control" onChange={(e) => this.RevenueProductIdHandler(e)}>

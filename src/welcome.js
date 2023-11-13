@@ -73,6 +73,9 @@ import Securables from "./components/security/Securables/securables";
 import Users from "./components/security/User/users";
 import UpdateRole from "./components/security/updateRole";
 import AddRole from "./components/security/Role/addRole";
+import CollAdmin from "./components/security/CollectionAdministration/securables";
+import PlanAdmin from "./components/security/PlaningAdministration/securables";
+import ContrAdmin from "./components/security/ContractAdministration/securables";
 //-----------------------Revenu Collection
 import RevMenu from "./components/revenueCorrection/revenuMenu";
 import Currency from "./components/revenueCorrection/currency/currency";
@@ -87,6 +90,7 @@ import Business from "./components/revenueCorrection/businessPaterner/businessPa
 import Paterner from "./components/revenueCorrection/paternerService/paternerService";
 import ServicePayment from "./components/revenueCorrection/servicePayment/servicePayment";
 import PaternerServicePayment from "./components/revenueCorrection/paternerServicePayment/paternerServicePayment";
+import Expenduture from "./components/revenueCorrection/Expenduture/expenduture";
 //-----------------------------planing
 import Program from "./components/rmfplannings/Program/program";
 import ProgramTable from "./components/rmfplannings/Program/programTable";
@@ -259,7 +263,16 @@ class Welcome extends Component {
                       <Route path="/revenu/home" component={RevHome} />
                       <Route path="/revenu/sourceoffunds" component={Sources} />
                       <Route path="/revenu/revenuproduct" component={Product} />
+                      <Route path="/revenu/expenduture" component={Expenduture} />
+                      
                       {/*<Route path="/revenu/revenupayment" component={Payment} />*/}
+
+                      <Route
+                        path="/revenu/administration"
+                        render={() => (
+                          <CollAdmin/>
+                        )}
+                      />
 
                       <Route
                         path="/revenu/revenupayment"
@@ -273,6 +286,12 @@ class Welcome extends Component {
                         path="/revenu/revenucorrection"
                         render={() => (
                           <RevCorrection fiscalyearid={this.state.fiscalyearid} fiscalyearname={this.state.fiscalyearname} />
+                        )}
+                        
+                      />
+                      <Route path="/revenu/expenduture" 
+                      render={() => (
+                        <Expenduture  fiscalyearid={this.state.fiscalyearid} fiscalyearname={this.state.fiscalyearname} />
                         )}
                         
                       />
@@ -302,6 +321,7 @@ class Welcome extends Component {
                       {/**----------------------------------------------------- */}
 
                       <Route path="/planing/program" component={Program} />
+                       <Route path="/planing/administration" component={PlanAdmin} />
                       <Route
                         path="/planing/programtable"
                         component={ProgramTable}
@@ -322,6 +342,10 @@ class Welcome extends Component {
                       <Route
                         path="/ContractManagemenrt/RoadRefference/road"
                         component={road}
+                      />
+                      <Route
+                        path="/contractmanagemenrt/administration"
+                        component={ContrAdmin}
                       />
                       <Route
                         path="/ContractManagemenrt/RoadRefference/roadCharacteristic"

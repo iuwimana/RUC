@@ -8,6 +8,9 @@ import { Link, NavLink } from "react-router-dom";
 import * as Source from "../../../services/RevenuRessources/revenuCorrectionService";
 import * as RevProdData from "../../../services/RevenuRessources/revenuPaymentServices";
 import * as FiscalYear from "../../../services/RMFPlanning/fiscalYearService";
+import * as Contractpayment from "../../../services/contractpayment/contractpaymentservice";
+import * as FiscalYearContractTypeData from "../../../services/ContractManagement/ContractSetting/Fiscalyearcontracttypeservice";
+
 import {
   FcCurrencyExchange,
 } from "react-icons/fc";
@@ -17,25 +20,29 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SearchBox from "../../searchBox";
 import { FcPlus } from "react-icons/fc";
 import _ from "lodash";
-import './collection.css'
-import ListGroup from './../../common/listGroup';
 
-class RevenuCorrection extends Component {
+import ListGroup from './../../common/listGroup';
+import ContractpaymentModal from './../../ContractManagemenrt/ContractSettings/contractpayment/contractpaymentModal';
+import ContractType from './../../Menu/menusavedata';
+
+class Expenduture extends Component {
   constructor(props) {
     super(props);
 
     this.replaceModalItem = this.replaceModalItem.bind(this);
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
+      value: this.props.location.state,
       fiscalyearid: this.props.fiscalyearid,
       fiscalyearname: this.props.fiscalyearname,
-      
+      fiscalyearid:0,
       revenuproductid: 0,
       revenuproductname: "",
+      projecttypeid:0,
+      projecttypename:"",
       totaldeposit: 0,
-      currencyid:0,
-      currencyname:"",
-      activeon:"",
+      fiscalyearcontracttypeid:0,
+       contracttypename:"",
       sources: [],
       services: [],
       revprod: [],
@@ -53,7 +60,9 @@ class RevenuCorrection extends Component {
   }
   async populateBanks() {
     try {
-      if (this.state.fiscalyearid === 0) {
+      const { state } = this.props.location;
+      
+      if (state.fiscalyearid === 0) {
         const { data: fiscalyear } = await FiscalYear.getFiscalyears();
         this.setState({ fiscalyear });
         const fiscalyearid = [];
@@ -67,51 +76,42 @@ class RevenuCorrection extends Component {
           fiscalyearname.push(fiscalyear.fiscalyear);
         });
         this.setState({ fiscalyearname: fiscalyearname[0] });
-        const { data } = await RevProdData.getrevenupaymentByFiscalyear(
-          fiscalyearid[0]
+        const { data } = await FiscalYearContractTypeData.getfiscalyearcontracttypeByfiscalyearId(
+          this.state.fiscalyearid
         );
         const revprods = [
-          { revenuepaymentid: 0, revenueproductname: "All Products" },
+          { fiscalyearcontracttypeid: 0, contracttypename: "All Types" },
           ...data,
         ];
         this.setState({ revprods });
-      } else {
-        const { data: fiscalyear } = await FiscalYear.getFiscalyears();
-        this.setState({ fiscalyear });
-        const { data } = await RevProdData.getrevenupaymentByFiscalyear(
-           this.state.fiscalyearid
+      }else {
+        
+        const { data } = await FiscalYearContractTypeData.getfiscalyearcontracttypeByfiscalyearId(
+           state.fiscalyearid
         );
         const revprods = [
-          { revenuepaymentid: 0, revenueproductname: "All Products" },
+          { fiscalyearcontracttypeid: 0, contracttypename: "All Types" },
           ...data,
         ];
         this.setState({ revprods });
         
       }
+      this.setState(state.fiscalyearid)
     } catch (ex) {
       toast.error("current user data Loading issues......" + ex);
     }
   }
   async componentDidMount() {
     try {
+      const { state } = this.props.location;
       await this.populateBanks();
-      const { data: sources } = await Source.getrevenucorrectionByFiscalYearID(
-        this.state.fiscalyearid
+      
+      const { data: sources } = await Contractpayment.getcontractpaymentByFiscalyear(
+        state.fiscalyearid
       );
       this.setState({ sources });
 
-      const deposit = [];
-      const amount = 0;
-      const deplist = sources.map((sources) => {
-        deposit.push(sources.deposit);
-      });
-
-      this.setState({
-        totaldeposit: deposit.reduce(
-          (accumulator, currentValue) => accumulator + currentValue,
-          0
-        ),
-      });
+      
     } catch (ex) {
       return toast.error(
         "An Error Occured, while fetching role data Please try again later" + ex
@@ -131,19 +131,13 @@ class RevenuCorrection extends Component {
   };
   handleselect = (revprod) => {
     this.setState({ selectedrole: revprod, searchQuery: "", currentPage: 1 });
-    const revenuproduct = JSON.stringify(revprod.revenuepaymentid);
-    const revenuproducts = JSON.stringify(revprod.revenueproductname);
-    const currencyid = JSON.stringify(revprod.currencyid);
-    const currencyname = JSON.stringify(revprod.currencyname);
-    const activeon = JSON.stringify(revprod.activeon);
+    const revenuproduct = JSON.stringify(revprod.fiscalyearcontracttypeid);
+    const revenuproducts = JSON.stringify(revprod.contracttypename);
     this.setState({
-      revenuproductid: revenuproduct,
-      revenuproductname: revenuproducts,
-      currencyid: currencyid,
-      currencyname: currencyname,
-      activeon: activeon,
+      fiscalyearcontracttypeid: revenuproduct,
+      contracttypename: revenuproducts
     });
-  };
+  }; 
   getPagedData = () => {
     const {
       pageSize,
@@ -158,7 +152,7 @@ class RevenuCorrection extends Component {
     if (searchQuery)
       filtered = allsources.filter(
         (m) =>
-          m.revenueproductname
+          m.contracttypename
             .toLowerCase()
             .startsWith(searchQuery.toLowerCase()) ||
           m.paymentmodename
@@ -182,9 +176,9 @@ class RevenuCorrection extends Component {
             .startsWith(searchQuery.toLowerCase()) ||
           m.poref.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
-    else if (selectedrole && selectedrole.revenuepaymentid)
+    else if (selectedrole && selectedrole.fiscalyearcontracttypeid)
       filtered = allsources.filter(
-        (m) => m.revenuepaymentid === selectedrole.revenuepaymentid
+        (m) => m.fiscalyearcontracttypeid === selectedrole.fiscalyearcontracttypeid
       );
     ///////////////////////////////////////////
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
@@ -198,12 +192,7 @@ class RevenuCorrection extends Component {
     });
   }
 
-  async fiscalyearidHandler(e) {
-    this.setState({ fiscalyearid: e.target.value });
-    await this.componentDidMount();
-    console.log("current fiscayear:" + this.state.fiscalyearid);
-    this.setState({ fiscalyearname: " "});
-  }
+ 
 
   saveModalDetails(sources) {
     const requiredItem = this.state.requiredItem;
@@ -212,34 +201,7 @@ class RevenuCorrection extends Component {
     this.setState({ sources: tempbrochure });
   }
 
-  async deleteItem(RevenueCorrectionId) {
-    //const { user } = this.state;
-
-    try {
-      if (!RevenueCorrectionId) {
-        toast.info(`the Revenue Correction you selected  doesnot exist`);
-      } else {
-        await Source.deleterevenucorrection(RevenueCorrectionId);
-        toast.success(`this revenu Correction has been deleted successful`);
-      }
-    } catch (ex) {
-      if (ex.response && ex.response.status === 400) {
-        const errors = { ...this.state.errors };
-        errors.rolename = ex.response.data;
-        toast.error("Error:" + errors.rolename);
-        this.setState({ errors });
-      } else if (ex.response && ex.response.status === 409) {
-        const errors = { ...this.state.errors };
-        errors.rolename = ex.response.data;
-        toast.error("Error:" + errors.rolename);
-        this.setState({ errors });
-      } else {
-        toast.error(
-          "An Error Occured, while saving revenu Correction Please try again later"
-        );
-      }
-    }
-  }
+  
 
   render() {
     const { length: count } = this.state.sources;
@@ -253,17 +215,16 @@ class RevenuCorrection extends Component {
 
     const { totalCount, data: sources } = this.getPagedData();
     const countproduct = this.state.revenuproductid;
-    const fiscalyear = this.state.fiscalyear;
     const brochure = sources.map((sources, index) => {
       return (
-        <tr key={sources.revenuecorrectionid}>
-          <td>{sources.revenueproductname}</td>
-          <td>{sources.bordername}</td>
-          <td>{sources.sourceoffundname}</td>
+        <tr key={sources.contractid}>
+          <td>{sources.refnumber}</td>
+          <td>{sources.status}</td>
+          <td>{sources.contractbudget}</td>
           {/*<td>{sources.accountnumber}</td>
           <td>{sources.bankname}</td>*/}
-          <td>{sources.correctiondate}</td>
-          <td>{sources.deposit}</td>
+          <td>{sources.contractorstartdate}</td>
+          <td>{sources.contractorenddate}</td>
         </tr>
       );
     });
@@ -293,45 +254,7 @@ class RevenuCorrection extends Component {
           ></Col>
           <Card className=" shadow border-0">
             <CardHeader className="bg-transparent ">
-              <div
-                data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
-                className="rectangle9"
-              >
-                <div
-                  data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
-                  className="revPr"
-                >
-                  <div className="row">
-                    <big style={{ fontSize: 48 }}>revenu collection</big>
-                  </div>
-                  <div className="row">
-                    @{this.state.revenuproductname}
-                    {"- on fiscay Year - "}
-                    {""}
-                    <small>{this.state.fiscalyearname}</small> <br />
-                  </div>
-                </div>
-                <div
-                  data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
-                  className="revsum"
-                >
-                  Total revenu collected{" "}
-                  <big style={{ fontSize: 28 }}>
-                    {" "}
-                    {new Intl.NumberFormat().format(this.state.totaldeposit) +
-                      " " +
-                      "Rwf"}
-                  </big>
-                </div>
-              </div>
-              <svg
-                data-layer="503cdd18-2d99-4021-824e-3d8e0cce609d"
-                preserveAspectRatio="none"
-                viewBox="0 0 82 83"
-                className="ellipse3"
-              >
-                <FcCurrencyExchange />
-              </svg>
+              
               <div className="btn-wrapper text-center"></div>
             </CardHeader>
             <CardBody className="px-lg-5 py-lg-5">
@@ -343,8 +266,8 @@ class RevenuCorrection extends Component {
                   <div className="card" style={{ height: 380 }}>
                     <ListGroup
                       items={this.state.revprods}
-                      textProperty="revenueproductname"
-                      valueProperty="revenuepaymentid"
+                      textProperty="contracttypename"
+                      valueProperty="fiscalyearcontracttypeid"
                       selectedItem={this.state.selectedrole}
                       onItemSelect={this.handleselect}
                     />
@@ -378,9 +301,6 @@ class RevenuCorrection extends Component {
                                   revenuproductid: this.state.revenuproductid,
                                   revenuproductname:
                                     this.state.revenuproductname,
-                                  currencyid: this.state.currencyid,
-                                  currencyname: this.state.currencyname,
-                                  activeon: this.state.activeon,
                                 },
                               }}
                               className="btn btn-success"
@@ -389,9 +309,7 @@ class RevenuCorrection extends Component {
                               AddRevenu
                             </NavLink>
                           )}
-                          {console.log(
-                            `revenuproductid:${this.state.revenuproductid} revenuproductname${this.state.revenuproductname}`
-                          )}
+                         
 
                           <div style={{ textAlign: "center" }}>
                             <SearchBox
@@ -403,13 +321,13 @@ class RevenuCorrection extends Component {
                             <table className="table">
                               <thead>
                                 <tr>
-                                  <th>RevenueProductname</th>
-                                  <th>Nation border</th>
-                                  <th>SourceofFundname</th>
+                                  <th>RefNumber</th>
+                                  <th>Status</th>
+                                  <th>Amount</th>
                                   {/*} <th>AccountNumber</th>
                                 <th>Bankname</th>*/}
-                                  <th>Service Period</th>
-                                  <th>Deposit</th>
+                                  <th>Start date</th>
+                                  <th>End Date</th>
                                 </tr>
                               </thead>
                               <tbody>{brochure}</tbody>
@@ -435,4 +353,4 @@ class RevenuCorrection extends Component {
   }
 }
 
-export default RevenuCorrection;
+export default Expenduture;

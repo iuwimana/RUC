@@ -3,6 +3,8 @@ import apiUrl from "../../config.json";
 import { toast } from "react-toastify";
 const apiEndpoint = apiUrl.apiUrl + "/contractpayment/contractpayment";
 const apiEndpoints = apiUrl.apiUrl + "/contractpayment/contractpayments";
+const paymentapiEndpoints = apiUrl.apiUrl + "/contractpayment/fiscalyearcontractpayment";
+
 const apiEndpointreport = apiUrl.apiUrl + "/contractpayment/contractpaymentreport";
 
 export async function getcontractpayments() {
@@ -18,6 +20,16 @@ export async function getcontractpayments() {
 export async function getcontractpaymentBycontract(contractid) {
   try {
     return await http.post(apiEndpoints, {contractid});
+  } catch (ex) {
+    return toast.error(
+      "An Error Occured, while fetching contractpayment data, Please try again later" +
+        ex
+    );
+  }
+}
+export async function getcontractpaymentByFiscalyear(fiscalyearid) {
+  try {
+    return await http.post(paymentapiEndpoints, {fiscalyearid});
   } catch (ex) {
     return toast.error(
       "An Error Occured, while fetching contractpayment data, Please try again later" +

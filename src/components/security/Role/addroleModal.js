@@ -101,7 +101,7 @@ isSystemRoleHandler(e) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Add Role
+                Add Roles
               </h5>
               <button
                 type="button"

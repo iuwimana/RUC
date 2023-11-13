@@ -4,6 +4,14 @@ import { toast } from "react-toastify";
 const apiEndpoint = apiUrl.apiUrl + "/securable/securable";
 const permissionapiEndpoint = apiUrl.apiUrl + "/rolepermission/rolepermission";
 const permissionapiEndpoints = apiUrl.apiUrl + "/rolepermission/rolepermissions";
+const revenucollectionapiEndpoints = apiUrl.apiUrl + "/securable/revenucollection";
+const revenucollectionsapiEndpoints = apiUrl.apiUrl + "/securable/revenucollectionsecurables";
+const planingapiEndpoints = apiUrl.apiUrl + "/securable/planingsecurable";
+const planingsapiEndpoints = apiUrl.apiUrl + "/securable/planingsecurables";
+const conractapiEndpoints = apiUrl.apiUrl + "/securable/contractsecurable";
+const contractsapiEndpoints = apiUrl.apiUrl + "/securable/contractsecurables";
+const revenucollectionsaddapiEndpoints = apiUrl.apiUrl + "/rolepermission/userpermission";
+
 const apiEndpointaudit = apiUrl.apiUrl + "/securable/audit";
 
 export async function getsecurables() {
@@ -68,8 +76,72 @@ export async function addsecurables(SecurableID,SecurableName) {
   }
 }
  
-   
+ ////////////////////////////revenucollection securables
+ export async function getrevenucollectionsecurable(userid) {
+  try {
+    return await http.post(revenucollectionapiEndpoints,{userid});
+  } catch (ex) {
+    return null;
+  }
+}
+ export async function getrevenucollectionsecurables() {
+  try {
+    return await http.get(revenucollectionsapiEndpoints,{});
+  } catch (ex) {
+    return null;
+  }
+}
+
+export async function addrevenucollectionsecurables(userpermissionid, userid, securableid, canaccess, cancreate, canview, canmodify, candelete, canexecute) {
+  try {
+    
+  
+     await http.post(revenucollectionsaddapiEndpoints,{userpermissionid, userid, securableid, canaccess, cancreate, canview, canmodify, candelete, canexecute});
+    
+  } catch (ex) {
+    return toast.error("An Error Occured, while saving securable Please try again later" + ex );;
+  }
+}
+ 
+ /////////////////////////////////END revenucollection securables
+
+ ////////////////////////////Planing securables
+ export async function getplaningsecurable(userid) {
+  try {
+    return await http.post(planingapiEndpoints,{userid});
+  } catch (ex) {
+    return null;
+  }
+}
+ export async function getplaningsecurables() {
+  try {
+    return await http.get(planingsapiEndpoints,{});
+  } catch (ex) {
+    return null;
+  }
+}
 
 
+ 
+ /////////////////////////////////END Planing securables 
+ ////////////////////////////contract securables
+ export async function getcontractsecurable(userid) {
+  try {
+    return await http.post(conractapiEndpoints,{userid});
+  } catch (ex) {
+    return null;
+  }
+}
+ export async function getcontractsecurables() {
+  try {
+    return await http.get(contractsapiEndpoints,{});
+  } catch (ex) {
+    return null;
+  }
+}
+
+
+ 
+ /////////////////////////////////END contract securables
 
  

@@ -26,27 +26,27 @@ import {
   FcUnlock,
 } from "react-icons/fc";
 import { BiSolidShoppingBag } from "react-icons/bi";
-import * as FisclaYearData from "../services/RMFPlanning/fiscalYearService";
+import * as FisclaYearData from "../../services/RMFPlanning/fiscalYearService";
 import { MdPermContactCalendar, MdManageAccounts } from "react-icons/md";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Dropdown, DropdownButton } from "react-bootstrap";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { ExpendableButton } from "../components/ContractManagemenrt/ContractSettings/contractor/ExpendableButton";
+import { ExpendableButton } from "../../components/ContractManagemenrt/ContractSettings/contractor/ExpendableButton";
 import { FcPlus, FcSynchronize } from "react-icons/fc";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { toast } from "react-toastify";
-import useOpenController from "../components/ContractManagemenrt/ContractSettings/contractor/Hooks/useOpenController";
-import * as Contract from "../services/ContractManagement/ContractSetting/contractservice";
+import useOpenController from "../../components/ContractManagemenrt/ContractSettings/contractor/Hooks/useOpenController";
+import * as Contract from "../../services/ContractManagement/ContractSetting/contractservice";
 import { BiSubdirectoryRight } from "react-icons/bi";
-import * as ContractType from "../services/ContractManagement/ContractSetting/contractTypeService";
+import * as ContractTypeData from "../../services/ContractManagement/ContractSetting/contractTypeService";
 import { DiSqllite } from "react-icons/di";
 import { FaHandPointRight } from "react-icons/fa";
 import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import * as FiscalYear from "../services/RMFPlanning/fiscalYearService";
-import * as FiscalYearContractType from "../services/ContractManagement/ContractSetting/Fiscalyearcontracttypeservice";
-import * as Projectdata from "../services/ContractManagement/ContractSetting/projectservice";
+import * as FiscalYear from "../../services/RMFPlanning/fiscalYearService";
+import * as FiscalYearContractType from "../../services/ContractManagement/ContractSetting/Fiscalyearcontracttypeservice";
+import * as Projectdata from "../../services/ContractManagement/ContractSetting/projectservice";
 
-import "../home.css";
+
 
 const ContractType = ({ user }) => {
   const { isOpen, toggle } = useOpenController(false);
