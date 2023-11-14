@@ -173,6 +173,7 @@ class RevenuCorrectionsupload extends Component {
     try {
       // e.preventDefault();
       const RevenueCorrectionId = 0;
+      const borderid=2;
       let loadData = this.state.loadData;
       const Values = this.state.Values;
       const data = this.state;
@@ -188,10 +189,10 @@ class RevenuCorrectionsupload extends Component {
         loadData = [...loadData, ParsedData[country]];
       }
        
-      if (data.borderid && this.state.revenuproductid && loadData) {
+      if (borderid && this.state.revenuproductid && loadData) {
         await Correction.addrevenucorrection(
           RevenueCorrectionId,
-          data.borderid,
+          borderid,
           this.state.revenuproductid,
           loadData
         );
@@ -295,6 +296,7 @@ class RevenuCorrectionsupload extends Component {
                     </div>
                   </div>
                 </div>
+                {/** 
                 <div className="mb-3">
                   <div className="row">
                     <div className="col">
@@ -324,6 +326,7 @@ class RevenuCorrectionsupload extends Component {
                     </div>
                   </div>
                 </div>
+                */}
               </div>
               <br />
               <br />
@@ -331,7 +334,7 @@ class RevenuCorrectionsupload extends Component {
                 <Card className=" shadow border-0">
                   <CardHeader className="bg-transparent ">
                     <small>
-                      <div style={{ textAlign: "center",color:"red" }}>
+                      <div style={{ textAlign: "center", color: "red" }}>
                         The Exchenge rate is not Update, Please go on Current to
                         update
                       </div>

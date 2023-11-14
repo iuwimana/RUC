@@ -48,9 +48,22 @@ class AddroleModal extends Form {
   nameHandler(e) {
     this.setState({ name: e.target.value });
   }
+   getDomainFromEmail(email) {
+      var regex = /@([^\s@]+)/;
+      var matches = email.match(regex);
+      if (matches && matches.length > 1) {
+        return matches[1];
+      }
+      return null;
+    }
 
   handleClick = async (e) => {
     try {
+      var domain = this.getDomainFromEmail(this.state.username);
+      if(domain!=='rmf.gov.rw'){
+      toast.error(`domain you use:${domain}  is not RMF Domain(rmf.gov.rw)`)
+     } else{
+         
       const response = await userService.register(
         this.state.username,
         this.state.password,
@@ -58,11 +71,14 @@ class AddroleModal extends Form {
       );
       // auth.loginWithJwt(response.headers["x-auth-token"]);
       window.location = "/";
+      
       toast.success(`user  has been updated successful:
        username: ${this.state.username},
        password: ${this.state.password},
        name: ${this.state.name},IdNumber:${this.state.IdNumber}
         `);
+        }
+        
     } catch (ex) {
       if (ex.response) {
         const errors = { ...this.state.errors };
@@ -95,7 +111,7 @@ class AddroleModal extends Form {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Add User
+                Add Users
               </h5>
               <button
                 type="button"

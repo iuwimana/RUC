@@ -555,11 +555,17 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                         </NavLink>
                       </div>
 
-                      {/** 
                       <div class="row">
                         <NavLink
                           className="nav-item nav-link"
-                          to="/revenu/home"
+                          
+                          to={{
+                            pathname: "/revenu/dashboard",
+                            state: {
+                              fiscalyearid: fiscalyearid,
+                              fiscalyearname: fiscalyearname,
+                            },
+                          }}
                         >
                           <div class="col">
                             <i className="ni ni-key-25" />
@@ -569,7 +575,6 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                           </div>
                         </NavLink>
                       </div>
-                      */}
                     </td>
                   </tr>
                 </>

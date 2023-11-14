@@ -17,10 +17,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SearchBox from "../../searchBox";
 import { FcPlus } from "react-icons/fc";
 import _ from "lodash";
-import './collection.css'
+
 import ListGroup from './../../common/listGroup';
 
-class RevenuCorrection extends Component {
+class RevenuDashboard extends Component {
   constructor(props) {
     super(props);
 
@@ -337,10 +337,10 @@ class RevenuCorrection extends Component {
             <CardBody className="px-lg-5 py-lg-5">
               <div className="row">
                 <div className="col-3">
-                  <br />
-                  <br />
-                  <br />
+                  
                   <div className="card" style={{ height: 380 }}>
+                    
+                  </div>
                     <ListGroup
                       items={this.state.revprods}
                       textProperty="revenueproductname"
@@ -348,81 +348,11 @@ class RevenuCorrection extends Component {
                       selectedItem={this.state.selectedrole}
                       onItemSelect={this.handleselect}
                     />
-                  </div>
+                  
                 </div>
                 <div className="col">
-                  <div>
-                    <div>
-                      {count === 0 && (
-                        <>
-                          {countproduct && countproduct !== "0" && (
-                            <Link
-                              to="/revenu/upload"
-                              className="btn btn-success"
-                            >
-                              <FcPlus /> AddRevenu
-                            </Link>
-                          )}
-                          <p>
-                            There are revenu correction Payment in Database.
-                          </p>
-                        </>
-                      )}
-                      {count !== 0 && (
-                        <>
-                          {countproduct && countproduct !== "0" && (
-                            <NavLink
-                              to={{
-                                pathname: "/revenu/upload",
-                                state: {
-                                  revenuproductid: this.state.revenuproductid,
-                                  revenuproductname:
-                                    this.state.revenuproductname,
-                                  currencyid: this.state.currencyid,
-                                  currencyname: this.state.currencyname,
-                                  activeon: this.state.activeon,
-                                },
-                              }}
-                              className="btn btn-success"
-                            >
-                              <FcPlus />
-                              AddRevenu
-                            </NavLink>
-                          )}
-                          {console.log(
-                            `revenuproductid:${this.state.revenuproductid} revenuproductname${this.state.revenuproductname}`
-                          )}
+                  <div className="card" style={{ height: 380 }}>
 
-                          <div style={{ textAlign: "center" }}>
-                            <SearchBox
-                              value={searchQuery}
-                              onChange={this.handleSearch}
-                            />
-                          </div>
-                          <div className="table-responsive mb-5">
-                            <table className="table">
-                              <thead>
-                                <tr>
-                                  <th>RevenueProductname</th>
-                                  <th>Account name</th>
-                                   <th>AccountNumber</th>
-                                   <th>Bankname</th>
-                                  <th>Service Period</th>
-                                  <th>Deposit</th>
-                                </tr>
-                              </thead>
-                              <tbody>{brochure}</tbody>
-                            </table>
-                          </div>
-                        </>
-                      )}
-                      <Pagination
-                        itemsCount={totalCount}
-                        pageSize={pageSize}
-                        currentPage={currentPage}
-                        onPageChange={this.handlePageChange}
-                      />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -434,4 +364,4 @@ class RevenuCorrection extends Component {
   }
 }
 
-export default RevenuCorrection;
+export default RevenuDashboard;

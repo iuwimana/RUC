@@ -91,6 +91,8 @@ import Paterner from "./components/revenueCorrection/paternerService/paternerSer
 import ServicePayment from "./components/revenueCorrection/servicePayment/servicePayment";
 import PaternerServicePayment from "./components/revenueCorrection/paternerServicePayment/paternerServicePayment";
 import Expenduture from "./components/revenueCorrection/Expenduture/expenduture";
+import RevDashboard from "./components/revenueCorrection/RevenuDashbord/revenudashboard";
+
 //-----------------------------planing
 import Program from "./components/rmfplannings/Program/program";
 import ProgramTable from "./components/rmfplannings/Program/programTable";
@@ -265,6 +267,7 @@ class Welcome extends Component {
                       <Route path="/revenu/revenuproduct" component={Product} />
                       <Route path="/revenu/expenduture" component={Expenduture} />
                       
+                      
                       {/*<Route path="/revenu/revenupayment" component={Payment} />*/}
 
                       <Route
@@ -295,6 +298,11 @@ class Welcome extends Component {
                         )}
                         
                       />
+                      <Route path="/revenu/dashboard" 
+                      render={() => (
+                        <RevDashboard  fiscalyearid={this.state.fiscalyearid} fiscalyearname={this.state.fiscalyearname} />
+                        )}
+                     />
                       <Route
                         path="/revenu/viewpaternerservicepayment"
                         component={ViewPayment}
