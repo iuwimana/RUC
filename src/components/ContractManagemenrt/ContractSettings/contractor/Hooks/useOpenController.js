@@ -4,6 +4,8 @@ export default function useOpenController(initialState) {
   const [isOpen, setOpenState] = useState(initialState);
   const [isOpenrec, setOpenrecState] = useState(initialState);
   const [isOpenplan, setOpenplanState] = useState(initialState);
+  const [isOpenapproval ,setOpenapproval]=useState(initialState);
+  const [isOpenapprovalcontract ,setOpenapprovalcontract]=useState(initialState);
   const [isOpencont, setOpencontState] = useState(initialState);
   const [isOpenfiscalyear, setOpenfiscalyearState] = useState(initialState);
   const[isOpencontracttype,setOpencontracttypeState]= useState(initialState);
@@ -15,7 +17,14 @@ export default function useOpenController(initialState) {
    const[isOpenlookcontr,setOpenlookcontrState]= useState(initialState);
    
 
-   
+   const toggleapprovalcontract=useCallback(()=>{
+    setOpenapprovalcontract((state)=>!state);
+   },[setOpenapprovalcontract]);
+
+   const toggleapproval=useCallback(()=>{
+    setOpenapproval((state)=>!state);
+   },[setOpenapproval]);
+
     const togglelookcoll = useCallback(() => {
     setOpenlookcollState((state) => !state);
   }, [setOpenlookcollState]);
@@ -63,7 +72,7 @@ export default function useOpenController(initialState) {
     setOpenprojectState((state) => !state);
   }, [setOpenprojectState]);
 
-  return { isOpen,isOpenrec,isOpenplan,isOpencont,isOpenfiscalyear,isOpencontracttype,isOpenproject,isOpenlookup,isOpensecurity,isOpenlookcoll,isOpenlookplan,isOpenlookcontr
-         , toggle,togglerec,toggleplan,toggleCont,togglefiscalyear,togglecontracttype,toggleproject,togglelookup ,togglesecurity,togglelookcoll,togglelookplan,togglelookcontr};  
+  return { isOpen,isOpenrec,isOpenplan,isOpencont,isOpenfiscalyear,isOpencontracttype,isOpenproject,isOpenlookup,isOpensecurity,isOpenlookcoll,isOpenlookplan,isOpenlookcontr,isOpenapproval,isOpenapprovalcontract, 
+    toggleapprovalcontract,toggleapproval, toggle,togglerec,toggleplan,toggleCont,togglefiscalyear,togglecontracttype,toggleproject,togglelookup ,togglesecurity,togglelookcoll,togglelookplan,togglelookcontr};  
 } 
 

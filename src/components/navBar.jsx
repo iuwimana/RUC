@@ -9,6 +9,7 @@ import {
   FcParallelTasks,
   FcComboChart,
 } from "react-icons/fc";
+import { FcApproval } from "react-icons/fc";
 import { FaPeopleCarry, FaRoad } from "react-icons/fa";
 import {
   FcFeedIn,
@@ -251,6 +252,10 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
   const { isOpenplan, toggleplan } = useOpenController(false);
   const { isOpencont, toggleCont } = useOpenController(false);
   const { isOpenfiscalyear, togglefiscalyear } = useOpenController(false);
+  const { isOpenapprovalcontract, toggleapprovalcontract } =
+    useOpenController(false);
+  const { isOpenapproval, toggleapproval } =
+    useOpenController(false);
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
   const { isOpenproject, toggleproject } = useOpenController(false);
   const { isOpenlookup, togglelookup } = useOpenController(false);
@@ -519,7 +524,6 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                           </div>
                         </NavLink>
                       </div>
-
                       <div class="row">
                         <NavLink
                           className="nav-item nav-link"
@@ -558,7 +562,6 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                       <div class="row">
                         <NavLink
                           className="nav-item nav-link"
-                          
                           to={{
                             pathname: "/revenu/dashboard",
                             state: {
@@ -625,7 +628,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                           </div>
                         </NavLink>
                       </div>
-                      {/** 
+
                       <div class="row">
                         <NavLink
                           className="nav-item nav-link"
@@ -665,7 +668,6 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                           </div>
                         </NavLink>
                       </div>
-                      */}
                     </td>
                   </tr>
                 </>
@@ -691,6 +693,22 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
               )}
               {isOpencont && (
                 <>
+                  <tr>
+                    <td colSpan="3">
+                      <NavLink
+                        className="nav-item nav-link"
+                        to="/contractmanagemenrt/administration"
+                      >
+                        <div class="col">
+                          <i className="ni ni-key-25" />
+                          <span className="nav-link-inner--text">
+                            <MdManageAccounts />
+                            &nbsp;Administration
+                          </span>
+                        </div>
+                      </NavLink>
+                    </td>
+                  </tr>
                   <tr>
                     <td colspan="3">
                       <div style={{ display: "inline-block" }}>
@@ -781,20 +799,119 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                       ))}
                     </>
                   )}
-                  <div class="row">
-                    <NavLink
-                      className="nav-item nav-link"
-                      to="/contractmanagemenrt/administration"
-                    >
-                      <div class="col">
-                        <i className="ni ni-key-25" />
-                        <span className="nav-link-inner--text">
-                          <MdManageAccounts />
-                          &nbsp;Administration
-                        </span>
+                  {/**---------------Approval */}
+                  <tr>
+                    <td colspan="3">
+                      <div style={{ display: "inline-block" }}>
+                        <FcApproval /> Approvals
                       </div>
-                    </NavLink>
-                  </div>
+                    </td>
+                    <td>
+                      {" "}
+                      <div className="whitespace-nowrap">
+                        <DiSqllite
+                          isOpenapproval={isOpenapproval}
+                          toggle={toggleapproval}
+                        />
+                        <ExpendableButton
+                          isOpenapproval={isOpenapproval}
+                          toggle={toggleapproval}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                  {isOpenapproval && (
+                    <>
+                      <tr>
+                        <td colspan="3">
+                          <div style={{ display: "inline-block" }}>
+                            <AiOutlineShop />
+                            &nbsp;Contracts
+                          </div>
+                        </td>
+                        <td>
+                          {" "}
+                          <div className="whitespace-nowrap">
+                            <DiSqllite
+                              isOpenapprovalcontract={isOpenapprovalcontract}
+                              toggle={toggleapprovalcontract}
+                            />
+                            <ExpendableButton
+                              isOpenapprovalcontract={isOpenapprovalcontract}
+                              toggle={toggleapprovalcontract}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                      {isOpenapprovalcontract && (
+                        <>
+                          <div class="row">
+                            <NavLink
+                              className="nav-item nav-link"
+                              to={{
+                                pathname:
+                                  "/ContractManagemenrt/approval/emmargency",
+                                state: { fiscalyearid: fiscalyearid }
+                              }}
+                            >
+                              <div class="col">
+                                <i className="ni ni-key-25" />
+                                <span className="nav-link-inner--text">
+                                  <AiOutlineShop />
+                                  &nbsp;Emmagency Contracts
+                                </span>
+                              </div>
+                            </NavLink>
+                          </div>
+                          <div class="row">
+                            <NavLink
+                              className="nav-item nav-link"
+                              to="/contractmanagemenrt/administration"
+                            >
+                              <div class="col">
+                                <i className="ni ni-key-25" />
+                                <span className="nav-link-inner--text">
+                                  <AiOutlineShop />
+                                  &nbsp;Framework Contracts
+                                </span>
+                              </div>
+                            </NavLink>
+                          </div>
+                        </>
+                      )}
+
+                      <div class="row">
+                        <NavLink
+                          className="nav-item nav-link"
+                          to="/contractmanagemenrt/administration"
+                        >
+                          <div class="col">
+                            <i className="ni ni-key-25" />
+                            <span className="nav-link-inner--text">
+                              <AiOutlineWeibo />
+                              &nbsp;Inspections
+                            </span>
+                          </div>
+                        </NavLink>
+                      </div>
+                      <div class="row">
+                        <NavLink
+                          className="nav-item nav-link"
+                          to="/contractmanagemenrt/administration"
+                        >
+                          <div class="col">
+                            <i className="ni ni-key-25" />
+                            <span className="nav-link-inner--text">
+                              <FcMoneyTransfer />
+                              &nbsp;Payments
+                            </span>
+                          </div>
+                        </NavLink>
+                      </div>
+                    </>
+                  )}
+
+                  {/**----------------------- */}
                 </>
               )}
               {canaccessSecurity && (
@@ -858,6 +975,19 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                             <span className="nav-link-inner--text">
                               <FcTodoList />
                               {""}Securables
+                            </span>
+                          </div>
+                        </NavLink>
+                      </div>
+                      <div class="row">
+                        <NavLink
+                          className="nav-item nav-link"
+                          to="/security/userapproval"
+                        >
+                          <div class="col">
+                            <span className="nav-link-inner--text">
+                              <FcApproval />
+                              User Approvals
                             </span>
                           </div>
                         </NavLink>

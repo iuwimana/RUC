@@ -226,24 +226,27 @@ class Securables extends Component {
               <div>
                 <div>
                   <SearchBox value={searchQuery} onChange={this.handleSearch} />
-                  <div style={{ textAlign: "center" }}></div>
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Securable name</th>
-                        <th>Role name</th>
-                        <th>Can view</th>
-                        <th>Can modify</th>
-                        <th>Can execute</th>
-                        <th>Can delete</th>
-                        <th>Can create</th>
-                        <th>Can access</th>
-                        
-                        <th>Set Role Permission</th>
-                      </tr>
-                    </thead>
-                    <tbody>{brochure}</tbody>
-                  </table>
+                  <div style={{ textAlign: "center" }}>
+                    <div className="table-responsive mb-5">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>Securable name</th>
+                            <th>Role name</th>
+                            <th>Can view</th>
+                            <th>Can modify</th>
+                            <th>Can execute</th>
+                            <th>Can delete</th>
+                            <th>Can create</th>
+                            <th>Can access</th>
+
+                            <th>Set Role Permission</th>
+                          </tr>
+                        </thead>
+                        <tbody>{brochure}</tbody>
+                      </table>
+                    </div>
+                  </div>
                   <AddModal />
 
                   <Modal

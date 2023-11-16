@@ -220,7 +220,7 @@ class PaternerService extends Component {
                         data-target="#exampleAddModal"
                       >
                         <FcPlus />
-                        Addsource
+                        AddNew
                       </button>
                       <p>There are no Paterner Service in Database.</p>
                       <AddModal />
@@ -234,7 +234,7 @@ class PaternerService extends Component {
                         data-target="#exampleAddModal"
                       >
                         <FcPlus />
-                        Addsource
+                        AddNew
                       </button>
 
                       <div style={{ textAlign: "center" }}>

@@ -5,6 +5,7 @@ const apiEndpoint = apiUrl.apiUrl + "/outcome/outcome";
 const apiEndpoints = apiUrl.apiUrl + "/outcome/outcomes";
 const apiEndpointpdf = apiUrl.apiUrl + "/outcome/create-pdf";
 const apiEndpointsap = apiUrl.apiUrl + "/outcome/outcomesap";
+const apiEndpointstatus = apiUrl.apiUrl + "/outcome/outcomestatus";
 //---------------------------------------------------------------------
 const apioutcomereport = apiUrl.apiUrl + "/outcome/outcomereport";
 const apioutputreport = apiUrl.apiUrl + "/outcome/outputreport";
@@ -134,6 +135,21 @@ export async function deleteoutcome(OutcomeId) {
     );
   }
 }
+
+export async function updateoutcomestatus(OutcomeId, statuse) {
+  try {
+    await http.post(apiEndpointstatus, {
+      OutcomeId,
+      statuse,
+    });
+  } catch (ex) {
+    return toast.error(
+      "An Error Occured, while changing outcome status of funds Please try again later" +
+        ex
+    );
+  }
+}
+
 export async function addoutcome(
   OutcomeId,
   SubProgramId,

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
+import { MdNotificationsActive } from "react-icons/md";
 import { toast } from "react-toastify";
 import * as auth from "../../../services/authService";
 import * as Outcome from "../../../services/RMFPlanning/outcomeService";
@@ -103,17 +104,16 @@ class Modal extends Component {
   render() {
     const paternerStatuses = this.state.paternerStatuses;
     const outcomes = this.state.outcomes;
-
+    const OutComeName =this.setState.OutComeName
+    const SubProgramName =this.state.SubProgramName
+    const ProgramName=this.state.ProgramName
      const brochure = outcomes.map((outcomes, index) => {
      
 
       return (
         
-        <tr key={outcomes.OutcomeId}>
-          <td>{outcomes.programname}
-          by {outcomes.outputname}
-           </td>
-          <td>{outcomes.subprogramname}</td>
+        <tr key={outcomes.OutcomeId} border={1}>
+          
           <td>{outcomes.outputname}</td>
           <td>{outcomes.indicatorname}</td>
           <td>{outcomes.baselinename}</td>
@@ -139,14 +139,17 @@ class Modal extends Component {
         role="dialog"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
-        size="xs"
-                      style={{ maxWidth: "7700px", width: "100%" }}
+        
       >
         <div className="modal-dialog" role="document"style={{ maxWidth: "7700px", width: "100%", height: "100%" }}>
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                RMFPlanning-View SAP
+                <div style={{alignItems: "left"}}>
+                RMFPlanning-View SAP<br/>
+                Program:{this.state.ProgramName}<br/>
+                Sub Program:{this.state.SubProgramName}
+                </div>
               </h5>
               <button
                 type="button"
@@ -159,11 +162,11 @@ class Modal extends Component {
             </div>
 
 
-            <table cellpadding="0" cellspacing="0" border={1}>
+            <div className="table-responsive mb-5">
+            <table className="table" cellpadding="0" cellspacing="0" border={1}>
                 
-                <tr class="heading">
-                   <td>Program</td>
-                   <td>Sub-Program</td>
+                <tr class="heading"border={1}>
+                   
                    <td>Output</td>
                    <td>Indicators </td>
                    <td>Baseline</td>
@@ -175,11 +178,18 @@ class Modal extends Component {
                    <td> Source of Fund</td>
                 </tr>
 
+               
                 <tr>
-                <td colspan="10">Outcome:{this.state.OutComeName}</td>
+                <td colspan="10"><b>Outcome:{this.state.OutComeName}</b></td>
+                <br/><br/>
                 </tr>
-                {brochure}
+                <tr></tr>
+                
+                  
+                  {brochure}
+                  
              </table>
+             </div>
                
 
             <div className="modal-footer">

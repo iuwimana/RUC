@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-//import Modal from './modal';
-//import AddModal from './addroleModal';
 import { Card, CardHeader, CardBody, Col } from "reactstrap";
 
 import { toast } from "react-toastify";
@@ -283,7 +281,7 @@ class Expenduture extends Component {
                               to="/revenu/upload"
                               className="btn btn-success"
                             >
-                              <FcPlus /> AddRevenu
+                              <FcPlus /> AddExpenduture
                             </Link>
                           )}
                           <p>
@@ -306,7 +304,7 @@ class Expenduture extends Component {
                               className="btn btn-success"
                             >
                               <FcPlus />
-                              AddRevenu
+                              AddExpenduture
                             </NavLink>
                           )}
                          

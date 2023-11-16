@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import Modal from "./modal";
 import AddModal from "./addroleModal";
+import Rejectionmsg from "./rejectionmsg";
 import { toast } from "react-toastify";
+import { MdNotificationsActive } from "react-icons/md";
 //import { Link } from "react-router-dom";
 import * as Source from "../../../services/RevenuRessources/sourceofFundsServices";
 import * as Business from "../../../services/RevenuRessources/businessPaternerServices";
 import * as Outcome from "../../../services/RMFPlanning/outcomeService";
-//import AddRole from "./addRole";
-//import History from "./history";
+
 import Pagination from "../../common/pagination";
 //import Form from "../common/form";
 import { Card, CardHeader, CardBody, Col } from "reactstrap";
@@ -24,6 +25,16 @@ class Sap extends Component {
     this.replaceModalItem = this.replaceModalItem.bind(this);
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
+      fiscalyear: "",
+      outcomename: "",
+      outcomeid: 0,
+      statuses: "",
+      outcomedescription: "",
+      subprogramname: "",
+      programname: "",
+
+      canapprov: true,
+      canreview: true,
       sources: [],
       business: [],
       outcome: [],
@@ -96,13 +107,63 @@ class Sap extends Component {
 
     return { totalCount: filtered.length, data: outcome };
   };
-  async replaceModalItem(index, FiscalYear, OutComeName, OutcomeId) {
+  handleapproval = async (outcomeid) => {
+    try {
+      const statuse = "Approved";
+      if (!outcomeid) {
+        toast.info(`the outcome you selected ${outcomeid} doesnot exist`);
+      } else {
+        await Outcome.updateoutcomestatus(outcomeid, statuse);
+        toast.success(`this outcome  has been Approved successful`);
+      }
+    } catch (ex) {
+      toast.error(`the Approval of this Outcome has been failed ${ex}`);
+    }
+  };
+
+  handlereview = async (outcomeid) => {
+    try {
+      const statuse = "Verified";
+      if (!outcomeid) {
+        toast.info(`the User you selected ${outcomeid} doesnot exist`);
+      } else {
+        await Outcome.updateoutcomestatus(outcomeid, statuse);
+        toast.success(`this outcome  has been reviewed successful`);
+      }
+    } catch (ex) {
+      toast.error(`the reviewed of this Outcome has been failed ${ex}`);
+    }
+  };
+  async replaceRejectedMsgItem(index, outcomeid, statuses) {
     this.setState({
       requiredItem: index,
+      outcomeid: outcomeid,
+      statuses: statuses,
+    });
+  }
+  async replaceModalItem(
+    index,
+    fiscalyear,
+    outcomename,
+    outcomeid,
+    statuses,
+    outcomedescription,
+    subprogramname,
+    programname
+  ) {
+    this.setState({
+      requiredItem: index,
+      fiscalyear: fiscalyear,
+      outcomename: outcomename,
+      outcomeid: outcomeid,
+      statuses: statuses,
+      outcomedescription: outcomedescription,
+      subprogramname: subprogramname,
+      programname: programname,
     });
 
     try {
-      await Outcome.addsappdf(FiscalYear, OutComeName, OutcomeId);
+      await Outcome.addsappdf(fiscalyear, outcomename, outcomeid);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -159,6 +220,8 @@ class Sap extends Component {
   }
 
   render() {
+    const canapprov = this.state.canapprov;
+    const canreview = this.state.canreview;
     const { length: count } = this.state.outcome;
     const { pageSize, currentPage, searchQuery } = this.state;
 
@@ -169,11 +232,9 @@ class Sap extends Component {
         <tr key={outcome.outcomeid}>
           {" "}
           <td>{outcome.outcomename}</td>
+          <td>{outcome.outcomedescription}</td>
           <td>{outcome.fiscalyear}</td>
           <td>{outcome.statuses}</td>
-          <td>{outcome.outcomedescription}</td>
-          <td>{outcome.subprogramname}</td>
-          <td>{outcome.programname}</td>
           <td>
             {" "}
             <button
@@ -183,9 +244,13 @@ class Sap extends Component {
               onClick={() =>
                 this.replaceModalItem(
                   index,
-                  outcome.FiscalYear,
-                  outcome.OutComeName,
-                  outcome.OutcomeId
+                  outcome.fiscalyear,
+                  outcome.outcomename,
+                  outcome.outcomeid,
+                  outcome.statuses,
+                  outcome.outcomedescription,
+                  outcome.subprogramname,
+                  outcome.programname
                 )
               }
             >
@@ -193,7 +258,46 @@ class Sap extends Component {
             </button>{" "}
           </td>
           <td>
-            <button className="btn btn-success">Approve</button>
+            {canapprov && outcome.statuses === "New" && (
+              <button
+                className="btn btn-success"
+                onClick={() => this.handlereview(outcome.outcomeid)}
+              >
+                Review
+              </button>
+            )}
+
+            {canreview && outcome.statuses === "Verified" && (
+              <button
+                className="btn btn-success"
+                onClick={() => this.handleapproval(outcome.outcomeid)}
+              >
+                Approval
+              </button>
+            )}
+          </td>
+          <td>
+            {outcome.statuses !== "Approved" && (
+              <button
+                className="btn btn-danger"
+                data-toggle="modal"
+                data-target="#exampleModalapprov"
+                onClick={() =>
+                  this.replaceRejectedMsgItem(
+                    index,
+                    outcome.outcomeid,
+                    outcome.statuses
+                  )
+                }
+              >
+                Reject
+              </button>
+            )}
+          </td>
+          <td>
+            <button className="btn btn-secondary">
+              <MdNotificationsActive />
+            </button>
           </td>
         </tr>
       );
@@ -249,34 +353,41 @@ class Sap extends Component {
                         onChange={this.handleSearch}
                       />
                     </div>
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th>outcomeName</th>
-                          <th>outcomeFiscalYear</th>
-                          <th>statuses</th>
-                          <th>outcomeDescription</th>
-                          <th>SubProgramName</th>
-                          <th>ProgramName</th>
-                          <th>View SAP</th>
-                          <th>Aproval</th>
-                        </tr>
-                      </thead>
-                      <tbody>{brochure}</tbody>
-                    </table>
+                    <div className="table-responsive mb-5">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>Outcome</th>
+                            <th>Outcome description</th>
+                            <th>Fiscal year</th>
+                            <th>statuses</th>
+
+                            <th>View SAP</th>
+                            <th>Aproval</th>
+                            <th>Reject</th>
+                            <th>Reject Msg</th>
+                          </tr>
+                        </thead>
+                        <tbody>{brochure}</tbody>
+                      </table>
+                    </div>
                     <Modal
-                      
-                      OutcomeId={modalData.outcomeid}
-                      OutComeName={modalData.outcomename}
-                      FiscalYear={modalData.fiscalyear}
-                      statuses={modalData.statuses}
-                      OutcomeDescription={modalData.outcomedescription}
-                      SubProgramName={modalData.subprogramname}
-                      ProgramName={modalData.programname}
+                      OutcomeId={this.state.outcomeid}
+                      OutComeName={this.state.outcomename}
+                      FiscalYear={this.state.fiscalyear}
+                      statuses={this.state.statuses}
+                      OutcomeDescription={this.state.outcomedescription}
+                      SubProgramName={this.state.subprogramname}
+                      ProgramName={this.state.programname}
                       saveModalDetails={this.saveModalDetails}
+                    />
+                    <Rejectionmsg
+                      outcomeid={this.state.outcomeid}
+                      statuses={this.state.statuses}
                     />
                   </>
                 )}
+
                 <Pagination
                   itemsCount={totalCount}
                   pageSize={pageSize}

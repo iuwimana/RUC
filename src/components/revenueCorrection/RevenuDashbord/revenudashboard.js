@@ -8,9 +8,8 @@ import { Link, NavLink } from "react-router-dom";
 import * as Source from "../../../services/RevenuRessources/revenuCorrectionService";
 import * as RevProdData from "../../../services/RevenuRessources/revenuPaymentServices";
 import * as FiscalYear from "../../../services/RMFPlanning/fiscalYearService";
-import {
-  FcCurrencyExchange,
-} from "react-icons/fc";
+import { FcCurrencyExchange } from "react-icons/fc";
+import { MdDashboard } from "react-icons/md";
 import Pagination from "../../common/pagination";
 import { paginate } from "../../../utils/paginate";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -18,7 +17,8 @@ import SearchBox from "../../searchBox";
 import { FcPlus } from "react-icons/fc";
 import _ from "lodash";
 
-import ListGroup from './../../common/listGroup';
+import ListGroup from "./../../common/listGroup";
+import { async } from './../../../services/security/userServices';
 
 class RevenuDashboard extends Component {
   constructor(props) {
@@ -29,14 +29,18 @@ class RevenuDashboard extends Component {
     this.state = {
       fiscalyearid: this.props.fiscalyearid,
       fiscalyearname: this.props.fiscalyearname,
-      
+
       revenuproductid: 0,
+      revenueproductid: 0,
+      startdate: "1000-01-01 00:00:00",
+      enddate: "1000-01-01 00:00:00",
       revenuproductname: "",
       totaldeposit: 0,
-      currencyid:0,
-      currencyname:"",
-      activeon:"",
+      currencyid: 0,
+      currencyname: "",
+      activeon: "",
       sources: [],
+      narative: [],
       services: [],
       revprod: [],
       revprods: [],
@@ -71,7 +75,7 @@ class RevenuDashboard extends Component {
           fiscalyearid[0]
         );
         const revprods = [
-          { revenuepaymentid: 0, revenueproductname: "All Products" },
+          { revenuproductid: 0,revenuepaymentid: 0, revenueproductname: "All Products" },
           ...data,
         ];
         this.setState({ revprods });
@@ -79,14 +83,13 @@ class RevenuDashboard extends Component {
         const { data: fiscalyear } = await FiscalYear.getFiscalyears();
         this.setState({ fiscalyear });
         const { data } = await RevProdData.getrevenupaymentByFiscalyear(
-           this.state.fiscalyearid
+          this.state.fiscalyearid
         );
         const revprods = [
-          { revenuepaymentid: 0, revenueproductname: "All Products" },
+          { revenuproductid: 0,revenuepaymentid: 0, revenueproductname: "All Products" },
           ...data,
         ];
         this.setState({ revprods });
-        
       }
     } catch (ex) {
       toast.error("current user data Loading issues......" + ex);
@@ -94,11 +97,18 @@ class RevenuDashboard extends Component {
   }
   async componentDidMount() {
     try {
+      
       await this.populateBanks();
       const { data: sources } = await Source.getrevenucorrectionByFiscalYearID(
         this.state.fiscalyearid
       );
-      this.setState({ sources });
+      const { data: narative } =
+        await Source.getnarativedashboardrevenuecorrection(
+          this.state.revenueproductid,
+          this.state.startdate,
+          this.state.enddate,this.state.fiscalyearid
+        );
+      this.setState({ sources, narative });
 
       const deposit = [];
       const amount = 0;
@@ -129,20 +139,23 @@ class RevenuDashboard extends Component {
   handleSort = (sortColumn) => {
     this.setState({ sortColumn });
   };
-  handleselect = (revprod) => {
+  handleselect = async(revprod) => {
     this.setState({ selectedrole: revprod, searchQuery: "", currentPage: 1 });
     const revenuproduct = JSON.stringify(revprod.revenuepaymentid);
+    const revenuproductID = JSON.stringify(revprod.revenueproductid);
     const revenuproducts = JSON.stringify(revprod.revenueproductname);
     const currencyid = JSON.stringify(revprod.currencyid);
     const currencyname = JSON.stringify(revprod.currencyname);
     const activeon = JSON.stringify(revprod.activeon);
     this.setState({
-      revenuproductid: revenuproduct,
       revenuproductname: revenuproducts,
       currencyid: currencyid,
       currencyname: currencyname,
       activeon: activeon,
+      revenueproductid:revenuproduct
     });
+   // toast.success(revenuproduct)
+    await this. componentDidMount();
   };
   getPagedData = () => {
     const {
@@ -201,8 +214,8 @@ class RevenuDashboard extends Component {
   async fiscalyearidHandler(e) {
     this.setState({ fiscalyearid: e.target.value });
     await this.componentDidMount();
-    console.log("current fiscayear:" + this.state.fiscalyearid);
-    this.setState({ fiscalyearname: " "});
+    
+    this.setState({ fiscalyearname: " " });
   }
 
   saveModalDetails(sources) {
@@ -212,33 +225,13 @@ class RevenuDashboard extends Component {
     this.setState({ sources: tempbrochure });
   }
 
-  async deleteItem(RevenueCorrectionId) {
-    //const { user } = this.state;
-
-    try {
-      if (!RevenueCorrectionId) {
-        toast.info(`the Revenue Correction you selected  doesnot exist`);
-      } else {
-        await Source.deleterevenucorrection(RevenueCorrectionId);
-        toast.success(`this revenu Correction has been deleted successful`);
-      }
-    } catch (ex) {
-      if (ex.response && ex.response.status === 400) {
-        const errors = { ...this.state.errors };
-        errors.rolename = ex.response.data;
-        toast.error("Error:" + errors.rolename);
-        this.setState({ errors });
-      } else if (ex.response && ex.response.status === 409) {
-        const errors = { ...this.state.errors };
-        errors.rolename = ex.response.data;
-        toast.error("Error:" + errors.rolename);
-        this.setState({ errors });
-      } else {
-        toast.error(
-          "An Error Occured, while saving revenu Correction Please try again later"
-        );
-      }
-    }
+  async startdateHandler (e) {
+    this.setState({ startdate: e.target.value });
+    await this. componentDidMount();
+  }
+  async enddateHandler(e) {
+    this.setState({ enddate: e.target.value });
+    await this. componentDidMount();
   }
 
   render() {
@@ -250,7 +243,7 @@ class RevenuDashboard extends Component {
       searchQuery,
       sources: allsources,
     } = this.state;
-
+    const narative = this.state.narative;
     const { totalCount, data: sources } = this.getPagedData();
     const countproduct = this.state.revenuproductid;
     const fiscalyear = this.state.fiscalyear;
@@ -293,6 +286,15 @@ class RevenuDashboard extends Component {
           ></Col>
           <Card className=" shadow border-0">
             <CardHeader className="bg-transparent ">
+              <svg
+                data-layer="011e3a76-3eb0-4c45-9c29-b97247d10934"
+                preserveAspectRatio="none"
+                viewBox="-0.75 -0.75 83.5 84.5"
+                className="ellipse2"
+              >
+                <path d="M 41 0 C 63.6436767578125 0 82 18.58018493652344 82 41.5 C 82 64.41981506347656 63.6436767578125 83 41 83 C 18.35632514953613 83 0 64.41981506347656 0 41.5 C 0 18.58018493652344 18.35632514953613 0 41 0 Z" />
+              </svg>
+              <MdDashboard className="ellipse1" />
               <div
                 data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
                 className="rectangle9"
@@ -302,13 +304,17 @@ class RevenuDashboard extends Component {
                   className="revPr"
                 >
                   <div className="row">
-                    <big style={{ fontSize: 48 }}>revenu collection</big>
+                    <big style={{ fontSize: 22 }}>
+                      Narative Dashbord for revenu collection
+                    </big>
                   </div>
                   <div className="row">
-                    @{this.state.revenuproductname}
-                    {"- on fiscay Year - "}
-                    {""}
-                    <small>{this.state.fiscalyearname}</small> <br />
+                    {this.state.revenuproductname}
+                    {"Fiscal Year - "}
+                    {"  "}
+                    <small>{this.state.fiscalyearname + " "}</small> 
+                    {"  "}
+                    <br />
                   </div>
                 </div>
                 <div
@@ -324,23 +330,29 @@ class RevenuDashboard extends Component {
                   </big>
                 </div>
               </div>
-              <svg
-                data-layer="503cdd18-2d99-4021-824e-3d8e0cce609d"
-                preserveAspectRatio="none"
-                viewBox="0 0 82 83"
-                className="ellipse3"
-              >
-                <FcCurrencyExchange />
-              </svg>
-              <div className="btn-wrapper text-center"></div>
             </CardHeader>
-            <CardBody className="px-lg-5 py-lg-5">
+            <CardBody>
               <div className="row">
                 <div className="col-3">
-                  
-                  <div className="card" style={{ height: 380 }}>
-                    
+                  <div
+                    data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
+                    className="rectangle1"
+                  >
+                    collections:{this.state.revenuproductname}
+                    <svg
+                      data-layer="011e3a76-3eb0-4c45-9c29-b97247d10934"
+                      preserveAspectRatio="none"
+                      viewBox="-0.75 -0.75 83.5 84.5"
+                      className="ellipse2"
+                    >
+                      <path d="M 41 0 C 63.6436767578125 0 82 18.58018493652344 82 41.5 C 82 64.41981506347656 63.6436767578125 83 41 83 C 18.35632514953613 83 0 64.41981506347656 0 41.5 C 0 18.58018493652344 18.35632514953613 0 41 0 Z" />
+                    </svg>
+                    <div className="ellipse1">2</div>
                   </div>
+                  <div
+                    data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
+                    className="rectangle9"
+                  >
                     <ListGroup
                       items={this.state.revprods}
                       textProperty="revenueproductname"
@@ -348,11 +360,103 @@ class RevenuDashboard extends Component {
                       selectedItem={this.state.selectedrole}
                       onItemSelect={this.handleselect}
                     />
-                  
+                  </div>
                 </div>
                 <div className="col">
-                  <div className="card" style={{ height: 380 }}>
+                  <div
+                    data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
+                    className="rectangle3"
+                  >
+                    <div className="row">
+                      <div className="col">From</div>
+                      <div className="col">
+                        <input
+                          type="date"
+                          className="form-control"
+                          style={{ fontSize: 10 }}
+                          value={this.state.Value}
+                          onChange={(e) => this.startdateHandler(e)}
+                          placeholder="amount to be payed"
+                        />
+                      </div>
 
+                      <div className="col"> To</div>
+                      <div className="col">
+                        <input
+                          type="date"
+                          className="form-control"
+                          value={this.state.Value}
+                          style={{ fontSize: 10 }}
+                          onChange={(e) => this.enddateHandler(e)}
+                          placeholder="amount to be payed"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    data-layer="20c15a3f-13e0-4171-8397-666e3afce4eb"
+                    className="rectangle2"
+                  >
+                    <div className="cards">
+                      <div className="row">
+                        <div className="col">
+                          <label
+                            htmlFor="exampleFormControlInput1"
+                            className="form-label"
+                          >
+                            Total Collected
+                          </label>
+                        </div>
+                        <div className="col">
+                          {narative.map((narative) =>
+                            new Intl.NumberFormat().format(narative.totalamount)
+                          )}
+
+                          {"Rwf"}
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col">
+                          <label
+                            htmlFor="exampleFormControlInput1"
+                            className="form-label"
+                          >
+                            Account Number
+                          </label>
+                        </div>
+                        <div className="col">
+                          {narative.map((narative) =>
+                            narative.accountnumber
+                          )}
+
+                          
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col">
+                          <label
+                            htmlFor="exampleFormControlInput1"
+                            className="form-label"
+                          >
+                            Bank
+                          </label>
+                        </div>
+                        <div className="col">
+                          {narative.map((narative) =>
+                            narative.bankname
+                          )}
+                        </div>
+                      </div>
+
+                     {/**  <button
+                        type="button"
+                        className="btn btn-primaries"
+                        data-dismiss="modal"
+                        onClick={this.handleSave}
+                      >
+                        View More .....
+                      </button>*/}
+                    </div>
                   </div>
                 </div>
               </div>

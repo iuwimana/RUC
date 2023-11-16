@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Modal from "./modal";
-import ViewUserModal from "./ViewUsermodal";
-import AddModal from "./addroleModal";
+
+import AddModal from "./addRole";
 import { toast } from "react-toastify";
 //import { Link } from "react-router-dom";
-import * as Role from "../../../services/security/roleServices";
+import * as UserApprovalData from "../../../services/security/userapprovalservice";
 //import AddRole from "./addRole";
 //import History from "./history";
 import Pagination from "../../common/pagination";
@@ -18,13 +18,19 @@ import { FcPlus } from "react-icons/fc";
 import _ from "lodash";
 import { Card, CardHeader, CardBody, Col } from "reactstrap";
 
-class Roles extends Component {
+
+class UserApproval extends Component {
   constructor(props) {
     super(props);
 
     this.replaceModalItem = this.replaceModalItem.bind(this);
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
+      userapprovalid:0,
+      email:"",
+      userid :0,
+      approvallevel:"",
+      approvalitem:"",
       roles: [],
       users: [],
       currentPage: 1,
@@ -39,7 +45,7 @@ class Roles extends Component {
   }
   async componentDidMount() {
     try {
-      const { data: roles } = await Role.getRoles();
+      const { data: roles } = await UserApprovalData.getuserapprovals();
 
       this.setState({ roles });
     } catch (ex) {
@@ -74,8 +80,9 @@ class Roles extends Component {
     if (searchQuery)
       filtered = allroles.filter(
         (m) =>
-          m.rolename.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
-          m.description.toLowerCase().startsWith(searchQuery.toLowerCase())
+          m.email.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+          m.approvallevel.toLowerCase().startsWith(searchQuery.toLowerCase())||
+          m.approvalitem.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
     else if (selectedrole && selectedrole.roleid)
       filtered = allroles.filter((m) => m.role.roleid === selectedrole.roleid);
@@ -86,9 +93,14 @@ class Roles extends Component {
 
     return { totalCount: filtered.length, data: roles };
   };
-  replaceModalItem(index) {
+  replaceModalItem(index,userapprovalid,userid ,email,approvallevel,approvalitem) {
     this.setState({
       requiredItem: index,
+      userapprovalid:userapprovalid,
+      userid :userid ,
+      email:email,
+      approvallevel:approvallevel,
+      approvalitem:approvalitem
     });
   }
 
@@ -99,17 +111,19 @@ class Roles extends Component {
     this.setState({ roles: tempbrochure });
   }
 
-  async deleteItem(RoleID) {
-    //const { user } = this.state;
+  async deleteItem(userapprovalid) {
+    
 
     try {
-      if (!RoleID) {
-        toast.info(`the Role you selected ${RoleID} doesnot exist`);
+       
+      if (!userapprovalid) {
+        toast.info(`the userapproval you selected ${userapprovalid} doesnot exist`);
       } else {
-        await Role.deleteRole(RoleID);
+        await UserApprovalData.deleteuserapproval(userapprovalid);
         window.location.reload(false);
-        toast.success(`this Role has been deleted successful`);
+        toast.success(`this userapproval has been deleted successful`);
       }
+     
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -136,30 +150,27 @@ class Roles extends Component {
     if (count === 0) return <p>There are role in Database.</p>;
 
     const { totalCount, data: roles } = this.getPagedData();
-
+  
     const brochure = roles.map((roles, index) => {
       return (
-        <tr key={roles.roleid}>
+        <tr key={roles.userapprovalid}>
           {" "}
-          <td>{roles.rolename}</td>
-          <td>{roles.description}</td>
-          <td>{roles.issystemrole.toString()}</td>
-          <td>
-            <button
-              className="btn btn-secondary"
-              data-toggle="modal"
-              data-target="#exampleModalView"
-              onClick={() => this.replaceModalItem(index)}
-            >
-              <MdOutlineVisibility /> View
-            </button>{" "}
-          </td>
+          <td>{roles.email}</td>
+          <td>{roles.approvallevel}</td>
+          <td>{roles.approvalitem}</td>
+          
           <td>
             <button
               className="btn btn-primary"
               data-toggle="modal"
               data-target="#exampleModal"
-              onClick={() => this.replaceModalItem(index)}
+              onClick={() => this.replaceModalItem(index,
+                roles.userapprovalid,
+                roles.userid ,
+                roles.email,
+                roles.approvallevel,
+                roles.approvalitem
+                )}
             >
               <AiFillEdit /> Update
             </button>{" "}
@@ -167,7 +178,7 @@ class Roles extends Component {
           <td>
             <button
               className="btn btn-danger"
-              onClick={() => this.deleteItem(roles.roleid)}
+              onClick={() => this.deleteItem(roles.userapprovalid)}
             >
               <AiFillDelete /> Delete
             </button>
@@ -218,43 +229,36 @@ class Roles extends Component {
                     data-toggle="modal"
                     data-target="#exampleAddModal"
                   >
-                    <FcPlus /> AddRole
+                    <FcPlus /> AddApprovals
                   </button>
                   <SearchBox value={searchQuery} onChange={this.handleSearch} />
 
                   <div style={{ textAlign: "center" }}>
                   <div className="table-responsive mb-5">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th>RoleName</th>
-                          <th>Description</th>
-                          <th>IsSystemRole</th>
-                          <th>ViewRoleUser</th>
-                          <th>Update</th>
-                          <th>Delete</th>
-                        </tr>
-                      </thead>
-                      <tbody>{brochure}</tbody>
-                    </table>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>User email</th>
+                        <th>approvallevel</th>
+                        <th>Item to Approv</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>{brochure}</tbody>
+                  </table>
                   </div>
                   </div>
                   <AddModal />
-
                   <Modal
-                    roleid={modalData.roleid}
-                    rolename={modalData.rolename}
-                    description={modalData.description}
-                    isSystemRole={Boolean(modalData.issystemrole)}
+                    userapprovalid={this.state.userapprovalid}
+                    userid={this.state.userid}
+                    email={this.state.email}
+                    approvallevel={this.state.approvallevel}
+                    approvalitem={this.state.approvalitem}
                     saveModalDetails={this.saveModalDetails}
                   />
-                  <ViewUserModal
-                    roleid={modalData.roleid}
-                    rolename={modalData.rolename}
-                    description={modalData.description}
-                    isSystemRole={Boolean(modalData.issystemrole)}
-                    saveModalDetails={this.saveModalDetails}
-                  />
+                 
                   <Pagination
                     itemsCount={totalCount}
                     pageSize={pageSize}
@@ -271,4 +275,4 @@ class Roles extends Component {
   }
 }
 
-export default Roles;
+export default UserApproval;

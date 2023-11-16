@@ -1,5 +1,13 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Card, CardHeader, CardBody, Col, Row, Container, BreadcrumbItem } from "reactstrap";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Col,
+  Row,
+  Container,
+  BreadcrumbItem,
+} from "reactstrap";
 //import BarChart from "./components/charts/BarChart";
 //import LineChart from "./components/charts/LineChart";
 //import PieChart from "./components/charts/PieChart";
@@ -14,7 +22,7 @@ import * as BusinessData from "./services/RevenuRessources/businessPaternerServi
 import * as OutcomeData from "./services/RMFPlanning/outcomeService";
 import * as ContractorData from "./services/ContractManagement/ContractSetting/ContractorService";
 import "./home.css";
-import { TableRowOutcome } from './components/rmfplannings/Program/TableRowOutcome';
+import { TableRowOutcome } from "./components/rmfplannings/Program/TableRowOutcome";
 
 function Home() {
   //------------------------------------------
@@ -35,15 +43,15 @@ function Home() {
   const [fiscalyears, setfiscalyears] = useState([]);
 
   const [contractors, setcontractors] = useState([]);
-  const [contracts, setcontracts ] = useState([]);
-  const [serviceorders , setserviceorders ] = useState([]);
-  const [payments , setpayments ] = useState([]);
-  const [paymentinprogress , setpaymentinprogress ] = useState([]);
-  const [payedcontracts , setpayedcontracts ] = useState([]);
+  const [contracts, setcontracts] = useState([]);
+  const [serviceorders, setserviceorders] = useState([]);
+  const [payments, setpayments] = useState([]);
+  const [paymentinprogress, setpaymentinprogress] = useState([]);
+  const [payedcontracts, setpayedcontracts] = useState([]);
 
   //---------------------------------------contract settings
 
-  //setpayedcontracts 
+  //setpayedcontracts
   try {
     useEffect(() => {
       const fetchProgram = async () => {
@@ -56,7 +64,7 @@ function Home() {
     toast.error("An Error Occured.........." + ex);
   }
   //---------------------------------------
-  //setpaymentinprogress 
+  //setpaymentinprogress
   try {
     useEffect(() => {
       const fetchProgram = async () => {
@@ -69,7 +77,7 @@ function Home() {
     toast.error("An Error Occured.........." + ex);
   }
   //---------------------------------------
-    //setpayments 
+  //setpayments
   try {
     useEffect(() => {
       const fetchProgram = async () => {
@@ -82,7 +90,7 @@ function Home() {
     toast.error("An Error Occured.........." + ex);
   }
   //---------------------------------------
-  //setserviceorders 
+  //setserviceorders
   try {
     useEffect(() => {
       const fetchProgram = async () => {
@@ -95,7 +103,7 @@ function Home() {
     toast.error("An Error Occured.........." + ex);
   }
   //---------------------------------------
-    //setcontracts 
+  //setcontracts
   try {
     useEffect(() => {
       const fetchProgram = async () => {
@@ -2920,4 +2928,3 @@ function Home() {
   );
 }
 export default Home;
-

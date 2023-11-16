@@ -64,7 +64,7 @@ import Home from "./home";
 import NotFound from "./components/notFound";
 //-------------------security
 import LoginForm from "./components/security/loginForm";
-//import SecMenu from "./components/security/secmenu";
+import UserApproval from "./components/security/userApproval/userapproval";
 import RegisterForm from "./components/security/registerForm";
 import Logout from "./components/security/logout";
 import Roles from "./components/security/Role/roles";
@@ -100,6 +100,7 @@ import ViewSAP from "./components/rmfplannings/viewSAP/sap";
 //------------------------------------Contract Management
 import FiscalYearContractType from "./components/ContractManagemenrt/ContractSettings/contracttype/contracttype";
 import Project from "./components/ContractManagemenrt/ContractSettings/project/project";
+import EmmargencyApproval from "./components/ContractManagemenrt/contractApproval/emmargencyApproval/emmagencyApproval";
 
 //------------------------------------------------------------------------
 import road from "./components/ContractManagemenrt/RoadRefference/Road/road";
@@ -246,7 +247,8 @@ class Welcome extends Component {
                       <Route path="/security/addrole" component={AddRole} />
                       <Route path="/security/role" component={Roles} />
                       <Route path="/security/addrole" component={AddRole} />
-
+                      <Route path="/security/userapproval" component={UserApproval} />
+                       
                       <Route
                         path="/security/auditTrail"
                         component={AuditTrail}
@@ -265,8 +267,9 @@ class Welcome extends Component {
                       <Route path="/revenu/home" component={RevHome} />
                       <Route path="/revenu/sourceoffunds" component={Sources} />
                       <Route path="/revenu/revenuproduct" component={Product} />
+                       
                       <Route path="/revenu/expenduture" component={Expenduture} />
-                      
+                     
                       
                       {/*<Route path="/revenu/revenupayment" component={Payment} />*/}
 
@@ -341,6 +344,14 @@ class Welcome extends Component {
                         path="/ContractManagemenrt/contract/fiscalyearcontracttype"
                         component={FiscalYearContractType}
                       />
+                      
+                       <Route path="/ContractManagemenrt/approval/emmargency" 
+                      render={() => (
+                        <EmmargencyApproval  fiscalyearid={this.state.fiscalyearid}  />
+                        )}
+                     />
+
+                      
                       <Route
                         path="/ContractManagemenrt/contract/Project"
                         component={Project}

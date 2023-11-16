@@ -216,23 +216,26 @@ class Users extends Component {
                     data-toggle="modal"
                     data-target="#exampleAddModal"
                   >
-                    <FcPlus /> AddRole
+                    <FcPlus /> AddUser
                   </button>
                   <SearchBox value={searchQuery} onChange={this.handleSearch} />
-                  <div style={{ textAlign: "center" }}></div>
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Email</th>
-                        <th>CreateDate</th>
-                        <th>FullName</th>
-                        <th>IsConfirmed</th>
-                        <th>Activation</th>
-                        <th>GrantRole</th>
-                      </tr>
-                    </thead>
-                    <tbody>{brochure}</tbody>
-                  </table>
+                  <div style={{ textAlign: "center" }}>
+                    <div className="table-responsive mb-5">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>Email</th>
+                            <th>CreateDate</th>
+                            <th>FullName</th>
+                            <th>IsConfirmed</th>
+                            <th>Activation</th>
+                            <th>GrantRole</th>
+                          </tr>
+                        </thead>
+                        <tbody>{brochure}</tbody>
+                      </table>
+                    </div>
+                  </div>
                   <AddRole />
                   <Modal
                     userid={this.state.userid}

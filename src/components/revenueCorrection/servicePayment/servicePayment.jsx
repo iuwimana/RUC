@@ -225,7 +225,7 @@ class ServicePayment extends Component {
                         data-target="#exampleAddModal"
                       >
                         <FcPlus />
-                        Addsource
+                        AddNew
                       </button>
                       <p>There are No Service Payment in Database.</p>
                       <AddModal />
@@ -239,7 +239,7 @@ class ServicePayment extends Component {
                         data-target="#exampleAddModal"
                       >
                         <FcPlus />
-                        Addsource
+                        AddNew
                       </button>
                       <div style={{ textAlign: "center" }}>
                         <SearchBox

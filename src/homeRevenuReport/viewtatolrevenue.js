@@ -42,7 +42,7 @@ class Viewtatolrevenue extends Component {
       this.setState({ revenucollections });
     } catch (ex) {
       return toast.error(
-        "An Error Occured, while fetching revenucollections data Please try again later" +
+        "An Error Occured, while fetching revenucollections ok data Please try again later" +
           ex
       );
     }

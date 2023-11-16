@@ -226,7 +226,7 @@ class BusinessPaterner extends Component {
                           data-target="#exampleAddModal"
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
                         <p>There are no Business Paterner in Database.</p>
                         <AddModal />
@@ -240,7 +240,7 @@ class BusinessPaterner extends Component {
                           data-target="#exampleAddModal"
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
 
                         <div style={{ textAlign: "center" }}>
