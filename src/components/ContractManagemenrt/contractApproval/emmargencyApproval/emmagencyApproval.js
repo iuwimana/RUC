@@ -27,7 +27,6 @@ class EmmargencyApproval extends Component {
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
       fiscalyearid: this.props.fiscalyearid,
-      fiscalyearid:7,
       fiscalyear: "",
       outcomename: "",
       outcomeid: 0,

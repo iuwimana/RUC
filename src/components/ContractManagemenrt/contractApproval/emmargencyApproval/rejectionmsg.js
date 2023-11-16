@@ -63,7 +63,7 @@ class Rejectionmsg extends Component {
         itemrejectedon
       );
        
-      if (this.state.statuses === "New") {
+      if (this.state.status === "New") {
         const statuse = "rejected on second level";
         await ContractData.updatecontractstatus(this.state.contractid, statuse);
         
@@ -79,7 +79,7 @@ class Rejectionmsg extends Component {
       
 
       toast.success(`Rejection has initiated successfull`);
-      //window.location.reload(false);
+      window.location.reload(false);
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };

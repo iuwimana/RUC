@@ -628,7 +628,6 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                           </div>
                         </NavLink>
                       </div>
-
                       <div class="row">
                         <NavLink
                           className="nav-item nav-link"
@@ -642,6 +641,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                           </div>
                         </NavLink>
                       </div>
+                      {/** 
                       <div class="row">
                         <NavLink
                           className="nav-item nav-link"
@@ -668,6 +668,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                           </div>
                         </NavLink>
                       </div>
+                      */}
                     </td>
                   </tr>
                 </>
@@ -851,7 +852,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                               to={{
                                 pathname:
                                   "/ContractManagemenrt/approval/emmargency",
-                                state: { fiscalyearid: fiscalyearid }
+                                state: { fiscalyearid: fiscalyearid },
                               }}
                             >
                               <div class="col">
