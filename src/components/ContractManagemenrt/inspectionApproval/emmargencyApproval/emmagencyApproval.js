@@ -10,6 +10,7 @@ import * as Business from "../../../../services/RevenuRessources/businessPaterne
 import * as Outcome from "../../../../services/RMFPlanning/outcomeService";
 import * as FiscalYear from "../../../../services/RMFPlanning/fiscalYearService";
 import * as ContractData from "../../../../services/ContractManagement/ContractSetting/contractservice";
+import * as ContractIspectionData from "../../../../services/contractinpection/contractinspect";
 
 import Pagination from "../../../common/pagination";
 //import Form from "../common/form";
@@ -18,6 +19,8 @@ import { paginate } from "../../../../utils/paginate";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SearchBox from "../../../searchBox";
 import _ from "lodash";
+import { wait } from "@testing-library/user-event/dist/utils";
+import Inspection from './../../ContractSettings/Emmagencycontractinspection/inspection';
  
 class EmmargencyApproval extends Component {
   constructor(props) {
@@ -27,7 +30,7 @@ class EmmargencyApproval extends Component {
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
       fiscalyearid: this.props.fiscalyearid,
-      fiscalyear: "",
+      
       outcomename: "",
       outcomeid: 0,
       statuses: "",
@@ -75,12 +78,15 @@ class EmmargencyApproval extends Component {
       projectlength: 0,
       projectref: "",
       measurementname: "",
+      inspectionstatus:"",
+      inspectionid:0,
 
       canapprov: true,
       canreview: true,
       sources: [],
       business: [],
       outcome: [],
+      fiscalyear: [],
       contracts: [],
       banks: [],
       currentPage: 1,
@@ -93,7 +99,8 @@ class EmmargencyApproval extends Component {
       sortColumn: { path: "title", order: "asc" },
     };
   }
-   async populateBanks() {
+   
+  async populateBanks() {
     try {
       if (this.state.fiscalyearid === 0) {
         const { data: fiscalyear } = await FiscalYear.getFiscalyears();
@@ -103,23 +110,19 @@ class EmmargencyApproval extends Component {
           fiscalyearid.push(fiscalyear.fiscalyearid);
         });
         this.setState({ fiscalyearid: fiscalyearid[0] });
-       
         const { data: outcome } =
-        await ContractData.getcontractByfiscalyear(
+        await ContractIspectionData.getcontractinspectionByfiscalyear(
           fiscalyearid[0]
         );
-        
 
-        this.setState({ outcome});
+        this.setState({ outcome });
       } else {
         const { data: fiscalyear } = await FiscalYear.getFiscalyears();
         this.setState({ fiscalyear });
-        
-       const { data: outcome } =
-        await ContractData.getcontractByfiscalyear(
+        const { data: outcome } =
+        await ContractIspectionData.getcontractinspectionByfiscalyear(
           this.state.fiscalyearid
         );
-        
 
         this.setState({ outcome });
       }
@@ -130,10 +133,10 @@ class EmmargencyApproval extends Component {
   async componentDidMount() {
     try {
       await this.populateBanks();
-      
     } catch (ex) {
       return toast.error(
-        "An Error Occured, while fetching data Please try again later" + ex
+        "An Error Occured, while rfetching revenu Payment data Please try again later" +
+          ex
       );
     }
   }
@@ -178,13 +181,13 @@ class EmmargencyApproval extends Component {
 
     return { totalCount: filtered.length, data: outcome };
   };
-  handleapproval = async (contractid) => {
+  handleapproval = async (inspectionid) => {
     try {
       const statuse = "Approved";
-      if (!contractid) {
-        toast.info(`the outcome you selected ${contractid} doesnot exist`);
+      if (!inspectionid) {
+        toast.info(`the outcome you selected ${inspectionid} doesnot exist`);
       } else {
-        await ContractData.updatecontractstatus(contractid, statuse);
+        await ContractIspectionData.updateemmergencycontractinspectionstatus(inspectionid, statuse);
         toast.success(`this contract  has been Approved successful`);
       }
     } catch (ex) {
@@ -192,26 +195,27 @@ class EmmargencyApproval extends Component {
     }
   };
 
-  handlereview = async (contractid) => {
+  handlereview = async (inspectionid) => {
     try {
       const statuse = "Verified";
-      if (!contractid) {
-        toast.info(`the User you selected ${contractid} doesnot exist`);
+      if (!inspectionid) {
+        toast.info(`the User you selected ${inspectionid} doesnot exist`);
       } else {
-        await ContractData.updatecontractstatus(contractid, statuse);
+        await ContractIspectionData.updateemmergencycontractinspectionstatus(inspectionid, statuse);
         toast.success(`this contract  has been reviewed successful`);
       }
     } catch (ex) {
       toast.error(`the reviewed of this contract has been failed ${ex}`);
     }
   };
-  async replaceRejectedMsgItem(index, contractid, status) {
-    this.setState({
-      requiredItem: index,
-      contractid: contractid,
-      status: status,
+  async replaceRejectedMsgItem( inspectionid, inspectionstatus) {
+    this.setState({ 
+      inspectionid: inspectionid,
+      inspectionstatus: inspectionstatus,
     });
+   
   }
+
   async replaceModalItem(
     index,
     contractid,
@@ -243,6 +247,7 @@ class EmmargencyApproval extends Component {
     startquarter,
     endquarterid,
     endquarter,
+    
     projecttypeid,
     projecttypename,
     cancreateserviceorder,
@@ -254,7 +259,8 @@ class EmmargencyApproval extends Component {
     status,
     projectlength,
     projectref,
-    measurementname
+    measurementname,
+    inspectionstatus
   ) {
     this.setState({
       requiredItem: index,
@@ -287,6 +293,7 @@ class EmmargencyApproval extends Component {
       startquarter: startquarter,
       endquarterid: endquarterid,
       endquarter: endquarter,
+      
       projecttypeid: projecttypeid,
       projecttypename: projecttypename,
       cancreateserviceorder: cancreateserviceorder,
@@ -299,6 +306,7 @@ class EmmargencyApproval extends Component {
       projectlength: projectlength,
       projectref: projectref,
       measurementname: measurementname,
+      inspectionstatus:inspectionstatus,
     });
 
     try {
@@ -359,6 +367,7 @@ class EmmargencyApproval extends Component {
   }
 
   render() {
+    console.log(`hello${JSON.stringify(this.state.fiscalyear)}`)
     const canapprov = this.state.canapprov;
     const canreview = this.state.canreview;
     const { length: count } = this.state.outcome;
@@ -368,13 +377,13 @@ class EmmargencyApproval extends Component {
 
     const brochure = outcome.map((outcome, index) => {
       return (
-        <tr key={outcome.contractid}>
+        <tr key={outcome.inspectionid}>
           {" "}
-          <td>{outcome.contractdiscription}</td>
-          <td>{outcome.contractmode}</td>
-          <td>{outcome.projecttypename}</td>
-          <td>{outcome.contractbudget}</td>
-          <td>{outcome.status}</td>
+          <td>{outcome.inspectorfullname}</td>
+          <td>{outcome.purposeofinspection}</td>
+          <td>{outcome.observations}</td>
+          <td>{outcome.inspectiondate}</td>
+          <td>{outcome.inspectionstatus}</td>
           <td>
             {" "}
             <button
@@ -424,7 +433,8 @@ class EmmargencyApproval extends Component {
                   outcome.status,
                   outcome.projectlength,
                   outcome.projectref,
-                  outcome.measurementname
+                  outcome.measurementname,
+                  outcome.inspectionstatus
                 )
               }
             >
@@ -432,35 +442,35 @@ class EmmargencyApproval extends Component {
             </button>{" "}
           </td>
           <td>
-            {canapprov && outcome.status === "New" && (
+            {canapprov && outcome.inspectionstatus === "New" && (
               <button
                 className="btn btn-success"
-                onClick={() => this.handlereview(outcome.contractid)}
+                onClick={() => this.handlereview(outcome.inspectionid)}
               >
                 Review
               </button>
             )}
 
-            {canreview && outcome.status === "Verified" && (
+            {canreview && outcome.inspectionstatus === "Verified" && (
               <button
                 className="btn btn-success"
-                onClick={() => this.handleapproval(outcome.contractid)}
+                onClick={() => this.handleapproval(outcome.inspectionid)}
               >
                 Approval
               </button>
             )}
           </td>
           <td>
-            {outcome.status !== "Approved" && (
+            {outcome.inspectionstatus !== "Approved"  && (
               <button
                 className="btn btn-danger"
                 data-toggle="modal"
                 data-target="#exampleModalapprov"
                 onClick={() =>
                   this.replaceRejectedMsgItem(
-                    index,
-                    outcome.contractid,
-                    outcome.status
+                    
+                    outcome.inspectionid,
+                    outcome.inspectionstatus
                   )
                 }
               >
@@ -505,7 +515,7 @@ class EmmargencyApproval extends Component {
               <div className="text-muted text-center mt-2 mb-3">
                 <h1>
                   <div style={{ textAlign: "center" }}>
-                    <h1>RMF Contract Management- Approv Emmergency contract</h1>
+                    <h1>RMF Inspection- Approv Inspection</h1>
                   </div>
                 </h1>
               </div>
@@ -516,7 +526,7 @@ class EmmargencyApproval extends Component {
                 {count === 0 && (
                   <>
                     <p>There are no SAP in Database.</p>
-                    <AddModal />
+                    
                   </>
                 )}
                 {count !== 0 && (
@@ -533,10 +543,10 @@ class EmmargencyApproval extends Component {
                       <table className="table">
                         <thead>
                           <tr>
-                            <th>Contract</th>
-                            <th>contract mode</th>
-                            <th>contract type</th>
-                            <th>Budget</th>
+                            <th>Inspector</th>
+                            <th>Purpose of inspection</th>
+                            <th>Observation</th>
+                            <th>Inspection Date</th>
                             <th>status</th>
 
                             <th>View Contract</th>
@@ -591,11 +601,12 @@ class EmmargencyApproval extends Component {
                       projectlength={this.state.projectlength}
                       projectref={this.state.projectref}
                       measurementname={this.state.measurementname}
+                      inspectionstatus={this.state.inspectionstatus}
                       saveModalDetails={this.saveModalDetails}
                     />
                     <Rejectionmsg
-                      contractid={this.state.contractid}
-                      status={this.state.status}
+                      inspectionid={this.state.inspectionid}
+                      inspectionstatus={this.state.inspectionstatus}
                       
                     />
                   </>

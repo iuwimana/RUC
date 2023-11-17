@@ -8,7 +8,7 @@ import { MdNotificationsActive } from "react-icons/md";
 import * as Source from "../../../services/RevenuRessources/sourceofFundsServices";
 import * as Business from "../../../services/RevenuRessources/businessPaternerServices";
 import * as Outcome from "../../../services/RMFPlanning/outcomeService";
-
+import * as UserApprovalData from "../../../services/security/userapprovalservice";
 import Pagination from "../../common/pagination";
 //import Form from "../common/form";
 import { Card, CardHeader, CardBody, Col } from "reactstrap";
@@ -38,6 +38,7 @@ class Sap extends Component {
       sources: [],
       business: [],
       outcome: [],
+      userapprovals:[],
       banks: [],
       currentPage: 1,
       pageSize: 4,
@@ -51,6 +52,9 @@ class Sap extends Component {
   }
   async componentDidMount() {
     try {
+      {
+        revenue.map((revenue) => new Intl.NumberFormat().format(revenue.sum));
+      }
       const { data: sources } = await Source.getSource();
       const { data: business } = await Business.getBusinessPaterners();
       const { data: outcome } = await Outcome.getoutcomes();

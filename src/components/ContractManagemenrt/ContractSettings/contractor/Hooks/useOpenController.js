@@ -15,7 +15,12 @@ export default function useOpenController(initialState) {
    const[isOpenlookcoll,setOpenlookcollState]= useState(initialState);
    const[isOpenlookplan,setOpenlookplanState]= useState(initialState);
    const[isOpenlookcontr,setOpenlookcontrState]= useState(initialState);
+   const[isOpenapprovalinspection,setOpenapprovalinspection]= useState(initialState);
    
+    
+   const toggleapprovalinspection=useCallback(()=>{
+    setOpenapprovalinspection((state)=>!state);
+   },[setOpenapprovalinspection]);
 
    const toggleapprovalcontract=useCallback(()=>{
     setOpenapprovalcontract((state)=>!state);
@@ -72,7 +77,7 @@ export default function useOpenController(initialState) {
     setOpenprojectState((state) => !state);
   }, [setOpenprojectState]);
 
-  return { isOpen,isOpenrec,isOpenplan,isOpencont,isOpenfiscalyear,isOpencontracttype,isOpenproject,isOpenlookup,isOpensecurity,isOpenlookcoll,isOpenlookplan,isOpenlookcontr,isOpenapproval,isOpenapprovalcontract, 
+  return { isOpen,isOpenrec,isOpenplan,isOpencont,isOpenfiscalyear,isOpencontracttype,isOpenproject,isOpenlookup,isOpensecurity,isOpenlookcoll,isOpenlookplan,isOpenlookcontr,isOpenapproval,isOpenapprovalcontract,isOpenapprovalinspection, toggleapprovalinspection, 
     toggleapprovalcontract,toggleapproval, toggle,togglerec,toggleplan,toggleCont,togglefiscalyear,togglecontracttype,toggleproject,togglelookup ,togglesecurity,togglelookcoll,togglelookplan,togglelookcontr};  
 } 
 

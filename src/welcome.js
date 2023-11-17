@@ -101,6 +101,10 @@ import ViewSAP from "./components/rmfplannings/viewSAP/sap";
 import FiscalYearContractType from "./components/ContractManagemenrt/ContractSettings/contracttype/contracttype";
 import Project from "./components/ContractManagemenrt/ContractSettings/project/project";
 import EmmargencyApproval from "./components/ContractManagemenrt/contractApproval/emmargencyApproval/emmagencyApproval";
+import FrameworkApproval from "./components/ContractManagemenrt/contractApproval/frameworkApproval/frameworkApproval";
+import EmmargencyInspectionApproval from "./components/ContractManagemenrt/inspectionApproval/emmargencyApproval/emmagencyApproval";
+import FrameworkInspectionApproval from "./components/ContractManagemenrt/inspectionApproval/frameworkApproval/frameworkApproval";
+import PaymentApproval from "./components/ContractManagemenrt/paymentApproval/paymentApproval";
 
 //------------------------------------------------------------------------
 import road from "./components/ContractManagemenrt/RoadRefference/Road/road";
@@ -350,6 +354,40 @@ class Welcome extends Component {
                         <EmmargencyApproval  fiscalyearid={this.state.fiscalyearid}  />
                         )}
                      />
+                      <Route path="/ContractManagemenrt/approval/framework" 
+                      render={() => (
+                        <FrameworkApproval  fiscalyearid={this.state.fiscalyearid}  />
+                        )}
+                     />
+
+                     <Route
+                        path="/ContractManagemenrt/contract/fiscalyearcontracttype"
+                        component={FiscalYearContractType}
+                      />
+                      
+                       <Route path="/inspection/approval/emmargency" 
+                      render={() => (
+                        <EmmargencyInspectionApproval  fiscalyearid={this.state.fiscalyearid}  />
+                        )}
+                     />
+                      <Route path="/inspection/approval/framework" 
+                      render={() => (
+                        <FrameworkInspectionApproval  fiscalyearid={this.state.fiscalyearid}  />
+                        )}
+                     />
+
+                     <Route path="/payment/approval" 
+                      render={() => (
+                        <PaymentApproval  fiscalyearid={this.state.fiscalyearid}  />
+                        )}
+                     />
+
+
+                     
+
+
+                      
+                     
 
                       
                       <Route

@@ -5,6 +5,11 @@ const apiEndpoint = apiUrl.apiUrl + "/contractinspection/contractinspection";
 const apiEndpoints = apiUrl.apiUrl + "/contractinspection/contractinspections";
 const apiEndpointemmergency=apiUrl.apiUrl +"/contractinspection/emmergencycontractinspection";
 const apiEndpointemmergencys=apiUrl.apiUrl +"/contractinspection/emmergencycontractinspections";
+const apiEndpointapproval=apiUrl.apiUrl +"/contractinspection/contractinspectionsByFiscalyear";
+const apiEndpointframeworkapproval=apiUrl.apiUrl +"/contractinspection/frameworkcontractinspectionsByFiscalyear";
+
+const apiEndpointupdateemmergency=apiUrl.apiUrl +"/contractinspection/updateemmergencycontractinspectionstatus";
+const apiEndpointupdateframework=apiUrl.apiUrl +"/contractinspection/updateframeworkcontractinspectionstatus";
 
 export async function getcontractinspections() {
   try {
@@ -16,6 +21,16 @@ export async function getcontractinspections() {
 }
 
 
+export async function getframeworkcontractinspectionByfiscalyear(fiscalyearid) {
+  try {
+    return await http.post(apiEndpointframeworkapproval, {fiscalyearid});
+  } catch (ex) {
+    return toast.error(
+      "An Error Occured, while fetching contractinspection data, Please try again later" +
+        ex
+    );
+  }
+}
 export async function getcontractinspectionByserviceorder(serviceorderid) {
   try {
     return await http.post(apiEndpoints, {serviceorderid});
@@ -55,6 +70,20 @@ export async function addcontractinspection(inspectionid, serviceorderid, inspec
     );
   }
 }
+
+export async function updatefremeworkcontractinspectionstatus(inspectionid,inspectionstatus) {
+  try {
+    await http.post(apiEndpointupdateframework, {
+      inspectionid,inspectionstatus
+    });
+  } catch (ex) {
+    return toast.error(
+      "An Error Occured, while saving inspection of funds Please try again later" +
+        ex
+    );
+  }
+}
+
 //---------------------------------------------------Emmergency
 export async function getemmergencycontractinspections() {
   try {
@@ -65,7 +94,16 @@ export async function getemmergencycontractinspections() {
   }
 }
 
-
+export async function getcontractinspectionByfiscalyear(fiscalyearid) {
+  try {
+    return await http.post(apiEndpointapproval, {fiscalyearid});
+  } catch (ex) {
+    return toast.error(
+      "An Error Occured, while fetching contractinspection data, Please try again later" +
+        ex
+    );
+  }
+}
 export async function getemmergencycontractinspectionByserviceorder(contractid) {
   try {
     return await http.post(apiEndpointemmergencys, {contractid});
@@ -76,6 +114,20 @@ export async function getemmergencycontractinspectionByserviceorder(contractid) 
     );
   }
 }
+
+export async function updateemmergencycontractinspectionstatus(inspectionid,inspectionstatus) {
+  try {
+    await http.post(apiEndpointupdateemmergency, {
+      inspectionid,inspectionstatus
+    });
+  } catch (ex) {
+    return toast.error(
+      "An Error Occured, while saving inspection of funds Please try again later" +
+        ex
+    );
+  }
+}
+
 export async function deleteemmergencycontractinspection(inspectionid) {
   try {
     await http.delete(apiEndpointemmergency, {

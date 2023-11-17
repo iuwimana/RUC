@@ -5,6 +5,7 @@ const apiEndpoint = apiUrl.apiUrl + "/serviceorder/serviceorder";
 const apiEndpoints = apiUrl.apiUrl + "/serviceorder/serviceorders";
 const apiEndpointa = apiUrl.apiUrl + "/serviceorder/approveserviceorder";
 const apiEndpointr = apiUrl.apiUrl + "/serviceorder/rejectServiceOrder";
+const apiEndfiscalyear = apiUrl.apiUrl + "/serviceorder/serviceorderbyfiscalyear";
 
 export async function getserviceorders() {
   try {
@@ -18,6 +19,16 @@ export async function getserviceorders() {
 export async function getserviceorderBycontractId(contractid) {
   try {
     return await http.post(apiEndpoints, {contractid});
+  } catch (ex) {
+    return toast.error(
+      "An Error Occured, while fetching serviceorder data, Please try again later" +
+        ex
+    );
+  }
+}
+export async function getserviceorderByfiscalyear(fiscalyearid) {
+  try {
+    return await http.post(apiEndfiscalyear, {fiscalyearid});
   } catch (ex) {
     return toast.error(
       "An Error Occured, while fetching serviceorder data, Please try again later" +

@@ -2,6 +2,7 @@ import http from "../httpService";
 import  apiUrl  from "../../config.json";
 import { toast } from "react-toastify";
 const apiEndpoint = apiUrl.apiUrl + "/userapproval/userapproval";
+const approvalapiEndpoint = apiUrl.apiUrl + "/userapproval/userapprovallevel";
 
 export async function getuserapprovals() {
   try {
@@ -11,6 +12,18 @@ export async function getuserapprovals() {
   }
 }
 
+
+export async function getuserapprovalevel(email,approvalitem) {
+  try {
+    
+  
+     return await http.post(approvalapiEndpoint,{ email,approvalitem});
+    
+  } catch (ex) {
+    return toast.error("An Error Occured, while saving userapproval Please try again later" + ex );;
+  }
+}
+ 
 
 
 export async function deleteuserapproval(userapprovalid) {

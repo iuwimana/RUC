@@ -254,6 +254,8 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
   const { isOpenfiscalyear, togglefiscalyear } = useOpenController(false);
   const { isOpenapprovalcontract, toggleapprovalcontract } =
     useOpenController(false);
+  const { isOpenapprovalinspection, toggleapprovalinspection } =
+      useOpenController(false);
   const { isOpenapproval, toggleapproval } =
     useOpenController(false);
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
@@ -867,7 +869,74 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                           <div class="row">
                             <NavLink
                               className="nav-item nav-link"
-                              to="/contractmanagemenrt/administration"
+                              to={{
+                                pathname:
+                                  "/ContractManagemenrt/approval/framework",
+                                state: { fiscalyearid: fiscalyearid },
+                              }}
+                            >
+                              <div class="col">
+                                <i className="ni ni-key-25" />
+                                <span className="nav-link-inner--text">
+                                  <AiOutlineShop />
+                                  &nbsp;Framework Contracts
+                                </span>
+                              </div>
+                            </NavLink>
+                          </div>
+                        </>
+                      )}
+                      <tr>
+                        <td colspan="3">
+                          <div style={{ display: "inline-block" }}>
+                            <AiOutlineWeibo />
+                            &nbsp;Inspections
+                          </div>
+                        </td>
+                        <td>
+                          {" "}
+                          <div className="whitespace-nowrap">
+                            <DiSqllite
+                              isOpenapprovalinspection={
+                                isOpenapprovalinspection
+                              }
+                              toggle={toggleapprovalinspection}
+                            />
+                            <ExpendableButton
+                              isOpenapprovalinspection={
+                                isOpenapprovalinspection
+                              }
+                              toggle={toggleapprovalinspection}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                      {isOpenapprovalinspection && (
+                        <>
+                          <div class="row">
+                            <NavLink
+                              className="nav-item nav-link"
+                              to={{
+                                pathname: "/inspection/approval/emmargency",
+                                state: { fiscalyearid: fiscalyearid },
+                              }}
+                            >
+                              <div class="col">
+                                <i className="ni ni-key-25" />
+                                <span className="nav-link-inner--text">
+                                  <AiOutlineShop />
+                                  &nbsp;Emmagency Contracts
+                                </span>
+                              </div>
+                            </NavLink>
+                          </div>
+                          <div class="row">
+                            <NavLink
+                              className="nav-item nav-link"
+                              to={{
+                                pathname: "/inspection/approval/framework",
+                                state: { fiscalyearid: fiscalyearid },
+                              }}
                             >
                               <div class="col">
                                 <i className="ni ni-key-25" />
@@ -883,23 +952,13 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
 
                       <div class="row">
                         <NavLink
-                          className="nav-item nav-link"
-                          to="/contractmanagemenrt/administration"
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <AiOutlineWeibo />
-                              &nbsp;Inspections
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/contractmanagemenrt/administration"
-                        >
+                              className="nav-item nav-link"
+                              to={{
+                                pathname: "/payment/approval",
+                                state: { fiscalyearid: fiscalyearid },
+                              }}
+                            >
+                        
                           <div class="col">
                             <i className="ni ni-key-25" />
                             <span className="nav-link-inner--text">

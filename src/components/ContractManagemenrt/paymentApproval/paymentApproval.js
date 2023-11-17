@@ -1,23 +1,25 @@
 import React, { Component } from "react";
 import Modal from "./modal";
-import AddModal from "./addroleModal";
 import Rejectionmsg from "./rejectionmsg";
 import { toast } from "react-toastify";
 import { MdNotificationsActive } from "react-icons/md";
 //import { Link } from "react-router-dom";
-import * as Source from "../../../../services/RevenuRessources/sourceofFundsServices";
-import * as Business from "../../../../services/RevenuRessources/businessPaternerServices";
-import * as Outcome from "../../../../services/RMFPlanning/outcomeService";
-import * as FiscalYear from "../../../../services/RMFPlanning/fiscalYearService";
-import * as ContractData from "../../../../services/ContractManagement/ContractSetting/contractservice";
+import * as Source from "../../../services/RevenuRessources/sourceofFundsServices";
+import * as Business from "../../../services/RevenuRessources/businessPaternerServices";
+import * as Outcome from "../../../services/RMFPlanning/outcomeService";
+import * as FiscalYear from "../../../services/RMFPlanning/fiscalYearService";
+import * as ContractData from "../../../services/ContractManagement/ContractSetting/contractservice";
+import * as ContractIspectionData from "../../../services/contractinpection/contractinspect";
+import * as PaymentData from "../../../services/contractpayment/contractpaymentservice";
 
-import Pagination from "../../../common/pagination";
+import Pagination from "../../common/pagination";
 //import Form from "../common/form";
 import { Card, CardHeader, CardBody, Col } from "reactstrap";
-import { paginate } from "../../../../utils/paginate";
+import { paginate } from "../../../utils/paginate";
 import "bootstrap/dist/css/bootstrap.min.css";
-import SearchBox from "../../../searchBox";
+import SearchBox from "../../searchBox";
 import _ from "lodash";
+import { wait } from "@testing-library/user-event/dist/utils";
  
 class EmmargencyApproval extends Component {
   constructor(props) {
@@ -27,7 +29,7 @@ class EmmargencyApproval extends Component {
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
       fiscalyearid: this.props.fiscalyearid,
-      fiscalyear: "",
+      
       outcomename: "",
       outcomeid: 0,
       statuses: "",
@@ -75,12 +77,15 @@ class EmmargencyApproval extends Component {
       projectlength: 0,
       projectref: "",
       measurementname: "",
+      inspectionstatus:"",
+      inspectionid:0,
 
       canapprov: true,
       canreview: true,
       sources: [],
       business: [],
       outcome: [],
+      fiscalyear: [],
       contracts: [],
       banks: [],
       currentPage: 1,
@@ -93,7 +98,8 @@ class EmmargencyApproval extends Component {
       sortColumn: { path: "title", order: "asc" },
     };
   }
-   async populateBanks() {
+   
+  async populateBanks() {
     try {
       if (this.state.fiscalyearid === 0) {
         const { data: fiscalyear } = await FiscalYear.getFiscalyears();
@@ -103,23 +109,19 @@ class EmmargencyApproval extends Component {
           fiscalyearid.push(fiscalyear.fiscalyearid);
         });
         this.setState({ fiscalyearid: fiscalyearid[0] });
-       
         const { data: outcome } =
-        await ContractData.getcontractByfiscalyear(
+        await PaymentData.approvfiscalyearcontractpayment(
           fiscalyearid[0]
         );
-        
 
-        this.setState({ outcome});
+        this.setState({ outcome });
       } else {
         const { data: fiscalyear } = await FiscalYear.getFiscalyears();
         this.setState({ fiscalyear });
-        
-       const { data: outcome } =
-        await ContractData.getcontractByfiscalyear(
+        const { data: outcome } =
+        await PaymentData.approvfiscalyearcontractpayment(
           this.state.fiscalyearid
         );
-        
 
         this.setState({ outcome });
       }
@@ -130,10 +132,10 @@ class EmmargencyApproval extends Component {
   async componentDidMount() {
     try {
       await this.populateBanks();
-      
     } catch (ex) {
       return toast.error(
-        "An Error Occured, while fetching data Please try again later" + ex
+        "An Error Occured, while rfetching revenu Payment data Please try again later" +
+          ex
       );
     }
   }
@@ -178,13 +180,13 @@ class EmmargencyApproval extends Component {
 
     return { totalCount: filtered.length, data: outcome };
   };
-  handleapproval = async (contractid) => {
+  handleapproval = async (contractpaymentid) => {
     try {
       const statuse = "Approved";
-      if (!contractid) {
-        toast.info(`the outcome you selected ${contractid} doesnot exist`);
+      if (!contractpaymentid) {
+        toast.info(`the outcome you selected ${contractpaymentid} doesnot exist`);
       } else {
-        await ContractData.updatecontractstatus(contractid, statuse);
+        await PaymentData.contractpaymentupdatestatus(contractpaymentid, statuse);
         toast.success(`this contract  has been Approved successful`);
       }
     } catch (ex) {
@@ -192,26 +194,27 @@ class EmmargencyApproval extends Component {
     }
   };
 
-  handlereview = async (contractid) => {
+  handlereview = async (contractpaymentid) => {
     try {
       const statuse = "Verified";
-      if (!contractid) {
-        toast.info(`the User you selected ${contractid} doesnot exist`);
+      if (!contractpaymentid) {
+        toast.info(`the User you selected ${contractpaymentid} doesnot exist`);
       } else {
-        await ContractData.updatecontractstatus(contractid, statuse);
+        await PaymentData.contractpaymentupdatestatus(contractpaymentid, statuse);
         toast.success(`this contract  has been reviewed successful`);
       }
     } catch (ex) {
       toast.error(`the reviewed of this contract has been failed ${ex}`);
     }
   };
-  async replaceRejectedMsgItem(index, contractid, status) {
-    this.setState({
-      requiredItem: index,
-      contractid: contractid,
-      status: status,
+  async replaceRejectedMsgItem( contractpaymentid, paymentstatus) {
+    this.setState({ 
+      contractpaymentid: contractpaymentid,
+      paymentstatus: paymentstatus,
     });
+   
   }
+
   async replaceModalItem(
     index,
     contractid,
@@ -243,6 +246,7 @@ class EmmargencyApproval extends Component {
     startquarter,
     endquarterid,
     endquarter,
+    
     projecttypeid,
     projecttypename,
     cancreateserviceorder,
@@ -254,7 +258,8 @@ class EmmargencyApproval extends Component {
     status,
     projectlength,
     projectref,
-    measurementname
+    measurementname,
+    inspectionstatus
   ) {
     this.setState({
       requiredItem: index,
@@ -287,6 +292,7 @@ class EmmargencyApproval extends Component {
       startquarter: startquarter,
       endquarterid: endquarterid,
       endquarter: endquarter,
+      
       projecttypeid: projecttypeid,
       projecttypename: projecttypename,
       cancreateserviceorder: cancreateserviceorder,
@@ -299,6 +305,7 @@ class EmmargencyApproval extends Component {
       projectlength: projectlength,
       projectref: projectref,
       measurementname: measurementname,
+      inspectionstatus:inspectionstatus,
     });
 
     try {
@@ -359,6 +366,7 @@ class EmmargencyApproval extends Component {
   }
 
   render() {
+    console.log(`hello${JSON.stringify(this.state.fiscalyear)}`)
     const canapprov = this.state.canapprov;
     const canreview = this.state.canreview;
     const { length: count } = this.state.outcome;
@@ -368,13 +376,15 @@ class EmmargencyApproval extends Component {
 
     const brochure = outcome.map((outcome, index) => {
       return (
-        <tr key={outcome.contractid}>
+        <tr key={outcome.contractpaymentid}>
           {" "}
-          <td>{outcome.contractdiscription}</td>
-          <td>{outcome.contractmode}</td>
-          <td>{outcome.projecttypename}</td>
-          <td>{outcome.contractbudget}</td>
-          <td>{outcome.status}</td>
+          <td>#00{outcome.contractpaymentid}</td>
+          <td>{outcome.payedamount}</td>
+          <td>{outcome.invoiceamount}</td>
+          <td>{outcome.deductedamount}</td>
+          <td>{outcome.remainamount}</td>
+          <td>{outcome.paymentstatus}</td>
+          
           <td>
             {" "}
             <button
@@ -424,7 +434,8 @@ class EmmargencyApproval extends Component {
                   outcome.status,
                   outcome.projectlength,
                   outcome.projectref,
-                  outcome.measurementname
+                  outcome.measurementname,
+                  outcome.inspectionstatus
                 )
               }
             >
@@ -432,35 +443,35 @@ class EmmargencyApproval extends Component {
             </button>{" "}
           </td>
           <td>
-            {canapprov && outcome.status === "New" && (
+            {canapprov && outcome.paymentstatus === "New" && (
               <button
                 className="btn btn-success"
-                onClick={() => this.handlereview(outcome.contractid)}
+                onClick={() => this.handlereview(outcome.contractpaymentid)}
               >
                 Review
               </button>
             )}
 
-            {canreview && outcome.status === "Verified" && (
+            {canreview && outcome.paymentstatus === "Verified" && (
               <button
                 className="btn btn-success"
-                onClick={() => this.handleapproval(outcome.contractid)}
+                onClick={() => this.handleapproval(outcome.contractpaymentid)}
               >
                 Approval
               </button>
             )}
           </td>
           <td>
-            {outcome.status !== "Approved" && (
+            {outcome.paymentstatus !== "Approved"  && (
               <button
                 className="btn btn-danger"
                 data-toggle="modal"
                 data-target="#exampleModalapprov"
                 onClick={() =>
                   this.replaceRejectedMsgItem(
-                    index,
-                    outcome.contractid,
-                    outcome.status
+                    
+                    outcome.contractpaymentid,
+                    outcome.paymentstatus
                   )
                 }
               >
@@ -505,7 +516,7 @@ class EmmargencyApproval extends Component {
               <div className="text-muted text-center mt-2 mb-3">
                 <h1>
                   <div style={{ textAlign: "center" }}>
-                    <h1>RMF Contract Management- Approv Emmergency contract</h1>
+                    <h1>RMF Payment- Approv Payment</h1>
                   </div>
                 </h1>
               </div>
@@ -516,7 +527,7 @@ class EmmargencyApproval extends Component {
                 {count === 0 && (
                   <>
                     <p>There are no SAP in Database.</p>
-                    <AddModal />
+                    
                   </>
                 )}
                 {count !== 0 && (
@@ -533,11 +544,12 @@ class EmmargencyApproval extends Component {
                       <table className="table">
                         <thead>
                           <tr>
-                            <th>Contract</th>
-                            <th>contract mode</th>
-                            <th>contract type</th>
-                            <th>Budget</th>
-                            <th>status</th>
+                            <th>Invoice No</th>
+                              <th>Invoice Amount</th>
+                              <th>Due amount</th>
+                              <th>reimbursable amount</th>
+                              <th>pending Amount</th>
+                              <th>Invoice status</th>
 
                             <th>View Contract</th>
                             <th>Aproval</th>
@@ -591,11 +603,12 @@ class EmmargencyApproval extends Component {
                       projectlength={this.state.projectlength}
                       projectref={this.state.projectref}
                       measurementname={this.state.measurementname}
+                      inspectionstatus={this.state.inspectionstatus}
                       saveModalDetails={this.saveModalDetails}
                     />
                     <Rejectionmsg
-                      contractid={this.state.contractid}
-                      status={this.state.status}
+                      contractpaymentid={this.state.contractpaymentid}
+                      paymentstatus={this.state.paymentstatus}
                       
                     />
                   </>
