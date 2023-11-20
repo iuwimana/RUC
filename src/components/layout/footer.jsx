@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.css";
 const Autmenu = () => {
   return (
     <footer className="footer">
+      
       <Row className="align-items-center justify-content-xl-between">
         <Col className="col-xs-auto col-sm-auto col-md-auto justify-content-md-left">
           <div className="copyright text-center text-xl-left text-muted">

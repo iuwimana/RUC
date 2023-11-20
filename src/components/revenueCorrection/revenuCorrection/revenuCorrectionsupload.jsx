@@ -110,7 +110,7 @@ class RevenuCorrectionsupload extends Component {
       CurrentDate.setHours(0, 0, 0, 0);
       var GivenDate = new Date(activeon)
 
-     console.log(`CurrentDate ${CurrentDate},GivenDate:${GivenDate}`);
+     
       if (
         currencyid === "4" &&
         GivenDate < CurrentDate
@@ -210,9 +210,7 @@ class RevenuCorrectionsupload extends Component {
   };
 
   render() {
-    console.log(
-      `revenuproductid1:${this.state.revenuproductid} revenuproductname1:${this.state.revenuproductname}`
-    );
+   
     const payment = this.state.payment;
     const product = this.state.product;
     const borders = this.state.borders;

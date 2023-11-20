@@ -67,22 +67,82 @@
 
 .cardss {
   position: relative;
-  width: 150px;
-  height: 40px;
+  width: 250px;
+  height: 30px;
   margin: 6px;
-  background: #d6dde9;
-  border-radius: 20px;
-  box-shadow: 0 15px 0 #fff,
-    inset 0 -15px 0 rgba(255, 255, 255, 0.25);
-
+  background: #f0f1f3;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 40px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 40px;
+  box-shadow: 0 15px 0 #f9c1c1c5,
+    inset 0 -15px 0 rgba(255, 255, 255, 0.992);
+  box-sizing: border-box;
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -ms-transform-origin: center;
+    -webkit-transform-origin: center;
+    transform-origin: center;
+    opacity: 1;
+    
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    fill: rgba(255, 255, 255, 1);
+    stroke: rgba(6, 78, 162, 1);
+    stroke-width: 1px;
+    stroke-linecap: butt;
+    box-shadow: none;
+    
+    left: 0px;
+    top: 0px;
+}
+.carid{
+  position: relative;
+  min-height: 580px;
+    width: auto;
+    height: auto;
+    margin: 6px;
+    background: #f0f1f3;
+    box-shadow: 0 15px 0 #f9c1c1c5,
+      inset 0 -15px 0 rgba(255, 255, 255, 0.992);
+    box-sizing: border-box;
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -ms-transform-origin: center;
+    -webkit-transform-origin: center;
+    transform-origin: center;
+    opacity: 1;
+  
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    fill: rgba(255, 255, 255, 1);
+    stroke: rgba(6, 78, 162, 1);
+    stroke-width: 1px;
+    stroke-linecap: butt;
+    box-shadow: none;
+  
+    left: 0px;
+    top: 0px;
 }
 
 .cardss:hover {
-  color: #fafafb;
+  background: rgb(243, 240, 243);
+  color: #40f240;
   text-decoration: none;
-}
-
-.cardss:hover {
-  color: #302dc9;
   border-block: none;
 }
+

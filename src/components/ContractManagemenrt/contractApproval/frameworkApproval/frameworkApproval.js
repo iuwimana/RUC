@@ -5,6 +5,10 @@ import Rejectionmsg from "./rejectionmsg";
 import { toast } from "react-toastify";
 import { MdNotificationsActive } from "react-icons/md";
 //import { Link } from "react-router-dom";
+import * as UserApprovalData from "../../../../services/security/userapprovalservice";
+import * as UserData from "../../../../services/security/userServices";
+import * as auth from "../../../../services/authService";
+import jwtDecode from "jwt-decode";
 import * as Source from "../../../../services/RevenuRessources/sourceofFundsServices";
 import * as Business from "../../../../services/RevenuRessources/businessPaternerServices";
 import * as Outcome from "../../../../services/RMFPlanning/outcomeService";
@@ -91,6 +95,9 @@ class FrameworkApproval extends Component {
       business: [],
       outcome: [],
       contracts: [],
+      user: [],
+      users: [],
+      userapprovals: [],
       banks: [],
       currentPage: 1,
       pageSize: 6,
@@ -137,6 +144,28 @@ async populateBanks() {
   async componentDidMount() {
     try {
       await this.populateBanks();
+      const user = auth.getJwt();
+      this.setState({ user });
+      const users = jwtDecode(user);
+      this.setState({ users });
+      const { data: userapprovals } =
+        await UserApprovalData.getuserapprovalevel(users.username, "contract Setting");
+      this.setState({ userapprovals });
+      let approvmode="";
+      {
+        userapprovals.map(
+          (userapprovals) => approvmode= userapprovals.approvallevel
+        );
+      }
+      this.setState({approvmode});
+      if (approvmode === "Approv") {
+        this.setState({ canapprov: true, canreview: false });
+        
+      }else if (approvmode === "Verifier") {
+        this.setState({ canapprov: false, canreview: true });
+      }else if (approvmode === "Initiator") {
+        this.setState({ canapprov: false, canreview: false });
+      }
       
     } catch (ex) {
       return toast.error(
@@ -467,7 +496,7 @@ async populateBanks() {
             </button>{" "}
           </td>
           <td>
-            {canapprov && outcome.status === "New"  && (
+            {canreview && outcome.status === "New"  && (
               <button
                 className="btn btn-success"
                 onClick={() => this.handlereview(outcome.serviceorderid)}
@@ -492,7 +521,7 @@ async populateBanks() {
               </button>
             )}
 
-            {canreview && outcome.status === "Verified" && (
+            {canapprov && outcome.status === "Verified" && (
               <button
                 className="btn btn-success"
                 onClick={() => this.handleapproval(outcome.serviceorderid)}

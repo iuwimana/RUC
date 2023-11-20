@@ -105,7 +105,7 @@ doSubmit = async(e) => {
     try {
     //const SourceofFundId=0
     //const { data } = this.state;
-    //console.log(`handle submit ${data.AccountNumber}`)
+    
     //toast.success(`source of funds data SourceofFundname: ${SourceofFundId} ${item.SourceofFundname} ,AccountNumber: ${item.AccountNumber}, bankID: ${item.BankId} and RevenuTypeid:${item.RevenueTypeId},${item.StartDate},${item.EndDate} has been updated successful`);
 
        

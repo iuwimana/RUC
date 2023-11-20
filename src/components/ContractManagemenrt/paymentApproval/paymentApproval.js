@@ -11,6 +11,10 @@ import * as FiscalYear from "../../../services/RMFPlanning/fiscalYearService";
 import * as ContractData from "../../../services/ContractManagement/ContractSetting/contractservice";
 import * as ContractIspectionData from "../../../services/contractinpection/contractinspect";
 import * as PaymentData from "../../../services/contractpayment/contractpaymentservice";
+import * as UserApprovalData from "../../../services/security/userapprovalservice";
+import * as UserData from "../../../services/security/userServices";
+import * as auth from "../../../services/authService";
+import jwtDecode from "jwt-decode";
 
 import Pagination from "../../common/pagination";
 //import Form from "../common/form";
@@ -92,6 +96,9 @@ class EmmargencyApproval extends Component {
       pageSize: 4,
       requiredItem: 0,
       brochure: [],
+      user: [],
+      users: [],
+      userapprovals: [],
       searchQuery: "",
       selectedrole: null,
       search: [],
@@ -132,6 +139,28 @@ class EmmargencyApproval extends Component {
   async componentDidMount() {
     try {
       await this.populateBanks();
+      const user = auth.getJwt();
+      this.setState({ user });
+      const users = jwtDecode(user);
+      this.setState({ users });
+      const { data: userapprovals } =
+        await UserApprovalData.getuserapprovalevel(users.username, "Payment");
+      this.setState({ userapprovals });
+      let approvmode="";
+      {
+        userapprovals.map(
+          (userapprovals) => approvmode= userapprovals.approvallevel
+        );
+      }
+      this.setState({approvmode});
+      if (approvmode === "Approv") {
+        this.setState({ canapprov: true, canreview: false });
+        
+      }else if (approvmode === "Verifier") {
+        this.setState({ canapprov: false, canreview: true });
+      }else if (approvmode === "Initiator") {
+        this.setState({ canapprov: false, canreview: false });
+      }
     } catch (ex) {
       return toast.error(
         "An Error Occured, while rfetching revenu Payment data Please try again later" +
@@ -366,7 +395,6 @@ class EmmargencyApproval extends Component {
   }
 
   render() {
-    console.log(`hello${JSON.stringify(this.state.fiscalyear)}`)
     const canapprov = this.state.canapprov;
     const canreview = this.state.canreview;
     const { length: count } = this.state.outcome;
@@ -443,7 +471,7 @@ class EmmargencyApproval extends Component {
             </button>{" "}
           </td>
           <td>
-            {canapprov && outcome.paymentstatus === "New" && (
+            {canreview && outcome.paymentstatus === "New" && (
               <button
                 className="btn btn-success"
                 onClick={() => this.handlereview(outcome.contractpaymentid)}
@@ -452,7 +480,7 @@ class EmmargencyApproval extends Component {
               </button>
             )}
 
-            {canreview && outcome.paymentstatus === "Verified" && (
+            {canapprov && outcome.paymentstatus === "Verified" && (
               <button
                 className="btn btn-success"
                 onClick={() => this.handleapproval(outcome.contractpaymentid)}
@@ -460,6 +488,7 @@ class EmmargencyApproval extends Component {
                 Approval
               </button>
             )}
+            
           </td>
           <td>
             {outcome.paymentstatus !== "Approved"  && (

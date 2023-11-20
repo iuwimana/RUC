@@ -45,7 +45,7 @@ import {
   AiOutlineWeibo,
   AiOutlineShop,
 } from "react-icons/ai";
-import {GiPayMoney} from "react-icons/gi"
+import { GiPayMoney } from "react-icons/gi";
 import { toast } from "react-toastify";
 import useOpenController from "../components/ContractManagemenrt/ContractSettings/contractor/Hooks/useOpenController";
 import * as Contract from "../services/ContractManagement/ContractSetting/contractservice";
@@ -255,9 +255,8 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
   const { isOpenapprovalcontract, toggleapprovalcontract } =
     useOpenController(false);
   const { isOpenapprovalinspection, toggleapprovalinspection } =
-      useOpenController(false);
-  const { isOpenapproval, toggleapproval } =
     useOpenController(false);
+  const { isOpenapproval, toggleapproval } = useOpenController(false);
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
   const { isOpenproject, toggleproject } = useOpenController(false);
   const { isOpenlookup, togglelookup } = useOpenController(false);
@@ -411,239 +410,270 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
 
   //--------------------------------------------
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light rounded">
-      <button
-        className="custom-toggler navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarsExample09"
-        aria-controls="navbarsExample09"
-        aria-expanded={!isNavCollapsed ? true : false}
-        aria-label="Toggle navigation"
-        onClick={handleNavCollapse}
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div
-        className={`${isNavCollapsed ? "collapse" : ""} navbar-collapse`}
-        id="navbarsExample09"
-      >
-        <div className="table-responsive mb-5">
-          <table id="sidebar-menu" style={{ width: 380 }}>
-            <thead>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th style={{ width: 20 }}></th>
-              <th style={{ width: 20 }}></th>
-              <th style={{ width: 20 }}></th>
-            </thead>
-            <tbody>
-              <tr className="table table-non bordered">
-                <td>
-                  {" "}
-                  <Link
-                    className="navbar-brand text-info font-weight-bolder"
-                    to="/home"
-                  >
-                    <span className="">
-                      <FcHome />
-                      RUCS
-                    </span>
-                  </Link>
-                </td>
-              </tr>
-              {canaccessDashboard && (
-                <tr className="w-25">
-                  <td colspan="3">
-                    <FcComboChart />
-                    Dashbord
-                  </td>
+    <div className="carid">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light rounded">
+        <button
+          className="custom-toggler navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarsExample09"
+          aria-controls="navbarsExample09"
+          aria-expanded={!isNavCollapsed ? true : false}
+          aria-label="Toggle navigation"
+          onClick={handleNavCollapse}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div
+          className={`${isNavCollapsed ? "collapse" : ""} navbar-collapse`}
+          id="navbarsExample09"
+        >
+          <div className="table-responsive mb-5">
+            <table id="sidebar-menu" style={{ width: 380 }}>
+              <thead>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th style={{ width: 20 }}></th>
+                <th style={{ width: 20 }}></th>
+                <th style={{ width: 20 }}></th>
+              </thead>
+              <tbody>
+                <tr className="table table-non bordered">
                   <td>
-                    <div className="whitespace-nowrap">
-                      <DiSqllite isOpen={isOpen} toggle={toggle} />
-                      <ExpendableButton isOpen={isOpen} toggle={toggle} />
-                    </div>
+                    {" "}
+                    <Link
+                      className="navbar-brand text-info font-weight-bolder"
+                      to="/home"
+                    >
+                      <span className="">
+                        <FcHome />
+                        RUCS
+                      </span>
+                    </Link>
                   </td>
                 </tr>
-              )}
-              {canaccessRevenue && (
-                <tr>
-                  <td colspan="3">
-                    <div style={{ display: "inline-block" }}>
-                      <FaPeopleCarry /> RMF Revenue Collection
-                    </div>
-                  </td>
-                  <td>
-                    <div className="whitespace-nowrap">
-                      <DiSqllite isOpenrec={isOpenrec} toggle={togglerec} />
-                      <ExpendableButton
-                        isOpenrec={isOpenrec}
-                        toggle={togglerec}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              )}
-              {isOpenrec && (
-                <>
-                  <tr>
-                    <td colspan="4">
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to={{
-                            pathname: "/revenu/revenupayment",
-                            state: { fiscalyearid: fiscalyearid },
-                          }}
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FcMoneyTransfer />
-                              &nbsp;Collections unit rate
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to={{
-                            pathname: "/revenu/revenucorrection",
-                            state: {
-                              fiscalyearid: fiscalyearid,
-                              fiscalyearname: fiscalyearname,
-                            },
-                          }}
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FcFeedIn />
-                              &nbsp;Revenus Collection
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/revenu/administration"
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <MdManageAccounts />
-                              &nbsp;Administration
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to={{
-                            pathname: "/revenu/expenduture",
-                            state: {
-                              fiscalyearid: fiscalyearid,
-                              fiscalyearname: fiscalyearname,
-                            },
-                          }}
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <GiPayMoney />
-                              &nbsp;Expenduture
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to={{
-                            pathname: "/revenu/dashboard",
-                            state: {
-                              fiscalyearid: fiscalyearid,
-                              fiscalyearname: fiscalyearname,
-                            },
-                          }}
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FcParallelTasks /> Revenu DashBoard
-                            </span>
-                          </div>
-                        </NavLink>
+                {canaccessDashboard && (
+                  <tr className="w-25">
+                    <td colspan="3">
+                      <FcComboChart />
+                      Dashbord
+                    </td>
+                    <td>
+                      <div className="whitespace-nowrap">
+                        <DiSqllite isOpen={isOpen} toggle={toggle} />
+                        <ExpendableButton isOpen={isOpen} toggle={toggle} />
                       </div>
                     </td>
                   </tr>
-                </>
-              )}
-              {canaccessPlanning && (
-                <tr>
-                  <td colspan="3">
-                    <div style={{ display: "inline-block" }}>
-                      <FcPlanner /> RMF Action Plan
-                    </div>
-                  </td>
-                  <td>
-                    <div className="whitespace-nowrap">
-                      <DiSqllite isOpenplan={isOpenplan} toggle={toggleplan} />
-                      <ExpendableButton
-                        isOpenplan={isOpenplan}
-                        toggle={toggleplan}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              )}
-              {isOpenplan && (
-                <>
+                )}
+                {canaccessRevenue && (
                   <tr>
-                    <td colspan="4">
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/planing/programtable"
-                        >
-                          <div class="col">
-                            <FcTimeline /> Planing Process
-                          </div>
-                        </NavLink>
+                    <td colspan="3">
+                      <div style={{ display: "inline-block" }}>
+                        <FaPeopleCarry /> RMF Revenue Collection
                       </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/planing/administration"
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <MdManageAccounts />
-                              &nbsp;Administration
-                            </span>
-                          </div>
-                        </NavLink>
+                    </td>
+                    <td>
+                      <div className="whitespace-nowrap">
+                        <DiSqllite isOpenrec={isOpenrec} toggle={togglerec} />
+                        <ExpendableButton
+                          isOpenrec={isOpenrec}
+                          toggle={togglerec}
+                        />
                       </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/planing/sap"
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FcTodoList /> View SAP
-                            </span>
-                          </div>
-                        </NavLink>
+                    </td>
+                  </tr>
+                )}
+                {isOpenrec && (
+                  <>
+                    <div className="row">
+                      <div className="col" style={{ width: 10 }}></div>
+                      <div className="col">
+                        <div className="card">
+                          <tr>
+                            <td colspan="4">
+                              <div class="row">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/revenu/revenupayment",
+                                    state: { fiscalyearid: fiscalyearid },
+                                  }}
+                                >
+                                  <div class="col">
+                                    <i className="ni ni-key-25" />
+                                    <div className="cardss">
+                                      <span className="nav-link-inner--text">
+                                        <FcMoneyTransfer />
+                                        &nbsp;Collections unit rate
+                                      </span>
+                                    </div>
+                                  </div>
+                                </NavLink>
+                              </div>
+                              <div class="row">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/revenu/revenucorrection",
+                                    state: {
+                                      fiscalyearid: fiscalyearid,
+                                      fiscalyearname: fiscalyearname,
+                                    },
+                                  }}
+                                >
+                                  <div class="col">
+                                    <i className="ni ni-key-25" />
+                                    <div className="cardss">
+                                      <span className="nav-link-inner--text">
+                                        <FcFeedIn />
+                                        &nbsp;Revenus Collection
+                                      </span>
+                                    </div>
+                                  </div>
+                                </NavLink>
+                              </div>
+                              <div class="row">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to="/revenu/administration"
+                                >
+                                  <div class="col">
+                                    <i className="ni ni-key-25" />
+                                    <div className="cardss">
+                                      <span className="nav-link-inner--text">
+                                        <MdManageAccounts />
+                                        &nbsp;Administration
+                                      </span>
+                                    </div>
+                                  </div>
+                                </NavLink>
+                              </div>
+                              <div class="row">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/revenu/expenduture",
+                                    state: {
+                                      fiscalyearid: fiscalyearid,
+                                      fiscalyearname: fiscalyearname,
+                                    },
+                                  }}
+                                >
+                                  <div class="col">
+                                    <i className="ni ni-key-25" />
+                                    <div className="cardss">
+                                      <span className="nav-link-inner--text">
+                                        <GiPayMoney />
+                                        &nbsp;Expenduture
+                                      </span>
+                                    </div>
+                                  </div>
+                                </NavLink>
+                              </div>
+
+                              <div class="row">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/revenu/dashboard",
+                                    state: {
+                                      fiscalyearid: fiscalyearid,
+                                      fiscalyearname: fiscalyearname,
+                                    },
+                                  }}
+                                >
+                                  <div class="col">
+                                    <i className="ni ni-key-25" />
+                                    <div className="cardss">
+                                      <span className="nav-link-inner--text">
+                                        <FcParallelTasks /> Revenu DashBoard
+                                      </span>
+                                    </div>
+                                  </div>
+                                </NavLink>
+                              </div>
+                            </td>
+                          </tr>
+                        </div>
                       </div>
-                      {/** 
+                    </div>
+                  </>
+                )}
+                {canaccessPlanning && (
+                  <tr>
+                    <td colspan="3">
+                      <div style={{ display: "inline-block" }}>
+                        <FcPlanner /> RMF Action Plan
+                      </div>
+                    </td>
+                    <td>
+                      <div className="whitespace-nowrap">
+                        <DiSqllite
+                          isOpenplan={isOpenplan}
+                          toggle={toggleplan}
+                        />
+                        <ExpendableButton
+                          isOpenplan={isOpenplan}
+                          toggle={toggleplan}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                {isOpenplan && (
+                  <>
+                    <div className="row">
+                      <div className="col" style={{ width: 10 }}></div>
+                      <div className="col">
+                        <div className="card">
+                          <tr>
+                            <td colspan="4">
+                              <div class="row">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to="/planing/programtable"
+                                >
+                                  <div class="col">
+                                    <div className="cardss">
+                                      <FcTimeline /> Planing Process
+                                    </div>
+                                  </div>
+                                </NavLink>
+                              </div>
+                              <div class="row">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to="/planing/administration"
+                                >
+                                  <div class="col">
+                                    <i className="ni ni-key-25" />
+                                    <div className="cardss">
+                                      <span className="nav-link-inner--text">
+                                        <MdManageAccounts />
+                                        &nbsp;Administration
+                                      </span>
+                                    </div>
+                                  </div>
+                                </NavLink>
+                              </div>
+                              <div class="row">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to="/planing/sap"
+                                >
+                                  <div class="col">
+                                    <i className="ni ni-key-25" />
+                                    <div className="cardss">
+                                      <span className="nav-link-inner--text">
+                                        <FcTodoList /> View SAP
+                                      </span>
+                                    </div>
+                                  </div>
+                                </NavLink>
+                              </div>
+                              {/** 
                       <div class="row">
                         <NavLink
                           className="nav-item nav-link"
@@ -671,676 +701,693 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                         </NavLink>
                       </div>
                       */}
-                    </td>
-                  </tr>
-                </>
-              )}
-              {canaccesscontract && (
-                <tr>
-                  <td colspan="3">
-                    <div style={{ display: "inline-block" }}>
-                      <BiSolidShoppingBag /> RMF Contract Management
-                    </div>
-                  </td>
-                  <td>
-                    {" "}
-                    <div className="whitespace-nowrap">
-                      <DiSqllite isOpencont={isOpencont} toggle={toggleCont} />
-                      <ExpendableButton
-                        isOpencont={isOpencont}
-                        toggle={toggleCont}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              )}
-              {isOpencont && (
-                <>
-                  <tr>
-                    <td colSpan="3">
-                      <NavLink
-                        className="nav-item nav-link"
-                        to="/contractmanagemenrt/administration"
-                      >
-                        <div class="col">
-                          <i className="ni ni-key-25" />
-                          <span className="nav-link-inner--text">
-                            <MdManageAccounts />
-                            &nbsp;Administration
-                          </span>
+                            </td>
+                          </tr>
                         </div>
-                      </NavLink>
-                    </td>
-                  </tr>
+                      </div>
+                    </div>
+                  </>
+                )}
+                {canaccesscontract && (
                   <tr>
                     <td colspan="3">
                       <div style={{ display: "inline-block" }}>
-                        <AiOutlineShop /> Contracts
+                        <BiSolidShoppingBag /> RMF Contract Management
                       </div>
                     </td>
                     <td>
                       {" "}
                       <div className="whitespace-nowrap">
                         <DiSqllite
-                          isOpenproject={isOpenproject}
-                          toggle={toggleproject}
+                          isOpencont={isOpencont}
+                          toggle={toggleCont}
                         />
                         <ExpendableButton
-                          isOpenproject={isOpenproject}
-                          toggle={toggleproject}
+                          isOpencont={isOpencont}
+                          toggle={toggleCont}
                         />
                       </div>
                     </td>
                   </tr>
-                  {isOpenproject && (
-                    <>
-                      {fiscalYear.map((fiscalYear) => (
-                        <ContractTypeMenu
-                          fiscalyearid={fiscalYear.fiscalyearid}
-                          fiscalyear={fiscalYear.fiscalyear}
-                        />
-                      ))}
-                    </>
-                  )}
-                  <tr>
-                    <td colspan="3">
-                      <div style={{ display: "inline-block" }}>
-                        <AiOutlineWeibo /> Inspection
+                )}
+                {isOpencont && (
+                  <>
+                    <div className="row">
+                      <div className="col" style={{ width: 10 }}></div>
+                      <div className="col">
+                        <div className="card">
+                          <tr>
+                            <td colSpan="3">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to="/contractmanagemenrt/administration"
+                              >
+                                <div class="col">
+                                  <i className="ni ni-key-25" />
+                                  <div className="cardss">
+                                    <span className="nav-link-inner--text">
+                                      <MdManageAccounts />
+                                      &nbsp;Administration
+                                    </span>
+                                  </div>
+                                </div>
+                              </NavLink>
+                            </td>
+                          </tr>
+                        </div>
                       </div>
-                    </td>
-                    <td>
-                      {" "}
-                      <div className="whitespace-nowrap">
-                        <DiSqllite
-                          isOpencontracttype={isOpencontracttype}
-                          toggle={togglecontracttype}
-                        />
-                        <ExpendableButton
-                          isOpencontracttype={isOpencontracttype}
-                          toggle={togglecontracttype}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                  {isOpencontracttype && (
-                    <>
-                      {fiscalYear.map((fiscalYear) => (
-                        <ContractTypeMenuinspection
-                          fiscalyearid={fiscalYear.fiscalyearid}
-                          fiscalyear={fiscalYear.fiscalyear}
-                        />
-                      ))}
-                    </>
-                  )}
-                  <tr>
-                    <td colspan="3">
-                      <div style={{ display: "inline-block" }}>
-                        <FcMoneyTransfer /> Payment
-                      </div>
-                    </td>
-                    <td>
-                      {" "}
-                      <div className="whitespace-nowrap">
-                        <DiSqllite
-                          isOpenfiscalyear={isOpenfiscalyear}
-                          toggle={togglefiscalyear}
-                        />
-                        <ExpendableButton
-                          isOpenfiscalyear={isOpenfiscalyear}
-                          toggle={togglefiscalyear}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                  {isOpenfiscalyear && (
-                    <>
-                      {fiscalYear.map((fiscalYear) => (
-                        <ContractTypeMenupayment
-                          fiscalyearid={fiscalYear.fiscalyearid}
-                          fiscalyear={fiscalYear.fiscalyear}
-                        />
-                      ))}
-                    </>
-                  )}
-                  {/**---------------Approval */}
-                  <tr>
-                    <td colspan="3">
-                      <div style={{ display: "inline-block" }}>
-                        <FcApproval /> Approvals
-                      </div>
-                    </td>
-                    <td>
-                      {" "}
-                      <div className="whitespace-nowrap">
-                        <DiSqllite
-                          isOpenapproval={isOpenapproval}
-                          toggle={toggleapproval}
-                        />
-                        <ExpendableButton
-                          isOpenapproval={isOpenapproval}
-                          toggle={toggleapproval}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                  {isOpenapproval && (
-                    <>
-                      <tr>
-                        <td colspan="3">
-                          <div style={{ display: "inline-block" }}>
-                            <AiOutlineShop />
-                            &nbsp;Contracts
-                          </div>
-                        </td>
-                        <td>
-                          {" "}
-                          <div className="whitespace-nowrap">
-                            <DiSqllite
-                              isOpenapprovalcontract={isOpenapprovalcontract}
-                              toggle={toggleapprovalcontract}
-                            />
-                            <ExpendableButton
-                              isOpenapprovalcontract={isOpenapprovalcontract}
-                              toggle={toggleapprovalcontract}
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                      {isOpenapprovalcontract && (
-                        <>
-                          <div class="row">
-                            <NavLink
-                              className="nav-item nav-link"
-                              to={{
-                                pathname:
-                                  "/ContractManagemenrt/approval/emmargency",
-                                state: { fiscalyearid: fiscalyearid },
-                              }}
-                            >
-                              <div class="col">
-                                <i className="ni ni-key-25" />
-                                <span className="nav-link-inner--text">
-                                  <AiOutlineShop />
-                                  &nbsp;Emmagency Contracts
-                                </span>
-                              </div>
-                            </NavLink>
-                          </div>
-                          <div class="row">
-                            <NavLink
-                              className="nav-item nav-link"
-                              to={{
-                                pathname:
-                                  "/ContractManagemenrt/approval/framework",
-                                state: { fiscalyearid: fiscalyearid },
-                              }}
-                            >
-                              <div class="col">
-                                <i className="ni ni-key-25" />
-                                <span className="nav-link-inner--text">
-                                  <AiOutlineShop />
-                                  &nbsp;Framework Contracts
-                                </span>
-                              </div>
-                            </NavLink>
-                          </div>
-                        </>
-                      )}
-                      <tr>
-                        <td colspan="3">
-                          <div style={{ display: "inline-block" }}>
-                            <AiOutlineWeibo />
-                            &nbsp;Inspections
-                          </div>
-                        </td>
-                        <td>
-                          {" "}
-                          <div className="whitespace-nowrap">
-                            <DiSqllite
-                              isOpenapprovalinspection={
-                                isOpenapprovalinspection
-                              }
-                              toggle={toggleapprovalinspection}
-                            />
-                            <ExpendableButton
-                              isOpenapprovalinspection={
-                                isOpenapprovalinspection
-                              }
-                              toggle={toggleapprovalinspection}
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                      {isOpenapprovalinspection && (
-                        <>
-                          <div class="row">
-                            <NavLink
-                              className="nav-item nav-link"
-                              to={{
-                                pathname: "/inspection/approval/emmargency",
-                                state: { fiscalyearid: fiscalyearid },
-                              }}
-                            >
-                              <div class="col">
-                                <i className="ni ni-key-25" />
-                                <span className="nav-link-inner--text">
-                                  <AiOutlineShop />
-                                  &nbsp;Emmagency Contracts
-                                </span>
-                              </div>
-                            </NavLink>
-                          </div>
-                          <div class="row">
-                            <NavLink
-                              className="nav-item nav-link"
-                              to={{
-                                pathname: "/inspection/approval/framework",
-                                state: { fiscalyearid: fiscalyearid },
-                              }}
-                            >
-                              <div class="col">
-                                <i className="ni ni-key-25" />
-                                <span className="nav-link-inner--text">
-                                  <AiOutlineShop />
-                                  &nbsp;Framework Contracts
-                                </span>
-                              </div>
-                            </NavLink>
-                          </div>
-                        </>
-                      )}
+                    </div>
 
-                      <div class="row">
-                        <NavLink
-                              className="nav-item nav-link"
-                              to={{
-                                pathname: "/payment/approval",
-                                state: { fiscalyearid: fiscalyearid },
-                              }}
-                            >
-                        
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FcMoneyTransfer />
-                              &nbsp;Payments
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                    </>
-                  )}
+                    <tr>
+                      <td colspan="3">
+                        <div style={{ display: "inline-block" }}>
+                          <AiOutlineShop /> Contracts
+                        </div>
+                      </td>
+                      <td>
+                        {" "}
+                        <div className="whitespace-nowrap">
+                          <DiSqllite
+                            isOpenproject={isOpenproject}
+                            toggle={toggleproject}
+                          />
+                          <ExpendableButton
+                            isOpenproject={isOpenproject}
+                            toggle={toggleproject}
+                          />
+                        </div>
+                      </td>
+                    </tr>
 
-                  {/**----------------------- */}
-                </>
-              )}
-              {canaccessSecurity && (
-                <tr>
-                  <td colspan="3">
-                    <div style={{ display: "inline-block" }}>
-                      <MdManageAccounts /> RMF Administration Potal
-                    </div>
-                  </td>
-                  <td>
-                    {/** isOpensecurity; togglesecurity; */}
-                    <div className="whitespace-nowrap">
-                      <DiSqllite
-                        isOpensecurity={isOpensecurity}
-                        toggle={togglesecurity}
-                      />
-                      <ExpendableButton
-                        isOpensecurity={isOpensecurity}
-                        toggle={togglesecurity}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              )}
-              {isOpensecurity && (
-                <>
-                  <td colspan="4">
-                    <div class="col">
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/security/users"
-                        >
-                          <div class="col">
-                            <span className="">
-                              <FcBusinessman />
-                              Users
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/security/role"
-                        >
-                          <div class="col">
-                            <span className="nav-link-inner--text">
-                              <FcPodiumWithSpeaker />
-                              Roles
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/security/securables"
-                        >
-                          <div class="col">
-                            <span className="nav-link-inner--text">
-                              <FcTodoList />
-                              {""}Securables
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/security/userapproval"
-                        >
-                          <div class="col">
-                            <span className="nav-link-inner--text">
-                              <FcApproval />
-                              User Approvals
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/security/auditTrail"
-                        >
-                          <div class="col">
-                            <span className="nav-link-inner--text">
-                              <FcBiotech />
-                              Audit Trail
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                    </div>
-                  </td>
-                </>
-              )}
-              {canaccesslookup && (
-                <tr>
-                  <td colspan="3">
-                    <div style={{ display: "inline-block" }}>
-                      <GiLookAt /> RMF LookUp
-                    </div>
-                  </td>
-                  <td>
-                    <div className="whitespace-nowrap">
-                      <DiSqllite
-                        isOpenlookup={isOpenlookup}
-                        toggle={togglelookup}
-                      />
-                      <ExpendableButton
-                        isOpenlookup={isOpenlookup}
-                        toggle={togglelookup}
-                      />
-                      {/**isOpenlookup, togglelookup */}
-                    </div>
-                  </td>
-                </tr>
-              )}
-              {isOpenlookup && (
-                <>
-                  <br />
-                  <tr>
-                    <td colspan="3">
-                      <div style={{ display: "inline-block" }}>
-                        <div className="row">
-                          <div className="col">
-                            <div className="col">
-                              <FaPeopleCarry /> Revenu Collection
+                    {isOpenproject && (
+                      <>
+                        {fiscalYear.map((fiscalYear) => (
+                          <ContractTypeMenu
+                            fiscalyearid={fiscalYear.fiscalyearid}
+                            fiscalyear={fiscalYear.fiscalyear}
+                          />
+                        ))}
+                      </>
+                    )}
+                    <tr>
+                      <td colspan="3">
+                        <div style={{ display: "inline-block" }}>
+                          <AiOutlineWeibo /> Inspection
+                        </div>
+                      </td>
+                      <td>
+                        {" "}
+                        <div className="whitespace-nowrap">
+                          <DiSqllite
+                            isOpencontracttype={isOpencontracttype}
+                            toggle={togglecontracttype}
+                          />
+                          <ExpendableButton
+                            isOpencontracttype={isOpencontracttype}
+                            toggle={togglecontracttype}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    {isOpencontracttype && (
+                      <>
+                        {fiscalYear.map((fiscalYear) => (
+                          <ContractTypeMenuinspection
+                            fiscalyearid={fiscalYear.fiscalyearid}
+                            fiscalyear={fiscalYear.fiscalyear}
+                          />
+                        ))}
+                      </>
+                    )}
+                    <tr>
+                      <td colspan="3">
+                        <div style={{ display: "inline-block" }}>
+                          <FcMoneyTransfer /> Payment
+                        </div>
+                      </td>
+                      <td>
+                        {" "}
+                        <div className="whitespace-nowrap">
+                          <DiSqllite
+                            isOpenfiscalyear={isOpenfiscalyear}
+                            toggle={togglefiscalyear}
+                          />
+                          <ExpendableButton
+                            isOpenfiscalyear={isOpenfiscalyear}
+                            toggle={togglefiscalyear}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    {isOpenfiscalyear && (
+                      <>
+                        {fiscalYear.map((fiscalYear) => (
+                          <ContractTypeMenupayment
+                            fiscalyearid={fiscalYear.fiscalyearid}
+                            fiscalyear={fiscalYear.fiscalyear}
+                          />
+                        ))}
+                      </>
+                    )}
+                    {/**---------------Approval */}
+                    <tr>
+                      <td colspan="3">
+                        <div style={{ display: "inline-block" }}>
+                          <FcApproval /> Approvals
+                        </div>
+                      </td>
+                      <td>
+                        {" "}
+                        <div className="whitespace-nowrap">
+                          <DiSqllite
+                            isOpenapproval={isOpenapproval}
+                            toggle={toggleapproval}
+                          />
+                          <ExpendableButton
+                            isOpenapproval={isOpenapproval}
+                            toggle={toggleapproval}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    {isOpenapproval && (
+                      <>
+                        <tr>
+                          <td colspan="3">
+                            <div style={{ display: "inline-block" }}>
+                              <AiOutlineShop />
+                              &nbsp;Contracts
                             </div>
-                          </div>
+                          </td>
+                          <td>
+                            {" "}
+                            <div className="whitespace-nowrap">
+                              <DiSqllite
+                                isOpenapprovalcontract={isOpenapprovalcontract}
+                                toggle={toggleapprovalcontract}
+                              />
+                              <ExpendableButton
+                                isOpenapprovalcontract={isOpenapprovalcontract}
+                                toggle={toggleapprovalcontract}
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                        {isOpenapprovalcontract && (
+                          <>
+                            <div class="row">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to={{
+                                  pathname:
+                                    "/ContractManagemenrt/approval/emmargency",
+                                  state: { fiscalyearid: fiscalyearid },
+                                }}
+                              >
+                                <div class="col">
+                                  <i className="ni ni-key-25" />
+                                  <span className="nav-link-inner--text">
+                                    <AiOutlineShop />
+                                    &nbsp;Emmagency Contracts
+                                  </span>
+                                </div>
+                              </NavLink>
+                            </div>
+                            <div class="row">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to={{
+                                  pathname:
+                                    "/ContractManagemenrt/approval/framework",
+                                  state: { fiscalyearid: fiscalyearid },
+                                }}
+                              >
+                                <div class="col">
+                                  <i className="ni ni-key-25" />
+                                  <span className="nav-link-inner--text">
+                                    <AiOutlineShop />
+                                    &nbsp;Framework Contracts
+                                  </span>
+                                </div>
+                              </NavLink>
+                            </div>
+                          </>
+                        )}
+                        <tr>
+                          <td colspan="3">
+                            <div style={{ display: "inline-block" }}>
+                              <AiOutlineWeibo />
+                              &nbsp;Inspections
+                            </div>
+                          </td>
+                          <td>
+                            {" "}
+                            <div className="whitespace-nowrap">
+                              <DiSqllite
+                                isOpenapprovalinspection={
+                                  isOpenapprovalinspection
+                                }
+                                toggle={toggleapprovalinspection}
+                              />
+                              <ExpendableButton
+                                isOpenapprovalinspection={
+                                  isOpenapprovalinspection
+                                }
+                                toggle={toggleapprovalinspection}
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                        {isOpenapprovalinspection && (
+                          <>
+                            <div class="row">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to={{
+                                  pathname: "/inspection/approval/emmargency",
+                                  state: { fiscalyearid: fiscalyearid },
+                                }}
+                              >
+                                <div class="col">
+                                  <i className="ni ni-key-25" />
+                                  <span className="nav-link-inner--text">
+                                    <AiOutlineShop />
+                                    &nbsp;Emmagency Contracts
+                                  </span>
+                                </div>
+                              </NavLink>
+                            </div>
+                            <div class="row">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to={{
+                                  pathname: "/inspection/approval/framework",
+                                  state: { fiscalyearid: fiscalyearid },
+                                }}
+                              >
+                                <div class="col">
+                                  <i className="ni ni-key-25" />
+                                  <span className="nav-link-inner--text">
+                                    <AiOutlineShop />
+                                    &nbsp;Framework Contracts
+                                  </span>
+                                </div>
+                              </NavLink>
+                            </div>
+                          </>
+                        )}
+
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to={{
+                              pathname: "/payment/approval",
+                              state: { fiscalyearid: fiscalyearid },
+                            }}
+                          >
+                            <div class="col">
+                              <i className="ni ni-key-25" />
+                              <span className="nav-link-inner--text">
+                                <FcMoneyTransfer />
+                                &nbsp;Payments
+                              </span>
+                            </div>
+                          </NavLink>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      {" "}
-                      <div className="whitespace-nowrap">
-                        <DiSqllite
-                          isOpenlookcoll={isOpenlookcoll}
-                          toggle={togglelookcoll}
-                        />
-                        <ExpendableButton
-                          isOpenlookcoll={isOpenlookcoll}
-                          toggle={togglelookcoll}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                  {isOpenlookcoll && (
-                    <>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/revenu/currency"
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FaCoins />
-                              &nbsp; Currency
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/revenu/sourceoffunds"
-                        >
-                          <div class="col">
-                            <FcSalesPerformance /> Source of Funds
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/revenu/revenuproduct"
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FaPeopleCarry />
-                              &nbsp; Collections
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/revenu/businesspaterner"
-                          tag={Link}
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FcConferenceCall />
-                              &nbsp;Business Partener
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
+                      </>
+                    )}
 
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/revenu/paternerservice"
-                          tag={Link}
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FcServices />
-                              &nbsp;Partener Service
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/revenu/servicepayment"
-                          tag={Link}
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FcCurrencyExchange />
-                              &nbsp;Service Payment
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/revenu/paternerservicepayment"
-                          tag={Link}
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FcDebt />
-                              &nbsp;Paterner Service Payment
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                    </>
-                  )}
+                    {/**----------------------- */}
+                  </>
+                )}
+                {canaccessSecurity && (
                   <tr>
                     <td colspan="3">
                       <div style={{ display: "inline-block" }}>
-                        <div className="row">
-                          <div className="col">
-                            <div className="col">
-                              <FcPlanner /> Planing
-                            </div>
-                          </div>
-                        </div>
+                        <MdManageAccounts /> RMF Administration Potal
                       </div>
                     </td>
                     <td>
-                      {" "}
+                      {/** isOpensecurity; togglesecurity; */}
                       <div className="whitespace-nowrap">
                         <DiSqllite
-                          isOpenlookplan={isOpenlookplan}
-                          toggle={togglelookplan}
+                          isOpensecurity={isOpensecurity}
+                          toggle={togglesecurity}
                         />
                         <ExpendableButton
-                          isOpenlookplan={isOpenlookplan}
-                          toggle={togglelookplan}
+                          isOpensecurity={isOpensecurity}
+                          toggle={togglesecurity}
                         />
                       </div>
                     </td>
                   </tr>
-                  {isOpenlookplan && (
-                    <>
-                      {fiscalYear.map((fiscalYear) => (
-                        <ContractTypeMenu
-                          fiscalyearid={fiscalYear.fiscalyearid}
-                          fiscalyear={fiscalYear.fiscalyear}
-                        />
-                      ))}
-                    </>
-                  )}
+                )}
+                {isOpensecurity && (
+                  <>
+                    <td colspan="4">
+                      <div class="col">
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to="/security/users"
+                          >
+                            <div class="col">
+                              <span className="">
+                                <FcBusinessman />
+                                Users
+                              </span>
+                            </div>
+                          </NavLink>
+                        </div>
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to="/security/role"
+                          >
+                            <div class="col">
+                              <span className="nav-link-inner--text">
+                                <FcPodiumWithSpeaker />
+                                Roles
+                              </span>
+                            </div>
+                          </NavLink>
+                        </div>
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to="/security/securables"
+                          >
+                            <div class="col">
+                              <span className="nav-link-inner--text">
+                                <FcTodoList />
+                                {""}Securables
+                              </span>
+                            </div>
+                          </NavLink>
+                        </div>
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to="/security/userapproval"
+                          >
+                            <div class="col">
+                              <span className="nav-link-inner--text">
+                                <FcApproval />
+                                User Approvals
+                              </span>
+                            </div>
+                          </NavLink>
+                        </div>
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to="/security/auditTrail"
+                          >
+                            <div class="col">
+                              <span className="nav-link-inner--text">
+                                <FcBiotech />
+                                Audit Trail
+                              </span>
+                            </div>
+                          </NavLink>
+                        </div>
+                      </div>
+                    </td>
+                  </>
+                )}
+                {canaccesslookup && (
                   <tr>
                     <td colspan="3">
                       <div style={{ display: "inline-block" }}>
-                        <div className="row">
-                          <div className="col">
-                            <div className="col">
-                              <BiSolidShoppingBag /> Contract Management
-                            </div>
-                          </div>
-                        </div>
+                        <GiLookAt /> RMF LookUp
                       </div>
                     </td>
                     <td>
-                      {" "}
                       <div className="whitespace-nowrap">
                         <DiSqllite
-                          isOpenlookcontr={isOpenlookcontr}
-                          toggle={togglelookcontr}
+                          isOpenlookup={isOpenlookup}
+                          toggle={togglelookup}
                         />
                         <ExpendableButton
-                          isOpenlookcontr={isOpenlookcontr}
-                          toggle={togglelookcontr}
+                          isOpenlookup={isOpenlookup}
+                          toggle={togglelookup}
                         />
+                        {/**isOpenlookup, togglelookup */}
                       </div>
                     </td>
                   </tr>
-                  {isOpenlookcontr && (
-                    <>
-                      <td colspan="4">
-                        <div class="col">
-                          <div class="row">
-                            <NavLink
-                              className="nav-item nav-link"
-                              to="/ContractManagemenrt/RoadRefference/roadClassification"
-                            >
-                              <div class="col">
-                                <GiRoad /> Road Classification
+                )}
+                {isOpenlookup && (
+                  <>
+                    <br />
+                    <tr>
+                      <td colspan="3">
+                        <div style={{ display: "inline-block" }}>
+                          <div className="row">
+                            <div className="col">
+                              <div className="col">
+                                <FaPeopleCarry /> Revenu Collection
                               </div>
-                            </NavLink>
-                          </div>
-                          <div class="row">
-                            <NavLink
-                              className="nav-item nav-link"
-                              to="/ContractManagemenrt/RoadRefference/roadCharacteristic"
-                            >
-                              <div class="col">
-                                <MdOutlineAddRoad /> Road Characteristics
-                              </div>
-                            </NavLink>
-                          </div>
-                          <div class="row">
-                            <NavLink
-                              className="nav-item nav-link"
-                              to="/ContractManagemenrt/RoadRefference/roadType"
-                            >
-                              <div class="col">
-                                <FaRoad /> Rood Types
-                              </div>
-                            </NavLink>
-                          </div>
-                          <div class="row">
-                            <NavLink
-                              className="nav-item nav-link"
-                              to="/ContractManagemenrt/RoadRefference/road"
-                            >
-                              <div class="col">
-                                <FcTimeline /> Road
-                              </div>
-                            </NavLink>
+                            </div>
                           </div>
                         </div>
                       </td>
-                    </>
-                  )}
-                </>
-              )}{" "}
-            </tbody>
-          </table>
+                      <td>
+                        {" "}
+                        <div className="whitespace-nowrap">
+                          <DiSqllite
+                            isOpenlookcoll={isOpenlookcoll}
+                            toggle={togglelookcoll}
+                          />
+                          <ExpendableButton
+                            isOpenlookcoll={isOpenlookcoll}
+                            toggle={togglelookcoll}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    {isOpenlookcoll && (
+                      <>
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to="/revenu/currency"
+                          >
+                            <div class="col">
+                              <i className="ni ni-key-25" />
+                              <span className="nav-link-inner--text">
+                                <FaCoins />
+                                &nbsp; Currency
+                              </span>
+                            </div>
+                          </NavLink>
+                        </div>
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to="/revenu/sourceoffunds"
+                          >
+                            <div class="col">
+                              <FcSalesPerformance /> Source of Funds
+                            </div>
+                          </NavLink>
+                        </div>
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to="/revenu/revenuproduct"
+                          >
+                            <div class="col">
+                              <i className="ni ni-key-25" />
+                              <span className="nav-link-inner--text">
+                                <FaPeopleCarry />
+                                &nbsp; Collections
+                              </span>
+                            </div>
+                          </NavLink>
+                        </div>
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to="/revenu/businesspaterner"
+                            tag={Link}
+                          >
+                            <div class="col">
+                              <i className="ni ni-key-25" />
+                              <span className="nav-link-inner--text">
+                                <FcConferenceCall />
+                                &nbsp;Business Partener
+                              </span>
+                            </div>
+                          </NavLink>
+                        </div>
+
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to="/revenu/paternerservice"
+                            tag={Link}
+                          >
+                            <div class="col">
+                              <i className="ni ni-key-25" />
+                              <span className="nav-link-inner--text">
+                                <FcServices />
+                                &nbsp;Partener Service
+                              </span>
+                            </div>
+                          </NavLink>
+                        </div>
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to="/revenu/servicepayment"
+                            tag={Link}
+                          >
+                            <div class="col">
+                              <i className="ni ni-key-25" />
+                              <span className="nav-link-inner--text">
+                                <FcCurrencyExchange />
+                                &nbsp;Service Payment
+                              </span>
+                            </div>
+                          </NavLink>
+                        </div>
+
+                        <div class="row">
+                          <NavLink
+                            className="nav-item nav-link"
+                            to="/revenu/paternerservicepayment"
+                            tag={Link}
+                          >
+                            <div class="col">
+                              <i className="ni ni-key-25" />
+                              <span className="nav-link-inner--text">
+                                <FcDebt />
+                                &nbsp;Paterner Service Payment
+                              </span>
+                            </div>
+                          </NavLink>
+                        </div>
+                      </>
+                    )}
+                    <tr>
+                      <td colspan="3">
+                        <div style={{ display: "inline-block" }}>
+                          <div className="row">
+                            <div className="col">
+                              <div className="col">
+                                <FcPlanner /> Planing
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        {" "}
+                        <div className="whitespace-nowrap">
+                          <DiSqllite
+                            isOpenlookplan={isOpenlookplan}
+                            toggle={togglelookplan}
+                          />
+                          <ExpendableButton
+                            isOpenlookplan={isOpenlookplan}
+                            toggle={togglelookplan}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    {isOpenlookplan && (
+                      <>
+                        {fiscalYear.map((fiscalYear) => (
+                          <ContractTypeMenu
+                            fiscalyearid={fiscalYear.fiscalyearid}
+                            fiscalyear={fiscalYear.fiscalyear}
+                          />
+                        ))}
+                      </>
+                    )}
+                    <tr>
+                      <td colspan="3">
+                        <div style={{ display: "inline-block" }}>
+                          <div className="row">
+                            <div className="col">
+                              <div className="col">
+                                <BiSolidShoppingBag /> Contract Management
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        {" "}
+                        <div className="whitespace-nowrap">
+                          <DiSqllite
+                            isOpenlookcontr={isOpenlookcontr}
+                            toggle={togglelookcontr}
+                          />
+                          <ExpendableButton
+                            isOpenlookcontr={isOpenlookcontr}
+                            toggle={togglelookcontr}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    {isOpenlookcontr && (
+                      <>
+                        <td colspan="4">
+                          <div class="col">
+                            <div class="row">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to="/ContractManagemenrt/RoadRefference/roadClassification"
+                              >
+                                <div class="col">
+                                  <GiRoad /> Road Classification
+                                </div>
+                              </NavLink>
+                            </div>
+                            <div class="row">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to="/ContractManagemenrt/RoadRefference/roadCharacteristic"
+                              >
+                                <div class="col">
+                                  <MdOutlineAddRoad /> Road Characteristics
+                                </div>
+                              </NavLink>
+                            </div>
+                            <div class="row">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to="/ContractManagemenrt/RoadRefference/roadType"
+                              >
+                                <div class="col">
+                                  <FaRoad /> Rood Types
+                                </div>
+                              </NavLink>
+                            </div>
+                            <div class="row">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to="/ContractManagemenrt/RoadRefference/road"
+                              >
+                                <div class="col">
+                                  <FcTimeline /> Road
+                                </div>
+                              </NavLink>
+                            </div>
+                          </div>
+                        </td>
+                      </>
+                    )}
+                  </>
+                )}{" "}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 };
 

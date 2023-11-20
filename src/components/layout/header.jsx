@@ -26,7 +26,7 @@ const Header = ({ user }) => {
     const islocked = true;
     const isselected = true;
     setfiscalyearid(fiscalyearid);
-    console.log("selected fiscal year:" + fiscalyearid);
+    
     try {
       await FiscalYear.addFiscalyear(
         fiscalyearid,

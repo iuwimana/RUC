@@ -12,6 +12,10 @@ import * as FiscalYear from "../../../../services/RMFPlanning/fiscalYearService"
 import * as ContractData from "../../../../services/ContractManagement/ContractSetting/contractservice";
 import * as ServiceOrderData from "../../../../services/ContractManagement/ContractSetting/serviceOrdersService";
 import * as ContractIspectionData from "../../../../services/contractinpection/contractinspect";
+import * as UserApprovalData from "../../../../services/security/userapprovalservice";
+import * as UserData from "../../../../services/security/userServices";
+import * as auth from "../../../../services/authService";
+import jwtDecode from "jwt-decode";
 
 import Pagination from "../../../common/pagination";
 //import Form from "../common/form";
@@ -93,6 +97,9 @@ class FrameworkApproval extends Component {
       outcome: [],
       contracts: [],
       banks: [],
+      user: [],
+      users: [],
+      userapprovals: [],
       currentPage: 1,
       pageSize: 6,
       requiredItem: 0,
@@ -136,6 +143,29 @@ async populateBanks() {
   async componentDidMount() {
     try {
       await this.populateBanks();
+      const user = auth.getJwt();
+      this.setState({ user });
+      const users = jwtDecode(user);
+      this.setState({ users });
+      const { data: userapprovals } =
+        await UserApprovalData.getuserapprovalevel(users.username, "Inspection");
+      this.setState({ userapprovals });
+      let approvmode="";
+      {
+        userapprovals.map(
+          (userapprovals) => approvmode= userapprovals.approvallevel
+        );
+      }
+      this.setState({approvmode});
+      if (approvmode === "Approv") {
+        this.setState({ canapprov: true, canreview: false });
+        
+      }else if (approvmode === "Verifier") {
+        this.setState({ canapprov: false, canreview: true });
+      }else if (approvmode === "Initiator") {
+        this.setState({ canapprov: false, canreview: false });
+      }
+
       
     } catch (ex) {
       return toast.error(
@@ -466,7 +496,7 @@ async populateBanks() {
             </button>{" "}
           </td>
           <td>
-            {canapprov && outcome.inspectionstatus === "New"  && (
+            {canreview && outcome.inspectionstatus === "New"  && (
               <button
                 className="btn btn-success"
                 onClick={() => this.handlereview(outcome.inspectionid)}
@@ -474,7 +504,7 @@ async populateBanks() {
                 Review
               </button>
             )}
-            {canapprov && outcome.inspectionstatus === " inspected " && (
+            {canreview && outcome.inspectionstatus === " inspected " && (
               <button
                 className="btn btn-success"
                 onClick={() => this.handlereview(outcome.inspectionid)} 
@@ -482,7 +512,7 @@ async populateBanks() {
                 Review
               </button>
             )}
-            {canapprov && outcome.inspectionstatus === " re-inspected " && (
+            {canreview && outcome.inspectionstatus === " re-inspected " && (
               <button
                 className="btn btn-success"
                 onClick={() => this.handlereview(outcome.serviceorderid)} 
@@ -491,7 +521,7 @@ async populateBanks() {
               </button>
             )}
 
-            {canreview && outcome.inspectionstatus === "Verified" && (
+            {canapprov && outcome.inspectionstatus === "Verified" && (
               <button
                 className="btn btn-success"
                 onClick={() => this.handleapproval(outcome.inspectionid)}

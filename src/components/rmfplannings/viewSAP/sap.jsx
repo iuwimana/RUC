@@ -8,7 +8,10 @@ import { MdNotificationsActive } from "react-icons/md";
 import * as Source from "../../../services/RevenuRessources/sourceofFundsServices";
 import * as Business from "../../../services/RevenuRessources/businessPaternerServices";
 import * as Outcome from "../../../services/RMFPlanning/outcomeService";
-
+import * as UserApprovalData from "../../../services/security/userapprovalservice";
+import * as UserData from "../../../services/security/userServices";
+import * as auth from "../../../services/authService";
+import jwtDecode from "jwt-decode";
 import Pagination from "../../common/pagination";
 //import Form from "../common/form";
 import { Card, CardHeader, CardBody, Col } from "reactstrap";
@@ -32,12 +35,16 @@ class Sap extends Component {
       outcomedescription: "",
       subprogramname: "",
       programname: "",
+      approvmode:"",
 
       canapprov: true,
       canreview: true,
       sources: [],
       business: [],
       outcome: [],
+      user: [],
+      users: [],
+      userapprovals: [],
       banks: [],
       currentPage: 1,
       pageSize: 4,
@@ -51,6 +58,27 @@ class Sap extends Component {
   }
   async componentDidMount() {
     try {
+      const user = auth.getJwt();
+      this.setState({ user });
+      const users = jwtDecode(user);
+      this.setState({ users });
+      const { data: userapprovals } =
+        await UserApprovalData.getuserapprovalevel(users.username, "Planing");
+      this.setState({ userapprovals });
+      let approvmode="";
+      {
+        userapprovals.map(
+          (userapprovals) => approvmode= userapprovals.approvallevel
+        );
+      }
+      this.setState({approvmode});
+      if (approvmode === "Approv") {
+        this.setState({ canapprov: true, canreview: false });
+        
+      }else if (approvmode === "Verifier") {
+        this.setState({ canapprov: false, canreview: true });
+      }
+     
       const { data: sources } = await Source.getSource();
       const { data: business } = await Business.getBusinessPaterners();
       const { data: outcome } = await Outcome.getoutcomes();
@@ -220,8 +248,12 @@ class Sap extends Component {
   }
 
   render() {
+    
+    
+    
     const canapprov = this.state.canapprov;
     const canreview = this.state.canreview;
+   
     const { length: count } = this.state.outcome;
     const { pageSize, currentPage, searchQuery } = this.state;
 
@@ -258,7 +290,7 @@ class Sap extends Component {
             </button>{" "}
           </td>
           <td>
-            {canapprov && outcome.statuses === "New" && (
+            {canreview && outcome.statuses === "New" && (
               <button
                 className="btn btn-success"
                 onClick={() => this.handlereview(outcome.outcomeid)}
@@ -267,7 +299,7 @@ class Sap extends Component {
               </button>
             )}
 
-            {canreview && outcome.statuses === "Verified" && (
+            {canapprov && outcome.statuses === "Verified" && (
               <button
                 className="btn btn-success"
                 onClick={() => this.handleapproval(outcome.outcomeid)}
@@ -275,6 +307,8 @@ class Sap extends Component {
                 Approval
               </button>
             )}
+
+            
           </td>
           <td>
             {outcome.statuses !== "Approved" && (
@@ -331,7 +365,7 @@ class Sap extends Component {
               <div className="text-muted text-center mt-2 mb-3">
                 <h1>
                   <div style={{ textAlign: "center" }}>
-                    <h1>RMF Planning- View SAP</h1>
+                    <h1>RMF Planning- View SAP </h1>
                   </div>
                 </h1>
               </div>

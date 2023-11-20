@@ -228,8 +228,8 @@ class Welcome extends Component {
                     </Col>
                   </Col>
                 </Row>
-                <Row>
-                  <Col xs={0} sm={0} md={3} lg={3}>
+                <Row >
+                  <Col xs={0} sm={0} md={3} lg={3.9}>
                     <>
                       <NavBar
                         user={user}
@@ -237,10 +237,10 @@ class Welcome extends Component {
                       />
                     </>
                   </Col>
-                  <Col xs={10} sm={10} md={8} lg={9}>
+                  <Col xs={10} sm={10} md={7} lg={8}>
                     {/*<WelcomeNav/> */}
 
-                    <Switch>
+                    <Switch >
                       {/**------------common */}
                       <Route path="/not-found" component={NotFound} />
                       <Route path="/home" component={Home} />

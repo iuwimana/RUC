@@ -233,6 +233,8 @@ h5:hover {
 
 
 .footer {
+  position: absolute;
+  
   left: 0;
   width: 100%;
   text-align: left;

@@ -5,6 +5,11 @@ import Rejectionmsg from "./rejectionmsg";
 import { toast } from "react-toastify";
 import { MdNotificationsActive } from "react-icons/md";
 //import { Link } from "react-router-dom";
+import * as UserApprovalData from "../../../../services/security/userapprovalservice";
+import * as UserData from "../../../../services/security/userServices";
+import * as auth from "../../../../services/authService";
+import jwtDecode from "jwt-decode";
+
 import * as Source from "../../../../services/RevenuRessources/sourceofFundsServices";
 import * as Business from "../../../../services/RevenuRessources/businessPaternerServices";
 import * as Outcome from "../../../../services/RMFPlanning/outcomeService";
@@ -86,6 +91,9 @@ class EmmargencyApproval extends Component {
       sources: [],
       business: [],
       outcome: [],
+      user: [],
+      users: [],
+      userapprovals: [],
       fiscalyear: [],
       contracts: [],
       banks: [],
@@ -133,6 +141,28 @@ class EmmargencyApproval extends Component {
   async componentDidMount() {
     try {
       await this.populateBanks();
+       const user = auth.getJwt();
+      this.setState({ user });
+      const users = jwtDecode(user);
+      this.setState({ users });
+      const { data: userapprovals } =
+        await UserApprovalData.getuserapprovalevel(users.username, "Inspection");
+      this.setState({ userapprovals });
+      let approvmode="";
+      {
+        userapprovals.map(
+          (userapprovals) => approvmode= userapprovals.approvallevel
+        );
+      }
+      this.setState({approvmode});
+      if (approvmode === "Approv") {
+        this.setState({ canapprov: true, canreview: false });
+        
+      }else if (approvmode === "Verifier") {
+        this.setState({ canapprov: false, canreview: true });
+      }else if (approvmode === "Initiator") {
+        this.setState({ canapprov: false, canreview: false });
+      }
     } catch (ex) {
       return toast.error(
         "An Error Occured, while rfetching revenu Payment data Please try again later" +
@@ -367,7 +397,7 @@ class EmmargencyApproval extends Component {
   }
 
   render() {
-    console.log(`hello${JSON.stringify(this.state.fiscalyear)}`)
+    
     const canapprov = this.state.canapprov;
     const canreview = this.state.canreview;
     const { length: count } = this.state.outcome;
@@ -442,7 +472,7 @@ class EmmargencyApproval extends Component {
             </button>{" "}
           </td>
           <td>
-            {canapprov && outcome.inspectionstatus === "New" && (
+            {canreview && outcome.inspectionstatus === "New" && (
               <button
                 className="btn btn-success"
                 onClick={() => this.handlereview(outcome.inspectionid)}
@@ -451,7 +481,7 @@ class EmmargencyApproval extends Component {
               </button>
             )}
 
-            {canreview && outcome.inspectionstatus === "Verified" && (
+            {canapprov && outcome.inspectionstatus === "Verified" && (
               <button
                 className="btn btn-success"
                 onClick={() => this.handleapproval(outcome.inspectionid)}

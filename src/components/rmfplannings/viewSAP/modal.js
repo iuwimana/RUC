@@ -55,7 +55,7 @@ class Modal extends Component {
   }
    async populateBanks() {
     try {
-      console.log(this.state.OutcomeId)
+      
       const item = this.state;
       const { data: banks } = await bank.getbanks();
       

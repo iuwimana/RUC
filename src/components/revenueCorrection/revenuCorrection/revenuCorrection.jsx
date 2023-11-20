@@ -201,7 +201,7 @@ class RevenuCorrection extends Component {
   async fiscalyearidHandler(e) {
     this.setState({ fiscalyearid: e.target.value });
     await this.componentDidMount();
-    console.log("current fiscayear:" + this.state.fiscalyearid);
+    
     this.setState({ fiscalyearname: " "});
   }
 
@@ -389,9 +389,7 @@ class RevenuCorrection extends Component {
                               AddRevenu
                             </NavLink>
                           )}
-                          {console.log(
-                            `revenuproductid:${this.state.revenuproductid} revenuproductname${this.state.revenuproductname}`
-                          )}
+                          
 
                           <div style={{ textAlign: "center" }}>
                             <SearchBox
