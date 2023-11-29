@@ -50,9 +50,16 @@ import ContractorMenu from "../Menu/contract";
 import * as ContractData from "../../services/ContractManagement/ContractSetting/contractservice";
 
 import "../../home.css";
-const Contract= ({ contractid, contractorname,projectid,cancreateserviceorder,contractbudget,refnumber }) => {
+const Contract = ({
+  contractid,
+  contractorname,
+  projectid,
+  cancreateserviceorder,
+  contractbudget,
+  refnumber,
+}) => {
   //---------------------------------------
-   const { isOpen, toggle } = useOpenController(false);
+  const { isOpen, toggle } = useOpenController(false);
   const { isOpenrec, togglerec } = useOpenController(false);
   const { isOpenplan, toggleplan } = useOpenController(false);
   const { isOpencont, toggleCont } = useOpenController(false);
@@ -60,24 +67,78 @@ const Contract= ({ contractid, contractorname,projectid,cancreateserviceorder,co
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
   const { isOpenproject, toggleproject } = useOpenController(false);
   //---------------------------------------
-const [contractsmodeid,setcontractmodeid]= useState(0);
-const [contracts, setcontracts]=useState([]);
+  const [contractsmodeid, setcontractmodeid] = useState(0);
+  const [contracts, setcontracts] = useState([]);
   //---------------------------------------
-const handleshowproject = async () => {
-
+  const handleshowproject = async () => {
     <NavLink
-            className="nav-item nav-link"
-              to={{
-                pathname:
-                  "/ContractManagemenrt/contract/contractpayment",
-                state: { contractid: contractid,projectid: projectid,contractbudget },
-              }}  >
-                {window.location.reload(false)}
-              </NavLink>
-
+      className="nav-item nav-link"
+      to={{
+        pathname: "/ContractManagemenrt/contract/contractpayment",
+        state: { contractid: contractid, projectid: projectid, contractbudget },
+      }}
+    >
+      {window.location.reload(false)}
+    </NavLink>;
   };
   return (
     <>
+      {cancreateserviceorder && (
+        <div className="row" key={contractid}>
+          {" "}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div className="col" onClick={handleshowproject}>
+            <div className="card" style={{ width: 310 }}>
+              <div className="vertical">
+                <br />
+                <div className="toggle">
+                  <NavLink
+                    className="nav-item nav-link"
+                    to={{
+                      pathname: "/ContractManagemenrt/contract/contractpayment",
+                      state: {
+                        contractid: contractid,
+                        projectid: projectid,
+                        contractbudget: contractbudget,
+                        refnumber: refnumber,
+                        contractorname: contractorname,
+                      },
+                    }}
+                  >
+                    <div className="cardssss ">
+                      <span className="nav-link-inner--text">
+                        contractor: - {contractorname}
+                      </span>
+                    </div>
+                  </NavLink>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {!cancreateserviceorder && (
+        <div className="row" key={contractid}>
+          {" "}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div className="col" onClick={handleshowproject}>
+            <div className="card" style={{ width: 310 }}>
+              <div className="vertical">
+                <br />
+                <div className="toggle">
+                  <div className="cardssss ">
+                    <span className="nav-link-inner--text">
+                      Contractor: - {contractorname}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/** 
       {cancreateserviceorder && (<tr key={contractid}>
         <td colspan="3">
           
@@ -139,9 +200,8 @@ const handleshowproject = async () => {
 
       }
       
-     
-      
+     */}
     </>
   );
-}
+};
 export default Contract;

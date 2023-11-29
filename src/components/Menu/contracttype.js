@@ -47,8 +47,8 @@ import * as FiscalYearContractType from "../../services/ContractManagement/Contr
 import * as Projectdata from "../../services/ContractManagement/ContractSetting/projectservice";
 import ProjectMenu from "../Menu/projector";
 import "../../home.css";
-import ContractorType from './../MenuInspection/contractortype';
-import AddRole from './../security/Role/addRole';
+import ContractorType from "./../MenuInspection/contractortype";
+import AddRole from "./../security/Role/addRole";
 
 const ContractType = ({ fiscalyearid, fiscalyear }) => {
   const { isOpen, toggle } = useOpenController(false);
@@ -58,7 +58,9 @@ const ContractType = ({ fiscalyearid, fiscalyear }) => {
   const { isOpenfiscalyear, togglefiscalyear } = useOpenController(false);
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
   const { isOpenproject, toggleproject } = useOpenController(false);
-
+  //--------------------------------------------------------------------
+  const [isopenfiscalyear, setOpenfiscalyearState] = useState(false);
+  const [isopencontracttype, setOpencontracttypeState] = useState(false);
   //-----------------------------------------------------------------------------------
   const [fiscalYear, setFiscalYear] = useState([]);
   const [fiscalYearid, setFiscalYearid] = useState(0);
@@ -126,8 +128,6 @@ const ContractType = ({ fiscalyearid, fiscalyear }) => {
         setFiscalYearcontracttype(data);
       };
       fetchProgram();
-
-      
     }, []);
   } catch (ex) {
     toast.error(
@@ -195,12 +195,69 @@ const ContractType = ({ fiscalyearid, fiscalyear }) => {
       );
     }
   );
+  //-----------------------------------------------------------
+  function handleopencontracttypeclick() {
+    setOpenfiscalyearState(!isopenfiscalyear);
+  }
   return (
     <>
-      
-          <tr key={fiscalyearid}>
-        
-        <td colspan="3">
+      <div className="row" key={fiscalyearid}>
+        {" "}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div className="col">
+          <div className="card" style={{ width: 370 }}>
+            <div className="vertical">
+              
+              <div className="toggle">
+                <NavLink
+                  className="nav-item nav-link"
+                  to={{
+                    pathname:
+                      "/ContractManagemenrt/contract/fiscalyearcontracttype",
+                    state: { fiscalyearid: fiscalyearid },
+                  }}
+                >
+                  <button
+                    type="button"
+                    className="collapsiblecontracttype"
+                    style={{ height: 40 }}
+                    onClick={handleopencontracttypeclick}
+                  >
+                    <div className="cardssss ">
+                      <span className="nav-link-inner--text">
+                        <MdManageAccounts />
+                        &nbsp;Contract Type- {fiscalyear}
+                      </span>
+                    </div>
+                  </button>
+                  </NavLink>
+                  {isopenfiscalyear && (
+                    <>
+                      {fiscalYearcontracttype.map((fiscalYearcontracttype) => (
+                        <ProjectMenu
+                          fiscalyearcontracttypeid={
+                            fiscalYearcontracttype.fiscalyearcontracttypeid
+                          }
+                          contracttypename={
+                            fiscalYearcontracttype.contracttypename
+                          }
+                          cancreateserviceorder={
+                            fiscalYearcontracttype.cancreateserviceorder
+                          }
+                        />
+                      ))}
+                    </>
+                  )}
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/**
+       * <tr key={fiscalyearid}>
+        <td colspan="4">
           <div class="row">
             <NavLink
               className="nav-item nav-link"
@@ -210,18 +267,18 @@ const ContractType = ({ fiscalyearid, fiscalyear }) => {
                 state: { fiscalyearid: fiscalyearid },
               }}
             >
-              <br/>
-              
-              <div class="col">Contract Type- {fiscalyear}</div>
-              <br/>
+              <br />
+
+              <div className="cardss">
+                <div class="col">Contract Type- {fiscalyear}</div>
+              </div>
+              <br />
             </NavLink>
           </div>
         </td>
         <td>
           {" "}
-          <div
-            className="whitespace-nowrap"
-          >
+          <div className="whitespace-nowrap">
             <DiSqllite
               isOpenfiscalyear={isOpenfiscalyear}
               toggle={togglefiscalyear}
@@ -234,19 +291,24 @@ const ContractType = ({ fiscalyearid, fiscalyear }) => {
         </td>
       </tr>
       {isOpenfiscalyear && (
-        <> 
+        <>
           {fiscalYearcontracttype.map((fiscalYearcontracttype) => (
             <ProjectMenu
               fiscalyearcontracttypeid={
                 fiscalYearcontracttype.fiscalyearcontracttypeid
               }
               contracttypename={fiscalYearcontracttype.contracttypename}
-              cancreateserviceorder={fiscalYearcontracttype.cancreateserviceorder}
+              cancreateserviceorder={
+                fiscalYearcontracttype.cancreateserviceorder
+              }
             />
           ))}
         </>
       )}
+       */}
+
+      
     </>
   );
 };
-export default ContractType;   
+export default ContractType;

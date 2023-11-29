@@ -68,6 +68,9 @@ const ContractMode = ({
   //---------------------------------------
   const [contractsmodeid, setcontractmodeid] = useState(0);
   const [contracts, setcontracts] = useState([]);
+
+  //---------------------------------------------
+  const [isopencontracttype, setOpencontracttypeState] = useState(false);
   //---------------------------------------
 
   //const { data: business } = await ContractData.getcontractBycontractmode(state.contractmodeid);
@@ -96,7 +99,7 @@ const ContractMode = ({
           state: { contractmodeid: contractmodeid },
         }}
       >
-        {window.location.reload(false)}
+        {/**{window.location.reload(false)}**/}
       </NavLink>;
     } catch (ex) {
       toast.error(
@@ -104,9 +107,17 @@ const ContractMode = ({
       );
     }
   };
+  //-----------------------------------------------------------
+   function handleopencontracttypeclick() {
+    setOpencontracttypeState(!isopencontracttype);
+    
+  }
 
   return (
     <>
+      
+
+      
       {cancreateserviceorder && (<tr key={contractmodeid}>
         <td colspan="3">
           <div class="row">
@@ -187,6 +198,10 @@ const ContractMode = ({
           ))}
         </>
       )}
+ 
+     
+
+      
     </>
   );
 };

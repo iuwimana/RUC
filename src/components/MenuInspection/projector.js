@@ -48,7 +48,11 @@ import * as Projectdata from "../../services/ContractManagement/ContractSetting/
 import ContractorTypeMenu from "../MenuInspection/contractortype";
 import "../../home.css";
 
-const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceorder }) => {
+const Project = ({
+  fiscalyearcontracttypeid,
+  contracttypename,
+  cancreateserviceorder,
+}) => {
   const { isOpen, toggle } = useOpenController(false);
   const { isOpenrec, togglerec } = useOpenController(false);
   const { isOpenplan, toggleplan } = useOpenController(false);
@@ -56,6 +60,8 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
   const { isOpenfiscalyear, togglefiscalyear } = useOpenController(false);
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
   const { isOpenproject, toggleproject } = useOpenController(false);
+  //---------------------------------------------
+  const [isopencontracttype, setOpencontracttypeState] = useState(false);
 
   //-----------------------------------------------------------------------------------
   const [fiscalYear, setFiscalYear] = useState([]);
@@ -75,7 +81,6 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
         },
       }}
     >
-      
       {window.location.reload(false)}
     </NavLink>;
   };
@@ -147,7 +152,7 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
         ex
     );
   }
- 
+
   //---------------------------------------
   try {
     useEffect(() => {
@@ -189,15 +194,59 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
       );
     }
   );
+  //-----------------------------------------------------
+  function handleopencontracttypeclick() {
+    setOpencontracttypeState(!isopencontracttype);
+  }
   return (
     <>
+      <div className="row" key={fiscalyearcontracttypeid}>
+        {" "}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div className="col">
+          <div className="card" style={{ width: 340 }}>
+            <div className="vertical">
+              <br />
+              <div className="toggle">
+                
+                  <button
+                    type="button"
+                    className="collapsiblecontracttype"
+                    style={{ height: 40 }}
+                    onClick={handleopencontracttypeclick}
+                  >
+                    <div className="cardssss ">
+                      <span className="nav-link-inner--text">
+                        Contract Type: -{contracttypename}
+                      </span>
+                    </div>
+                  </button>
+                
+                {isopencontracttype && (
+                  <>
+                    {project.map((project) => (
+                      <ContractorTypeMenu
+                        projectid={project.projectid}
+                        roadname={project.roadname}
+                        cancreateserviceorder={cancreateserviceorder}
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/** 
       <tr key={fiscalyearcontracttypeid}>
         <td colspan="3">
           <div class="row">
             <div class="col" onClick={handleshowproject}>
-              <br/>
-                Contract Type: -{contracttypename}
-              <br/>
+              <br />
+              Contract Type: -{contracttypename}
+              <br />
             </div>
           </div>
         </td>
@@ -220,16 +269,14 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
         <>
           {project.map((project) => (
             <ContractorTypeMenu
-              projectid={
-                project.projectid
-              }
+              projectid={project.projectid}
               roadname={project.roadname}
               cancreateserviceorder={cancreateserviceorder}
             />
           ))}
-          
         </>
       )}
+      */}
     </>
   );
 };

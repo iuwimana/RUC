@@ -117,8 +117,23 @@ body {
 @media screen and (max-width: 750px) {
   #main-menu {
     display: none;
+    
   }
-
+   #dashboard {
+    display:none;
+  }
+  #dashboard {
+       max-width: 550;
+       width: auto;
+     }
+  #group1-group11-group12-group13-group14-group15-group16-group17-group18-group19-group2-group20-group21-group22-group23-group24-group25-group26-group27-group28-group29-group3-group30-group31-group32-group33-group34-group35-group36-group37-group38-group39-group4-group40-group41-group42-group43-group44-group45-group46-group5-group6-group7-group8-group9-group10 {
+      max-width: 550;
+      width: auto;
+  }
+   #rectangle1-rectangle11-rectangle12-rectangle13-rectangle14-rectangle15-rectangle16-rectangle17-rectangle18-rectangle19-rectangle2-rectangle20-rectangle21-rectangle22-rectangle23-rectangle24-rectangle25-rectangle26-rectangle27-rectangle28-rectangle29-rectangle3-rectangle30-rectangle31-rectangle32-rectangle33-rectangle34-rectangle4-rectangle5-rectangle6-rectangle7-rectangle8-rectangle9-rectangle10 {
+    max-width: 550;
+    width: auto;
+  }
   #hamburger-menu {
     display: inline;
   }
@@ -173,7 +188,7 @@ body {
   background-color: transparent;
   max-height: 3215px;
   max-width: 539px;
-  width: 439px;
+  width: auto;
   height: 100%;
   left: 0px;
   top: 0px;
@@ -217,7 +232,8 @@ body {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   box-shadow: none;
-  width: 439px;
+  width: auto;
+  max-width: 439px;
   height: 3215px;
   left: 0px;
   top: 0px;
@@ -249,8 +265,8 @@ body {
   background-color: rgba(239, 239, 239, 1);
   max-width: 1360px;
   max-height: 600px;
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: auto;
   left: 0px;
 }
 
@@ -322,7 +338,8 @@ body {
   overflow-x: unset;
   overflow-y: unset;
   background-color: transparent;
-  width: 1771px;
+  width: auto;
+    max-width: 1771px;
   height: 973px;
   left: 48px;
   top: 2129px;
@@ -366,8 +383,11 @@ body {
   border-bottom-right-radius: 33px;
   -webkit-filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.1607843137254902));
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.1607843137254902));
-  width: 1771px;
-  height: 425px;
+  width: auto;
+    max-width: 1268px;
+  
+    min-height: 1286px;
+    height: auto;
   left: 0px;
   top: 0px;
 }
@@ -410,9 +430,12 @@ body {
   border-bottom-right-radius: 33px;
   -webkit-filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.1607843137254902));
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.1607843137254902));
-  width: 1771px;
-  height: 510px;
-  left: 0px;
+  width: auto;
+  max-width: 1229px;
+  
+  min-height: 758px;
+  height: auto;
+  left: 40px;
   top: 463px;
 }
 
@@ -439,9 +462,10 @@ body {
   overflow-x: unset;
   overflow-y: unset;
   background-color: transparent;
-  width: 529px;
+  width: auto;
+  max-width: 529px;
   height: 181px;
-  left: 624px;
+  left: 408px;
   top: 196px;
 }
 
@@ -482,7 +506,8 @@ body {
   border-bottom-left-radius: 24px;
   border-bottom-right-radius: 24px;
   box-shadow: none;
-  width: 529px;
+  width: auto;
+    max-width: 429px;
   height: 181px;
   left: 0px;
   top: 0px;
@@ -509,9 +534,10 @@ body {
   padding-left: 0px;
   fill: rgba(18, 184, 129, 1);
   box-shadow: none;
-  width: 82px;
+  width: auto;
+    max-width: 82px;
   height: 83px;
-  left: 419px;
+  left: 319px;
   top: 41px;
 }
 
@@ -548,7 +574,8 @@ body {
   overflow-x: unset;
   overflow-y: unset;
   white-space: pre;
-  width: 95px;
+  width: auto;
+    max-width: 95px;
   height: 54px;
   left: 53px;
   top: 77px;
@@ -587,7 +614,8 @@ body {
   overflow-x: unset;
   overflow-y: unset;
   white-space: pre;
-  width: 152px;
+  width: auto;
+    max-width: 152px;
   height: 25px;
   left: 53px;
   top: 41px;
@@ -616,9 +644,10 @@ body {
   overflow-x: unset;
   overflow-y: unset;
   background-color: transparent;
-  width: 47.74px;
+  width: auto;
+    max-width: 47.74px;
   height: 47.75px;
-  left: 438px;
+  left: 338px;
   top: 59px;
 }
 
@@ -877,7 +906,7 @@ body {
   border-bottom-left-radius: 24px;
   border-bottom-right-radius: 24px;
   box-shadow: none;
-  width: 529px;
+  width: 329px;
   height: 181px;
   left: 0px;
   top: 0px;
@@ -906,7 +935,7 @@ body {
   box-shadow: none;
   width: 82px;
   height: 83px;
-  left: 418px;
+  left: 218px;
   top: 41px;
 }
 
@@ -1013,7 +1042,7 @@ body {
   background-color: transparent;
   width: 52px;
   height: 47.52px;
-  left: 433px;
+  left: 233px;
   top: 60.79px;
 }
 
@@ -1231,7 +1260,7 @@ body {
   background-color: transparent;
   width: 529px;
   height: 181px;
-  left: 1191px;
+  left: 871px;
   top: 196px;
 }
 
@@ -1272,7 +1301,7 @@ body {
   border-bottom-left-radius: 24px;
   border-bottom-right-radius: 24px;
   box-shadow: none;
-  width: 529px;
+  width: 389px;
   height: 181px;
   left: 0px;
   top: 0px;
@@ -1301,7 +1330,7 @@ body {
   box-shadow: none;
   width: 82px;
   height: 83px;
-  left: 425px;
+  left: 305px;
   top: 41px;
 }
 
@@ -1408,7 +1437,7 @@ body {
   background-color: transparent;
   width: 52.34px;
   height: 48.31px;
-  left: 441.14px;
+  left: 321.14px;
   top: 61px;
 }
 
@@ -1492,7 +1521,7 @@ body {
   letter-spacing: 0px;
   color: rgba(6, 78, 162, 1);
   -webkit-text-stroke: 1px rgba(0, 0, 0, 0);
-  font-size: 45px;
+  font-size: 25px;
   font-weight: 500;
   font-style: normal;
   font-family: "Helvetica Neue", Arial;
@@ -1503,7 +1532,7 @@ body {
   white-space: pre;
   width: 377px;
   height: 54px;
-  left: 94px;
+  left: 114px;
   top: 15px;
 }
 
@@ -1562,7 +1591,7 @@ body {
   box-shadow: none;
   width: 82px;
   height: 83px;
-  left: 0px;
+  left: 20px;
   top: 0px;
 }
 
@@ -1618,7 +1647,7 @@ body {
   box-shadow: none;
   width: 46.01px;
   height: 46.49px;
-  left: 0px;
+  left: 20px;
   top: 0px;
 }
 
@@ -1647,7 +1676,7 @@ body {
   background-color: transparent;
   width: 35.72px;
   height: 20.72px;
-  left: 5.14px;
+  left: 25.14px;
   top: 17.69px;
 }
 
@@ -2028,7 +2057,7 @@ body {
   letter-spacing: 0px;
   color: rgba(6, 78, 162, 1);
   -webkit-text-stroke: 1px rgba(0, 0, 0, 0);
-  font-size: 45px;
+  font-size: 25px;
   font-weight: 500;
   font-style: normal;
   font-family: "Helvetica Neue", Arial;
@@ -3217,8 +3246,8 @@ body {
   background-color: transparent;
   width: 423px;
   height: 253px;
-  left: 1311px;
-  top: 645px;
+  left: 100px;
+  top: 953px;
 }
 
 .dashboard .group45 .group15 .upcomingContracts {
@@ -3562,8 +3591,12 @@ body {
   border-bottom-right-radius: 29px;
   -webkit-filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.1607843137254902));
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.1607843137254902));
-  width: 1771px;
-  height: 482px;
+  
+  min-width: 1268px;
+  max-width: 1268px;
+  width: auto;
+  min-height: 459px;
+  height: auto;
   left: 0px;
   top: 0px;
 }
@@ -4491,7 +4524,7 @@ body {
   top: 148px;
 }
 
-.dashboard .group46 .group39 .x1780645fe5f533f {
+.dashboard .group46 .group43 .x1780645fe5f533f {
   position: absolute;
   box-sizing: content-box;
   -ms-transform: rotate(0deg);
@@ -4526,8 +4559,8 @@ body {
   white-space: pre;
   width: 200px;
   height: 54px;
-  left: 40px;
-  top: 226px;
+  left: 240px;
+  top: 74px;
 }
 
 .dashboard .group46 .group39 .x1780645 {
@@ -4819,10 +4852,17 @@ body {
   overflow-x: unset;
   overflow-y: unset;
   background-color: transparent;
-  width: 868px;
-  height: 359px;
-  left: 910px;
-  top: 117px;
+   width: 868px;
+    height: 359px;
+    left: 7px;
+    top: 117px;
+   
+        /*width: 868px;
+      height: 359px;
+      left: 910px;
+      top: 117px;
+      */
+      
 }
 
 .dashboard .group46 .group43 .rectangle10 {
@@ -4863,10 +4903,14 @@ body {
   border-bottom-right-radius: 30px;
   -webkit-filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.1607843137254902));
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.1607843137254902));
-  width: 868px;
-  height: 359px;
+  min-width: 1268px;
+  max-width: 1268px;
+  width: auto;
+  min-height: 359px;
+  height: auto;
   left: 0px;
   top: 0px;
+ 
 }
 
 .dashboard .group46 .group43 .ellipse4 {
@@ -5204,7 +5248,7 @@ body {
   padding-right: 0px;
   padding-bottom: 0px;
   padding-left: 0px;
-  background-color: rgba(239, 239, 239, 1);
+  background-color: rgba(6, 78, 162, 1);
   border-bottom-color: rgba(112, 112, 112, 1);
   border-bottom-style: solid;
   border-bottom-width: 1px;
@@ -5247,7 +5291,7 @@ body {
   padding-right: 0px;
   padding-bottom: 0px;
   padding-left: 0px;
-  background-color: rgba(239, 239, 239, 1);
+  background-color:rgba(6, 78, 162, 1);
   border-bottom-color: rgba(112, 112, 112, 1);
   border-bottom-style: solid;
   border-bottom-width: 1px;
@@ -5290,7 +5334,7 @@ body {
   padding-right: 0px;
   padding-bottom: 0px;
   padding-left: 0px;
-  background-color: rgba(239, 239, 239, 1);
+  background-color:rgba(6, 78, 162, 1);
   border-bottom-color: rgba(112, 112, 112, 1);
   border-bottom-style: solid;
   border-bottom-width: 1px;
@@ -6314,8 +6358,12 @@ body {
   border-bottom-right-radius: 33px;
   -webkit-filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.1607843137254902));
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.1607843137254902));
-  width: 1771px;
-  height: 1036px;
+  
+  min-width: 1290px;
+  max-width: 1268px;
+  width: auto;
+  min-height: 1036px;
+  height: auto;
   left: 0px;
   top: 0px;
 }
@@ -6425,7 +6473,7 @@ body {
   border-bottom-left-radius: 23px;
   border-bottom-right-radius: 23px;
   box-shadow: none;
-  width: 411px;
+  width: 381px;
   height: 227px;
   left: 0px;
   top: 0px;
@@ -10904,7 +10952,7 @@ body {
   letter-spacing: 0px;
   color: rgba(6, 78, 162, 1);
   -webkit-text-stroke: 1px rgba(0, 0, 0, 0);
-  font-size: 45px;
+  font-size: 29px;
   font-weight: 500;
   font-style: normal;
   font-family: "Helvetica Neue", Arial;
@@ -11289,7 +11337,7 @@ body {
   border-bottom-left-radius: 23px;
   border-bottom-right-radius: 23px;
   box-shadow: none;
-  width: 411px;
+  width: 380px;
   height: 590px;
   left: 0px;
   top: 0px;
@@ -11358,7 +11406,7 @@ body {
   letter-spacing: 0px;
   color: rgba(112, 112, 112, 1);
   -webkit-text-stroke: 1px rgba(0, 0, 0, 0);
-  font-size: 21px;
+  font-size: 18px;
   font-weight: 500;
   font-style: normal;
   font-family: "Helvetica Neue", Arial;
@@ -11397,7 +11445,7 @@ body {
   letter-spacing: 0px;
   color: rgba(227, 151, 23, 1);
   -webkit-text-stroke: 1px rgba(0, 0, 0, 0);
-  font-size: 21px;
+  font-size: 18px;
   font-weight: 500;
   font-style: normal;
   font-family: "Helvetica Neue", Arial;
@@ -11436,8 +11484,8 @@ body {
   letter-spacing: 0px;
   color: rgba(112, 112, 112, 1);
   -webkit-text-stroke: 1px rgba(6, 78, 162, 1);
-  font-size: 21px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 400;
   font-style: normal;
   font-family: "Helvetica Neue", Arial;
   text-decoration: none;

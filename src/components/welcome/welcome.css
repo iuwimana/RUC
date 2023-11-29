@@ -116,7 +116,46 @@ body {
   border: 1px solid #2691d9;
   border-radius: 9px;
 }
-
+.logcard{
+  color: rgb(119, 228, 228);
+  position: relative;
+    width: 150px;
+    min-height: 30px;
+    height: auto;
+    margin: 6px;
+    background: #089ef5;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    box-shadow: 0 15px 0 #f9c1c1c5,
+      inset 0 -15px 0 rgba(255, 255, 255, 0.992);
+    box-sizing: border-box;
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -ms-transform-origin: center;
+    -webkit-transform-origin: center;
+    transform-origin: center;
+    opacity: 1;
+  
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    fill: rgba(255, 255, 255, 1);
+    stroke: rgba(6, 78, 162, 1);
+    
+    stroke-width: 1px;
+    stroke-linecap: butt;
+    box-shadow: none;
+  
+   
+}
 .input-box input::placeholder {
   color: rgb(67, 66, 66);
   padding: auto;

@@ -56,6 +56,8 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
   const { isOpenfiscalyear, togglefiscalyear } = useOpenController(false);
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
   const { isOpenproject, toggleproject } = useOpenController(false);
+  //---------------------------------------------
+  const [isopencontracttype, setOpencontracttypeState] = useState(false);
 
   //-----------------------------------------------------------------------------------
   const [fiscalYear, setFiscalYear] = useState([]);
@@ -189,8 +191,54 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
       );
     }
   );
+  //-----------------------------------------------------
+  function handleopencontracttypeclick() {
+    setOpencontracttypeState(!isopencontracttype);
+  }
   return (
     <>
+
+    <div className="row" key={fiscalyearcontracttypeid}>
+        {" "}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div className="col">
+          <div className="card" style={{ width: 340 }}>
+            <div className="vertical">
+              <br />
+              <div className="toggle">
+                
+                  <button
+                    type="button"
+                    className="collapsiblecontracttype"
+                    style={{ height: 40 }}
+                    onClick={handleopencontracttypeclick}
+                  >
+                    <div className="cardssss ">
+                      <span className="nav-link-inner--text">
+                        Contract Type: -{contracttypename}
+                      </span>
+                    </div>
+                  </button>
+                
+                {isopencontracttype && (
+                  <>
+                    {project.map((project) => (
+                      <ContractorTypeMenu
+                        projectid={project.projectid}
+                        roadname={project.roadname}
+                        cancreateserviceorder={cancreateserviceorder}
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    {/** 
       <tr key={fiscalyearcontracttypeid}>
         <td colspan="3">
           <div class="row">
@@ -230,6 +278,7 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
           
         </>
       )}
+      */}
     </>
   );
 };

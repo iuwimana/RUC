@@ -51,11 +51,17 @@ import ContractorMenu from "../MenuInspection/contract";
 import * as ContractData from "../../services/ContractManagement/ContractSetting/contractservice";
 
 import "../../home.css";
-const ContractMode= ({ contractmodeid, contractmode,projectid ,cancreateserviceorder}) => {
-
-
-   //---------------------------------------
-   const { isOpen, toggle } = useOpenController(false);
+const ContractMode = ({
+  contractmodeid,
+  contractmode,
+  projectid,
+  cancreateserviceorder,
+}) => {
+  //---------------------------------------------
+  const [isopencontracttype, setOpencontracttypeState] = useState(false);
+  //---------------------------------------
+  //---------------------------------------
+  const { isOpen, toggle } = useOpenController(false);
   const { isOpenrec, togglerec } = useOpenController(false);
   const { isOpenplan, toggleplan } = useOpenController(false);
   const { isOpencont, toggleCont } = useOpenController(false);
@@ -63,15 +69,17 @@ const ContractMode= ({ contractmodeid, contractmode,projectid ,cancreateserviceo
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
   const { isOpenproject, toggleproject } = useOpenController(false);
   //---------------------------------------
-const [contractsmodeid,setcontractmodeid]= useState(0);
-const [contracts, setcontracts]=useState([]);
+  const [contractsmodeid, setcontractmodeid] = useState(0);
+  const [contracts, setcontracts] = useState([]);
   //---------------------------------------
 
   //const { data: business } = await ContractData.getcontractBycontractmode(state.contractmodeid);
   try {
     useEffect(() => {
       const fetchProgram = async () => {
-        const { data } = await ContractData.getcontractBycontractmode(contractmodeid);
+        const { data } = await ContractData.getcontractBycontractmode(
+          contractmodeid
+        );
         setcontracts(data);
       };
       fetchProgram();
@@ -82,47 +90,81 @@ const [contracts, setcontracts]=useState([]);
     );
   }
   //---------------------------------------
-   const handleshowcontractor=async()=>{
-     try {
+  const handleshowcontractor = async () => {
+    try {
       <NavLink
-            className="nav-item nav-link"
-              to={{
-                pathname:
-                  "/ContractManagemenrt/contract/contract",
-                state: { contractmodeid: contractmodeid },
-              }}        
-              
-              >
-                {window.location.reload(false)}
-              </NavLink>
+        className="nav-item nav-link"
+        to={{
+          pathname: "/ContractManagemenrt/contract/contract",
+          state: { contractmodeid: contractmodeid },
+        }}
+      >
+        {window.location.reload(false)}
+      </NavLink>;
     } catch (ex) {
       toast.error(
         "An Error Occured, while Loading contracttype data.........." + ex
       );
     }
-   }
+  };
+  //-----------------------------------------------------------
+  function handleopencontracttypeclick() {
+    setOpencontracttypeState(!isopencontracttype);
+  }
 
-
-   return (
+  return (
     <>
+      <div className="row" key={contractmodeid}>
+        {" "}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div className="col" >
+          <div className="card" style={{ width: 310 }}>
+            <div className="vertical">
+              <div className="toggle">
+                
+                  <button
+                    type="button"
+                    className="collapsiblecontracttype"
+                    style={{ height: 40 }}
+                    onClick={handleopencontracttypeclick}
+                  >
+                    <div className="cardssss ">
+                      <span className="nav-link-inner--text">
+                        Contract Mode: - {contractmode}
+                      </span>
+                    </div>
+                  </button>
+                
+
+                {isopencontracttype && (
+                  <>
+                    {contracts.map((contracts) => (
+                      <ContractorMenu
+                        contractid={contracts.contractid}
+                        contractorname={contracts.contractorname}
+                        projectid={projectid}
+                        cancreateserviceorder={cancreateserviceorder}
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/** 
       <tr key={contractmodeid}>
         <td colspan="3">
-          
-          <div class="row" >
-                       
-  
-            
-            <div class="col"onClick={handleshowcontractor} >
-             <br/>
-               Contract Mode: - {contractmode}
-             <br/>
+          <div class="row">
+            <div class="col" onClick={handleshowcontractor}>
+              <br />
+              Contract Mode: - {contractmode}
+              <br />
             </div>
-            
           </div>
-          
         </td>
-
-        
 
         <td>
           {" "}
@@ -139,25 +181,19 @@ const [contracts, setcontracts]=useState([]);
         </td>
       </tr>
       {isOpencontracttype && (
-        
-          <>
+        <>
           {contracts.map((contracts) => (
             <ContractorMenu
-              contractid={
-                contracts.contractid
-              }
+              contractid={contracts.contractid}
               contractorname={contracts.contractorname}
               projectid={projectid}
               cancreateserviceorder={cancreateserviceorder}
             />
           ))}
-          </>
-          )}
-
-      
-     
-      
+        </>
+      )}
+      */}
     </>
   );
-}
+};
 export default ContractMode;

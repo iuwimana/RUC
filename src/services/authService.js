@@ -3,14 +3,35 @@ import http from "./httpService";
 import  apiUrl  from '../config.json';
 
 const apiEndpoint = apiUrl.apiUrl + "/auth/logins";
+const apiEndpoints = apiUrl.apiUrl + "/auth/loginss";
+const apiEndpointresendtoken = apiUrl.apiUrl + "/auth/resendtoken";
 const apiEndpointreset = apiUrl.apiUrl + "/auth/resetpassword";
+const apiEndpointverify = apiUrl.apiUrl + "/auth/verify";
 const tokenKey = "token";
 
 http.setJwt(getJwt());
 
 export async function login(username,password) {
   const { data: jwt } = await http.post(apiEndpoint, {username, password });
+  //localStorage.setItem(tokenKey, jwt);
+  
+}
+export async function logins(username,password) {
+  const { data: jwt } = await http.post(apiEndpoints, {username, password });
   localStorage.setItem(tokenKey, jwt);
+  
+}
+export async function verify(userId,token) {
+  
+  const verif=await http.post(apiEndpointverify, {userId,token});
+   return verif;
+  
+}
+
+export async function resendtoken(username) {
+  
+  return await http.post(apiEndpointresendtoken, {username});
+   
   
 }
 
@@ -45,5 +66,8 @@ export default {
   loginWithJwt,
   logout,
   getCurrentUser,
-  getJwt
+  getJwt,
+  verify,
+  logins,
+  resendtoken
 };

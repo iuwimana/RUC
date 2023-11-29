@@ -273,7 +273,7 @@ class Contract extends Component {
                           }
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
                         <p>There are no contractor in Database.</p>
                         <AddModal 
@@ -292,7 +292,7 @@ class Contract extends Component {
                           }
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
 
                         <div style={{ textAlign: "center" }}>

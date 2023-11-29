@@ -56,6 +56,9 @@ const ContractType = ({ fiscalyearid, fiscalyear }) => {
   const { isOpenfiscalyear, togglefiscalyear } = useOpenController(false);
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
   const { isOpenproject, toggleproject } = useOpenController(false);
+  //--------------------------------------------------------------------
+  const [isopenfiscalyear, setOpenfiscalyearState] = useState(false);
+  const [isopencontracttype, setOpencontracttypeState] = useState(false);
 
   //-----------------------------------------------------------------------------------
   const [fiscalYear, setFiscalYear] = useState([]);
@@ -124,8 +127,6 @@ const ContractType = ({ fiscalyearid, fiscalyear }) => {
         setFiscalYearcontracttype(data);
       };
       fetchProgram();
-
-      
     }, []);
   } catch (ex) {
     toast.error(
@@ -193,25 +194,71 @@ const ContractType = ({ fiscalyearid, fiscalyear }) => {
       );
     }
   );
+  //-----------------------------------------------------------
+  function handleopencontracttypeclick() {
+    setOpenfiscalyearState(!isopenfiscalyear);
+  }
   return (
     <>
+      <div className="row" key={fiscalyearid}>
+        {" "}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div className="col">
+          <div className="card" style={{ width: 370 }}>
+            <div className="vertical">
+              <div className="toggle">
+                
+                  <button
+                    type="button"
+                    className="collapsiblecontracttype"
+                    style={{ height: 40 }}
+                    onClick={handleopencontracttypeclick}
+                  >
+                    <div className="cardssss ">
+                      <span className="nav-link-inner--text">
+                       
+                        &nbsp;Fiscal Year -{fiscalyear}
+                      </span>
+                    </div>
+                  </button>
+                
+                {isopenfiscalyear && (
+                  <>
+                    {fiscalYearcontracttype.map((fiscalYearcontracttype) => (
+                      <ProjectMenu
+                        fiscalyearcontracttypeid={
+                          fiscalYearcontracttype.fiscalyearcontracttypeid
+                        }
+                        contracttypename={
+                          fiscalYearcontracttype.contracttypename
+                        }
+                        cancreateserviceorder={
+                          fiscalYearcontracttype.cancreateserviceorder
+                        }
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/** 
       <tr key={fiscalyearid}>
         <td colspan="3">
           <div class="row">
-            
-              <div class="col">
-                <br/>
-                Fiscal Year -{fiscalyear}
-                <br/>
-                </div>
-           
+            <div class="col">
+              <br />
+              Fiscal Year -{fiscalyear}
+              <br />
+            </div>
           </div>
         </td>
         <td>
           {" "}
-          <div
-            className="whitespace-nowrap"
-          >
+          <div className="whitespace-nowrap">
             <DiSqllite
               isOpenfiscalyear={isOpenfiscalyear}
               toggle={togglefiscalyear}
@@ -224,20 +271,22 @@ const ContractType = ({ fiscalyearid, fiscalyear }) => {
         </td>
       </tr>
       {isOpenfiscalyear && (
-        <> 
+        <>
           {fiscalYearcontracttype.map((fiscalYearcontracttype) => (
             <ProjectMenu
               fiscalyearcontracttypeid={
                 fiscalYearcontracttype.fiscalyearcontracttypeid
               }
               contracttypename={fiscalYearcontracttype.contracttypename}
-              cancreateserviceorder={fiscalYearcontracttype.cancreateserviceorder}
+              cancreateserviceorder={
+                fiscalYearcontracttype.cancreateserviceorder
+              }
             />
           ))}
         </>
       )}
+      */}
     </>
   );
 };
-export default ContractType;   
-  
+export default ContractType;

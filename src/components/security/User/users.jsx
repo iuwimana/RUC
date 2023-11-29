@@ -19,12 +19,13 @@ import {
   MdPersonOff,
 } from "react-icons/md";
 
+
 class Users extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      userid:0,
+      userid: 0,
       users: [],
       currentPage: 1,
       pageSize: 4,
@@ -118,6 +119,19 @@ class Users extends Component {
       userid: userid,
     });
   }
+  
+  setheadunit = async (userid) => {
+    try {
+      if (!userid) {
+        toast.info(`the User you selected ${userid} doesnot exist`);
+      } else {
+        await User.setheadofunit(userid);
+        toast.success(`this user  has been set as Head of Unit successful`);
+      }
+    } catch (ex) {
+      toast.error(`the activation of this user has failed ${ex}`);
+    }
+  };
   saveModalDetails(users) {
     const requiredItem = this.state.requiredItem;
     let tempbrochure = this.state.users;
@@ -138,9 +152,10 @@ class Users extends Component {
         <tr key={users.user_userid}>
           {" "}
           <td>{users.user_email}</td>
-          <td>{users.user_createdate}</td>
+          {/*<td>{users.user_createdate}</td>*/}
           <td>{users.user_fullname}</td>
           <td>{users.user_isconfirmed.toString()}</td>
+          <td>{users.user_isheadofunit.toString()}</td>
           <td>
             {users.user_isconfirmed !== true && (
               <button
@@ -167,6 +182,14 @@ class Users extends Component {
               onClick={() => this.replaceModalItem(index, users.user_userid)}
             >
               <MdOutlinePersonalInjury /> Grant
+            </button>
+          </td>
+          <td>
+            <button
+              className="btn btn-success"
+              onClick={() => this.setheadunit(users.user_userid)}
+            >
+              <MdHowToReg /> set
             </button>
           </td>
         </tr>
@@ -225,11 +248,13 @@ class Users extends Component {
                         <thead>
                           <tr>
                             <th>Email</th>
-                            <th>CreateDate</th>
+                            {/*<th>CreateDate</th>*/}
                             <th>FullName</th>
                             <th>IsConfirmed</th>
+                            <th>IsHeadofUnit</th>
                             <th>Activation</th>
                             <th>GrantRole</th>
+                            <th>Head of Unit</th>
                           </tr>
                         </thead>
                         <tbody>{brochure}</tbody>

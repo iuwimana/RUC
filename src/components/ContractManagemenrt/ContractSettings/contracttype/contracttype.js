@@ -254,7 +254,7 @@ class BusinessPaterner extends Component {
                           onClick={() => this.handleshow(this.state.fiscalyearids)}
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
                         <p>There are no Business Paterner in Database.</p>
                         <AddModal />
@@ -269,7 +269,7 @@ class BusinessPaterner extends Component {
                           onClick={() => this.handleshow(this.state.fiscalyearids)}
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
 
                         <div style={{ textAlign: "center" }}>

@@ -5,8 +5,9 @@ import Joi from "joi-browser";
 import * as auth from "../../services/authService";
 import Form from "../common/form";
 import Resetpassword from "./resetpasswordModal";
+import Verify from "./verifyOTP";
 import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import App from "../../App";
+
 
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
@@ -17,6 +18,7 @@ class Index extends Form {
   state = {
     data: { username: "", password: "" },
     openModal: false,
+    openOTP: false,
     errors: {},
   };
   schema = {
@@ -37,6 +39,10 @@ class Index extends Form {
 
   onCloseModal = () => this.setState({ openModal: false });
 
+  handleOpenOTP = () => this.setState({ openOTP: true });
+
+  handleCloseOTP = () => this.setState({ openOTP: false });
+
   handleClick = async (e) => {
     try {
       const { data } = this.state;
@@ -50,8 +56,10 @@ class Index extends Form {
         toast.info("password is Required, Please fill it!!");
       } else {
         await auth.login(this.state.username, this.state.password);
-        const { state } = this.props.location;
-        window.location = state ? state.from.pathname : "/welcome";
+        this.handleOpenOTP()
+        //const { state } = this.props.location;
+        
+        //window.location = state ? state.from.pathname : "/welcome";
         toast.success(`Dear  ${this.state.username} you are login successful`);
       }
     } catch (ex) {
@@ -123,20 +131,23 @@ class Index extends Form {
             </div>
             <br />
             <div className="modal-footer">
+              <div className="logcard">
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-primaries text-white"
                 data-dismiss="modal"
                 onClick={this.handleClick}
               >
                 Login
               </button>
             </div>
+            </div>
             <div className="register">
-              <p>
+              
                 Do you forgot your password?{" "}
+                <p>
                 <div className="btn" onClick={() => this.onClickButton()}>
-                  Reset
+                  Reset it Here
                 </div>
               </p>
             </div>
@@ -161,6 +172,34 @@ class Index extends Form {
 
               <Modal.Body>
                 <Resetpassword />
+              </Modal.Body>
+              <Modal.Footer></Modal.Footer>
+            </Modal>
+
+            <Modal
+              dialogClassName="my-modal"
+              show={this.state.openOTP}
+              onHide={this.handleCloseOTP}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Verify Account</Modal.Title>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                  onClick={this.handleCloseOTP}
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </Modal.Header>
+
+              <Modal.Body>
+                <Verify 
+                 
+                username={this.state.username}
+                password={this.state.password}
+                />
               </Modal.Body>
               <Modal.Footer></Modal.Footer>
             </Modal>

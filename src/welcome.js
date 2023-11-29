@@ -237,7 +237,7 @@ class Welcome extends Component {
                       />
                     </>
                   </Col>
-                  <Col xs={10} sm={10} md={7} lg={8}>
+                  <Col xs={10} sm={10} md={7} lg={9}>
                     {/*<WelcomeNav/> */}
 
                     <Switch >

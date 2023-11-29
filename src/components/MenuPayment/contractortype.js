@@ -62,6 +62,9 @@ const ContractorType = ({ projectid, roadname ,cancreateserviceorder}) => {
    //---------------------------------------
    const [contractmode, setcontractmode]=useState([])
     //---------------------------------------
+    const [isopencontracttype, setOpencontracttypeState] = useState(false);
+
+  //---------------------------------------
   try {
     useEffect(() => {
       const fetchProgram = async () => {
@@ -77,9 +80,52 @@ const ContractorType = ({ projectid, roadname ,cancreateserviceorder}) => {
   }
 
   //---------------------------------------
+  function handleopencontracttypeclick() {
+    setOpencontracttypeState(!isopencontracttype);
+  }
+  //-------------------------------------
 
   return (
     <>
+    <div className="row" key={projectid}>
+        {" "}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div className="col">
+          <div className="card" style={{ width: 310 }}>
+            <div className="vertical">
+              <div className="toggle">
+                <button
+                  type="button"
+                  className="collapsiblecontracttype"
+                  style={{ height: 40 }}
+                  onClick={handleopencontracttypeclick}
+                >
+                  <div className="cardssss ">
+                    <span className="nav-link-inner--text">
+                      Road - {roadname}
+                    </span>
+                  </div>
+                </button>
+
+                {isopencontracttype && (
+                  <>
+                    {contractmode.map((contractmode) => (
+                      <ContractModeMenu
+                        contractmodeid={contractmode.contractmodeid}
+                        contractmode={contractmode.contractmode}
+                        projectid={contractmode.projectid}
+                        cancreateserviceorder={cancreateserviceorder}
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {/** 
       <tr key={projectid}>
         <td colspan="3">
           <div class="row">
@@ -122,6 +168,7 @@ const ContractorType = ({ projectid, roadname ,cancreateserviceorder}) => {
         </>
         </>
       )}
+      */}
       
     </>
   );

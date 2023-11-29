@@ -65,10 +65,51 @@
   }
 }
 
+.cardssss {
+  position: relative;
+  width: 340px;
+  min-height: 20px;
+  height: auto;
+  margin: 6px;
+  background: #f0f1f3;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 40px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 40px;
+  box-shadow: 0 15px 0 #f9c1c1c5,
+    inset 0 -15px 0 rgba(255, 255, 255, 0.992);
+  box-sizing: border-box;
+  -ms-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -ms-transform-origin: center;
+  -webkit-transform-origin: center;
+  transform-origin: center;
+  opacity: 1;
+
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  fill: rgba(255, 255, 255, 1);
+  stroke: rgba(6, 78, 162, 1);
+  stroke-width: 1px;
+  stroke-linecap: butt;
+  box-shadow: none;
+
+  left: 0px;
+  top: 0px;
+}
+
 .cardss {
   position: relative;
-  width: 250px;
-  height: 30px;
+  width: 400px;
+  min-height: 20px;
+  height: auto;
   margin: 6px;
   background: #f0f1f3;
   border-top-left-radius: 0px;
@@ -103,6 +144,82 @@
     left: 0px;
     top: 0px;
 }
+.collapsible{
+  position: relative;
+  background-color: #fbf7f7;
+    color: rgb(14, 13, 13);
+    cursor: pointer;
+    padding: 10px;
+    width: 440px;
+    border: 3px;
+    border-color: aquamarine;
+    box-shadow: 0px 4px 36px 9px rgb(0 0 0 / 30%);
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+.collapsiblecontracttype {
+  position: relative;
+  background-color: #fbf7f7;
+  color: rgb(14, 13, 13);
+  cursor: pointer;
+  padding: 10px;
+  width: 350px;
+  border: 3px;
+  border-color: aquamarine;
+  box-shadow: 0px 4px 36px 9px rgb(0 0 0 / 30%);
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+.collapsibles {
+  position: relative;
+  background-color: #fbf7f7;
+  color: rgb(14, 13, 13);
+  cursor: pointer;
+  padding: 10px;
+  width: 420px;
+  border: 3px;
+  border-color: aquamarine;
+  box-shadow: 0px 4px 36px 9px rgb(0 0 0 / 30%);
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+.active,
+.collapsible:hover {
+  background-color: rgb(23, 98, 135);
+}
+.collapsibles:hover {
+  background-color: rgb(23, 98, 135);
+}
+.collapsiblecontracttype:hover {
+  background-color: rgb(23, 98, 135);
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+@media  screen and (max-width:780px) {
+ 
+  #collapsible {
+      position: relative;
+      background-color: #fbf7f7;
+      color: rgb(14, 13, 13);
+      cursor: pointer;
+      padding: 10px;
+      width: 250px;
+      border: 3px;
+      border-color: aquamarine;
+      box-shadow: 0px 4px 36px 9px rgb(0 0 0 / 30%);
+      text-align: left;
+      outline: none;
+      font-size: 10px;
+    }
+}
 .carid{
   position: relative;
   min-height: 580px;
@@ -113,6 +230,7 @@
     box-shadow: 0 15px 0 #f9c1c1c5,
       inset 0 -15px 0 rgba(255, 255, 255, 0.992);
     box-sizing: border-box;
+    box-shadow: 0px 15px 36px 9px rgb(0 0 0 / 30%);
     -ms-transform: rotate(0deg);
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);

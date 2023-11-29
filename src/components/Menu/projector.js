@@ -48,7 +48,11 @@ import * as Projectdata from "../../services/ContractManagement/ContractSetting/
 import ContractorTypeMenu from "../Menu/contractortype";
 import "../../home.css";
 
-const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceorder }) => {
+const Project = ({
+  fiscalyearcontracttypeid,
+  contracttypename,
+  cancreateserviceorder,
+}) => {
   const { isOpen, toggle } = useOpenController(false);
   const { isOpenrec, togglerec } = useOpenController(false);
   const { isOpenplan, toggleplan } = useOpenController(false);
@@ -56,7 +60,8 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
   const { isOpenfiscalyear, togglefiscalyear } = useOpenController(false);
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
   const { isOpenproject, toggleproject } = useOpenController(false);
-
+  //---------------------------------------------
+  const [isopencontracttype, setOpencontracttypeState] = useState(false);
   //-----------------------------------------------------------------------------------
   const [fiscalYear, setFiscalYear] = useState([]);
   const [fiscalYearid, setFiscalYearid] = useState(0);
@@ -75,7 +80,6 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
         },
       }}
     >
-      
       {window.location.reload(false)}
     </NavLink>;
   };
@@ -147,7 +151,7 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
         ex
     );
   }
- 
+
   //---------------------------------------
   try {
     useEffect(() => {
@@ -189,12 +193,63 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
       );
     }
   );
+  //-----------------------------------------------------
+  function handleopencontracttypeclick() {
+    setOpencontracttypeState(!isopencontracttype);
+    
+  }
   return (
     <>
-      <tr key={fiscalyearcontracttypeid}>
+      <div className="row" key={fiscalyearcontracttypeid}>
+        {" "}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div className="col">
+          <div className="card" style={{ width: 340 }}>
+            <div className="vertical">
+              <br />
+              <div className="toggle">
+                <NavLink
+                  className="nav-item nav-link"
+                  to={{
+                    pathname: "/ContractManagemenrt/contract/Project",
+                    state: {
+                      fiscalyearcontracttypeid: fiscalyearcontracttypeid,
+                    },
+                  }}
+                >
+                  <button
+                    type="button"
+                    className="collapsiblecontracttype"
+                    style={{ height: 40 }}
+                    onClick={handleopencontracttypeclick}
+                  >
+                    <div className="cardssss ">
+                      <span className="nav-link-inner--text">
+                        Road to maintain for {contracttypename}
+                      </span>
+                    </div>
+                  </button>
+                </NavLink>
+                {isopencontracttype && (
+                  <>
+                    {project.map((project) => (
+                      <ContractorTypeMenu
+                        projectid={project.projectid}
+                        roadname={project.roadname}
+                        cancreateserviceorder={cancreateserviceorder}
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/**
+       * <tr key={fiscalyearcontracttypeid}>
         <td colspan="3">
           <div class="row">
-            
             <div class="col" onClick={handleshowproject}>
               <NavLink
                 className="nav-item nav-link"
@@ -205,9 +260,11 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
                   },
                 }}
               >
-                <br/>
-                Road to maintain for {contracttypename}
-                <br/>
+                <br />
+                <div className="cardss">
+                  Road to maintain for {contracttypename}
+                </div>
+                <br />
               </NavLink>
             </div>
           </div>
@@ -231,18 +288,15 @@ const Project = ({ fiscalyearcontracttypeid, contracttypename,cancreateserviceor
         <>
           {project.map((project) => (
             <ContractorTypeMenu
-              projectid={
-                project.projectid
-              }
+              projectid={project.projectid}
               roadname={project.roadname}
               cancreateserviceorder={cancreateserviceorder}
             />
           ))}
-          
         </>
       )}
+       */}
     </>
   );
 };
 export default Project;
-   

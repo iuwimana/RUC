@@ -326,7 +326,7 @@ class Inspection extends Component {
                           }
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
                         <p>There are no contract to pay .</p>
                         <AddserviceModal
@@ -349,7 +349,7 @@ class Inspection extends Component {
                           }
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
                         <div style={{ textAlign: "center" }}>
                           <SearchBox

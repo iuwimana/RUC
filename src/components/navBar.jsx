@@ -266,6 +266,22 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
   const { isOpenlookcontr, togglelookcontr } = useOpenController(false);
 
   //-----------------------------------------------------------------------------------
+  const [isopen, setOpenState] = useState(false);
+  const [isopenrec, setOpenrecState] = useState(false);
+  const [isopenplan, setOpenplanState] = useState(false);
+  const [isopenapproval, setOpenapproval] = useState(false);
+  const [isopenapprovalcontract, setOpenapprovalcontract] = useState(false);
+  const [isopencont, setOpencontState] = useState(false);
+  const [isopenfiscalyear, setOpenfiscalyearState] = useState(false);
+  const [isopencontracttype, setOpencontracttypeState] = useState(false);
+  const [isopenproject, setOpenprojectState] = useState(false);
+  const [isopenlookup, setOpenlookupState] = useState(false);
+  const [isopensecurity, setOpensecurityState] = useState(false);
+  const [isopenlookcoll, setOpenlookcollState] = useState(false);
+  const [isopenlookplan, setOpenlookplanState] = useState(false);
+  const [isopenlookcontr, setOpenlookcontrState] = useState(false);
+  const [isopenapprovalinspection, setOpenapprovalinspection] = useState(false);
+  //------------------------------------------------------------------------
   const [fiscalYear, setFiscalYear] = useState([]);
   const [fiscalYearid, setFiscalYearid] = useState(0);
   const [fiscalyearcontracttypeid, setfiscalyearcontracttypeid] = useState(0);
@@ -405,12 +421,123 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
       );
     }
   );
+  //--------------------------------------------
+  function handleopenclick() {
+    {
+      /** 
+   var coll = document.getElementsByClassName("collapsible");
+   var i;
+
+   for (i = 0; i < coll.length; i++) {
+     coll[i].addEventListener("click", function () {
+       this.classList.toggle("active");
+       var content = this.nextElementSibling;
+       if (content.style.display === "block") {
+         content.style.display = "none";
+       } else {
+         content.style.display = "block";
+       }
+     });
+   
+     }
+    */
+    }
+    setOpenrecState(!isopenrec);
+    setOpenplanState(false);
+    setOpensecurityState(false);
+    setOpenlookupState(false);
+    setOpenlookcollState(false);
+    setOpencontState(false);
+  }
+  function handleopenplanningclick() {
+    setOpenrecState(false);
+    setOpensecurityState(false);
+    setOpenlookupState(false);
+    setOpenplanState(!isopenplan);
+    setOpenlookcollState(false);
+    setOpencontState(false);
+  }
+  function handleopencontractclick() {
+    setOpenrecState(false);
+    setOpenrecState(false);
+    setOpensecurityState(false);
+    setOpenlookupState(false);
+    setOpenlookcollState(false);
+    setOpencontState(!isopencont);
+  }
+  function handleopencontractcontractclick() {
+    setOpenrecState(false);
+    setOpenrecState(false);
+    setOpensecurityState(false);
+    setOpenlookupState(false);
+    setOpenlookcollState(false);
+    setOpenprojectState(!isopenproject);
+    setOpencontracttypeState(false);
+    setOpenfiscalyearState(false);
+  }
+  function handleopencontractinspectionclick() {
+    setOpenrecState(false);
+    setOpenrecState(false);
+    setOpensecurityState(false);
+    setOpenlookupState(false);
+    setOpenlookcollState(false);
+    setOpenprojectState(false);
+    setOpenfiscalyearState(false);
+    setOpencontracttypeState(!isopencontracttype);
+  }
+  function handleopencontractpaymentclick() {
+    setOpenrecState(false);
+    setOpenrecState(false);
+    setOpensecurityState(false);
+    setOpenlookupState(false);
+    setOpenlookcollState(false);
+    setOpencontracttypeState(false);
+    setOpenprojectState(false);
+    setOpenfiscalyearState(!isopenfiscalyear);
+  }
+  function handleopensecurityclick() {
+    setOpenrecState(false);
+    setOpenplanState(false);
+    setOpenlookupState(false);
+    setOpensecurityState(!isopensecurity);
+    setOpenlookcollState(false);
+    setOpencontState(false);
+  }
+  function handleopenlookupclick() {
+    setOpenrecState(false);
+    setOpenplanState(false);
+    setOpensecurityState(false);
+    setOpenlookupState(!isopenlookup);
+    setOpenlookcollState(false);
+    setOpencontState(false);
+  }
+
+  function handleopenlookupcollectionclick() {
+    setOpenrecState(false);
+    setOpenplanState(false);
+    setOpensecurityState(false);
+    setOpenlookcontrState(false);
+    setOpencontState(false);
+    setOpenlookcollState(!isopenlookcoll);
+  }
+  function handleopenlookupcontractclick() {
+    setOpenrecState(false);
+    setOpenplanState(false);
+    setOpensecurityState(false);
+    setOpenlookcollState(false);
+    setOpencontState(false);
+    setOpenlookcontrState(!isopenlookcontr);
+  }
+ 
   //----------------------------------------------------
-  const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+  const handleNavCollapse = () => {
+    if (isNavCollapsed === true) setIsNavCollapsed(false);
+    else setIsNavCollapsed(true);
+  };
 
   //--------------------------------------------
   return (
-    <div className="carid">
+    <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light rounded">
         <button
           className="custom-toggler navbar-toggler"
@@ -424,966 +551,765 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div
+        <div className={`navbar-collapse`} id="navbarsExample09">
+          {/*<div
           className={`${isNavCollapsed ? "collapse" : ""} navbar-collapse`}
           id="navbarsExample09"
-        >
-          <div className="table-responsive mb-5">
-            <table id="sidebar-menu" style={{ width: 380 }}>
-              <thead>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th style={{ width: 20 }}></th>
-                <th style={{ width: 20 }}></th>
-                <th style={{ width: 20 }}></th>
-              </thead>
-              <tbody>
-                <tr className="table table-non bordered">
-                  <td>
-                    {" "}
-                    <Link
-                      className="navbar-brand text-info font-weight-bolder"
-                      to="/home"
-                    >
-                      <span className="">
-                        <FcHome />
-                        RUCS
-                      </span>
-                    </Link>
-                  </td>
-                </tr>
-                {canaccessDashboard && (
-                  <tr className="w-25">
-                    <td colspan="3">
+           ></div>*/}
+
+          <div className="carid">
+            <div id="sidebar-menu" className="row" style={{ width: 1820 }}>
+              <div className="col">
+                <button
+                  type="button"
+                  className="collapsible"
+                  style={{ height: 60 }}
+                >
+                  <span className="">
+                    <FcHome />
+                    RUCS
+                  </span>
+                </button>
+                <div class="content">
+                  <p></p>
+                </div>
+              </div>
+            </div>
+            {canaccessDashboard && (
+              <div className="row" style={{ width: 1820 }}>
+                <button
+                  type="button"
+                  className="collapsible"
+                  style={{ height: 60, left: 16 }}
+                >
+                  <DiSqllite isOpen={isOpen} toggle={toggle} />
+                  <ExpendableButton isOpen={isOpen} toggle={toggle} />{" "}
+                  <Link
+                    className="navbar-brand text-info font-weight-bolder"
+                    to="/home"
+                  >
+                    <div className="col">
                       <FcComboChart />
                       Dashbord
-                    </td>
-                    <td>
-                      <div className="whitespace-nowrap">
-                        <DiSqllite isOpen={isOpen} toggle={toggle} />
-                        <ExpendableButton isOpen={isOpen} toggle={toggle} />
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                {canaccessRevenue && (
-                  <tr>
-                    <td colspan="3">
-                      <div style={{ display: "inline-block" }}>
-                        <FaPeopleCarry /> RMF Revenue Collection
-                      </div>
-                    </td>
-                    <td>
-                      <div className="whitespace-nowrap">
-                        <DiSqllite isOpenrec={isOpenrec} toggle={togglerec} />
-                        <ExpendableButton
-                          isOpenrec={isOpenrec}
-                          toggle={togglerec}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                {isOpenrec && (
-                  <>
-                    <div className="row">
-                      <div className="col" style={{ width: 10 }}></div>
-                      <div className="col">
-                        <div className="card">
-                          <tr>
-                            <td colspan="4">
-                              <div class="row">
-                                <NavLink
-                                  className="nav-item nav-link"
-                                  to={{
-                                    pathname: "/revenu/revenupayment",
-                                    state: { fiscalyearid: fiscalyearid },
-                                  }}
-                                >
-                                  <div class="col">
-                                    <i className="ni ni-key-25" />
-                                    <div className="cardss">
-                                      <span className="nav-link-inner--text">
-                                        <FcMoneyTransfer />
-                                        &nbsp;Collections unit rate
-                                      </span>
-                                    </div>
-                                  </div>
-                                </NavLink>
-                              </div>
-                              <div class="row">
-                                <NavLink
-                                  className="nav-item nav-link"
-                                  to={{
-                                    pathname: "/revenu/revenucorrection",
-                                    state: {
-                                      fiscalyearid: fiscalyearid,
-                                      fiscalyearname: fiscalyearname,
-                                    },
-                                  }}
-                                >
-                                  <div class="col">
-                                    <i className="ni ni-key-25" />
-                                    <div className="cardss">
-                                      <span className="nav-link-inner--text">
-                                        <FcFeedIn />
-                                        &nbsp;Revenus Collection
-                                      </span>
-                                    </div>
-                                  </div>
-                                </NavLink>
-                              </div>
-                              <div class="row">
-                                <NavLink
-                                  className="nav-item nav-link"
-                                  to="/revenu/administration"
-                                >
-                                  <div class="col">
-                                    <i className="ni ni-key-25" />
-                                    <div className="cardss">
-                                      <span className="nav-link-inner--text">
-                                        <MdManageAccounts />
-                                        &nbsp;Administration
-                                      </span>
-                                    </div>
-                                  </div>
-                                </NavLink>
-                              </div>
-                              <div class="row">
-                                <NavLink
-                                  className="nav-item nav-link"
-                                  to={{
-                                    pathname: "/revenu/expenduture",
-                                    state: {
-                                      fiscalyearid: fiscalyearid,
-                                      fiscalyearname: fiscalyearname,
-                                    },
-                                  }}
-                                >
-                                  <div class="col">
-                                    <i className="ni ni-key-25" />
-                                    <div className="cardss">
-                                      <span className="nav-link-inner--text">
-                                        <GiPayMoney />
-                                        &nbsp;Expenduture
-                                      </span>
-                                    </div>
-                                  </div>
-                                </NavLink>
-                              </div>
+                    </div>
+                  </Link>
+                </button>
+                <div class="content">
+                  <p></p>
+                </div>
+              </div>
+            )}
 
-                              <div class="row">
-                                <NavLink
-                                  className="nav-item nav-link"
-                                  to={{
-                                    pathname: "/revenu/dashboard",
-                                    state: {
-                                      fiscalyearid: fiscalyearid,
-                                      fiscalyearname: fiscalyearname,
-                                    },
-                                  }}
-                                >
-                                  <div class="col">
-                                    <i className="ni ni-key-25" />
-                                    <div className="cardss">
-                                      <span className="nav-link-inner--text">
-                                        <FcParallelTasks /> Revenu DashBoard
-                                      </span>
-                                    </div>
-                                  </div>
-                                </NavLink>
-                              </div>
-                            </td>
-                          </tr>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
-                {canaccessPlanning && (
-                  <tr>
-                    <td colspan="3">
-                      <div style={{ display: "inline-block" }}>
-                        <FcPlanner /> RMF Action Plan
-                      </div>
-                    </td>
-                    <td>
-                      <div className="whitespace-nowrap">
-                        <DiSqllite
-                          isOpenplan={isOpenplan}
-                          toggle={toggleplan}
-                        />
-                        <ExpendableButton
-                          isOpenplan={isOpenplan}
-                          toggle={toggleplan}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                {isOpenplan && (
-                  <>
+            {canaccessRevenue && (
+              <div className="row" style={{ width: 1820 }}>
+                <div className="col">
+                  <button
+                    type="button"
+                    className="collapsible"
+                    style={{ height: 60 }}
+                    onClick={handleopenclick}
+                  >
+                    <DiSqllite isOpenrec={isOpenrec} toggle={togglerec} />
+                    <ExpendableButton
+                      isOpenrec={isOpenrec}
+                      toggle={togglerec}
+                    />
+                    {"  "} {"  "} <FaPeopleCarry /> RMF Revenue Collection
+                  </button>
+                  {isopenrec && (
                     <div className="row">
-                      <div className="col" style={{ width: 10 }}></div>
-                      <div className="col">
-                        <div className="card">
-                          <tr>
-                            <td colspan="4">
-                              <div class="row">
-                                <NavLink
-                                  className="nav-item nav-link"
-                                  to="/planing/programtable"
-                                >
-                                  <div class="col">
-                                    <div className="cardss">
-                                      <FcTimeline /> Planing Process
-                                    </div>
-                                  </div>
-                                </NavLink>
-                              </div>
-                              <div class="row">
-                                <NavLink
-                                  className="nav-item nav-link"
-                                  to="/planing/administration"
-                                >
-                                  <div class="col">
-                                    <i className="ni ni-key-25" />
-                                    <div className="cardss">
-                                      <span className="nav-link-inner--text">
-                                        <MdManageAccounts />
-                                        &nbsp;Administration
-                                      </span>
-                                    </div>
-                                  </div>
-                                </NavLink>
-                              </div>
-                              <div class="row">
-                                <NavLink
-                                  className="nav-item nav-link"
-                                  to="/planing/sap"
-                                >
-                                  <div class="col">
-                                    <i className="ni ni-key-25" />
-                                    <div className="cardss">
-                                      <span className="nav-link-inner--text">
-                                        <FcTodoList /> View SAP
-                                      </span>
-                                    </div>
-                                  </div>
-                                </NavLink>
-                              </div>
-                              {/** 
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/planing/programtable"
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FcNeutralTrading /> Upload SAP
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      <div class="row">
-                        <NavLink
-                          className="nav-item nav-link"
-                          to="/planing/programtable"
-                        >
-                          <div class="col">
-                            <i className="ni ni-key-25" />
-                            <span className="nav-link-inner--text">
-                              <FcParallelTasks /> Planing DashBoard
-                            </span>
-                          </div>
-                        </NavLink>
-                      </div>
-                      */}
-                            </td>
-                          </tr>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
-                {canaccesscontract && (
-                  <tr>
-                    <td colspan="3">
-                      <div style={{ display: "inline-block" }}>
-                        <BiSolidShoppingBag /> RMF Contract Management
-                      </div>
-                    </td>
-                    <td>
                       {" "}
-                      <div className="whitespace-nowrap">
-                        <DiSqllite
-                          isOpencont={isOpencont}
-                          toggle={toggleCont}
-                        />
-                        <ExpendableButton
-                          isOpencont={isOpencont}
-                          toggle={toggleCont}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                {isOpencont && (
-                  <>
-                    <div className="row">
-                      <div className="col" style={{ width: 10 }}></div>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <div className="col">
-                        <div className="card">
-                          <tr>
-                            <td colSpan="3">
+                        <div className="card" style={{ width: 430 }}>
+                          <div className="vertical">
+                            <br />
+                            <div className="toggle">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to={{
+                                  pathname: "/revenu/revenupayment",
+                                  state: { fiscalyearid: fiscalyearid },
+                                }}
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    <FcMoneyTransfer />
+                                    &nbsp;Collections unit rate
+                                  </span>
+                                </div>
+                              </NavLink>
+                            </div>
+                            <div className="toggle">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to={{
+                                  pathname: "/revenu/revenucorrection",
+                                  state: {
+                                    fiscalyearid: fiscalyearid,
+                                    fiscalyearname: fiscalyearname,
+                                  },
+                                }}
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    <FcFeedIn />
+                                    &nbsp;Revenus Collection
+                                  </span>
+                                </div>
+                              </NavLink>
+                            </div>
+                            <div className="toggle">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to="/revenu/administration"
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    <MdManageAccounts />
+                                    &nbsp;Administration
+                                  </span>
+                                </div>
+                              </NavLink>
+                            </div>
+                            <div className="toggle">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to={{
+                                  pathname: "/revenu/expenduture",
+                                  state: {
+                                    fiscalyearid: fiscalyearid,
+                                    fiscalyearname: fiscalyearname,
+                                  },
+                                }}
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    <GiPayMoney />
+                                    &nbsp;Expenduture
+                                  </span>
+                                </div>
+                              </NavLink>
+                            </div>
+                            <div className="toggle">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to={{
+                                  pathname: "/revenu/dashboard",
+                                  state: {
+                                    fiscalyearid: fiscalyearid,
+                                    fiscalyearname: fiscalyearname,
+                                  },
+                                }}
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    <FcParallelTasks /> Revenu DashBoard
+                                  </span>
+                                </div>
+                              </NavLink>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {canaccessPlanning && (
+              <div className="row" style={{ width: 1820 }}>
+                <div className="col">
+                  <button
+                    type="button"
+                    className="collapsible"
+                    style={{ height: 60 }}
+                    onClick={handleopenplanningclick}
+                  >
+                    <DiSqllite isOpenplan={isOpenplan} toggle={toggleplan} />
+                    <ExpendableButton
+                      isOpenplan={isOpenplan}
+                      toggle={toggleplan}
+                    />{" "}
+                    <FcPlanner /> RMF Action Plan
+                  </button>
+                  {isopenplan && (
+                    <div className="row">
+                      {" "}
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <div className="col">
+                        <div className="card" style={{ width: 430 }}>
+                          <div className="vertical">
+                            <br />
+                            <div className="toggle">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to="/planing/programtable"
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    <FcTimeline /> Planing Process
+                                  </span>
+                                </div>
+                              </NavLink>
+                            </div>
+                            <div className="toggle">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to="/planing/administration"
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    <MdManageAccounts />
+                                    &nbsp;Administration
+                                  </span>
+                                </div>
+                              </NavLink>
+                            </div>
+                            <div className="toggle">
+                              <NavLink
+                                className="nav-item nav-link"
+                                to="/planing/sap"
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    <FcTodoList /> View SAP
+                                  </span>
+                                </div>
+                              </NavLink>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            {canaccesscontract && (
+              <div className="row" style={{ width: 1820 }}>
+                <div className="col">
+                  <button
+                    type="button"
+                    className="collapsible"
+                    style={{ height: 60 }}
+                    onClick={handleopencontractclick}
+                  >
+                    <DiSqllite isOpencont={isOpencont} toggle={toggleCont} />
+                    <ExpendableButton
+                      isOpencont={isOpencont}
+                      toggle={toggleCont}
+                    />{" "}
+                    <BiSolidShoppingBag /> RMF Contract Management
+                  </button>
+                  {isopencont && (
+                    <div className="row">
+                      {" "}
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <div className="col">
+                        <div className="card" style={{ width: 430 }}>
+                          <div className="vertical">
+                            <br />
+                            <div className="toggle">
                               <NavLink
                                 className="nav-item nav-link"
                                 to="/contractmanagemenrt/administration"
                               >
-                                <div class="col">
-                                  <i className="ni ni-key-25" />
-                                  <div className="cardss">
-                                    <span className="nav-link-inner--text">
-                                      <MdManageAccounts />
-                                      &nbsp;Administration
-                                    </span>
-                                  </div>
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    <MdManageAccounts />
+                                    &nbsp;Administration
+                                  </span>
                                 </div>
                               </NavLink>
-                            </td>
-                          </tr>
+                            </div>
+                            <div className="toggle">
+                              <button
+                                type="button"
+                                className="collapsibles"
+                                style={{ height: 40 }}
+                                onClick={handleopencontractcontractclick}
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    &nbsp;&nbsp;&nbsp;
+                                    <AiOutlineShop />
+                                    &nbsp; Contracts
+                                  </span>
+                                </div>
+                              </button>
+                              {isopenproject && (
+                                <div className="row">
+                                  {" "}
+                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                  <div className="col">
+                                    <div
+                                      className="card"
+                                      style={{ width: 400 }}
+                                    >
+                                      <div className="vertical">
+                                        <br />
+                                        <div className="toggle">
+                                          <>
+                                            {fiscalYear.map((fiscalYear) => (
+                                              <ContractTypeMenu
+                                                fiscalyearid={
+                                                  fiscalYear.fiscalyearid
+                                                }
+                                                fiscalyear={
+                                                  fiscalYear.fiscalyear
+                                                }
+                                              />
+                                            ))}
+                                          </>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                            <div className="toggle">
+                              <button
+                                type="button"
+                                className="collapsibles"
+                                style={{ height: 40 }}
+                                onClick={handleopencontractinspectionclick}
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    &nbsp;&nbsp;&nbsp;
+                                    <AiOutlineWeibo />
+                                    &nbsp; Inspection
+                                  </span>
+                                </div>
+                              </button>
+                              {isopencontracttype && (
+                                <div className="row">
+                                  {" "}
+                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                  <div className="col">
+                                    <div
+                                      className="card"
+                                      style={{ width: 400 }}
+                                    >
+                                      <div className="vertical">
+                                        <br />
+                                        <div className="toggle">
+                                          <>
+                                            {fiscalYear.map((fiscalYear) => (
+                                              <ContractTypeMenuinspection
+                                                fiscalyearid={
+                                                  fiscalYear.fiscalyearid
+                                                }
+                                                fiscalyear={
+                                                  fiscalYear.fiscalyear
+                                                }
+                                              />
+                                            ))}
+                                          </>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                            <div className="toggle">
+                              <button
+                                type="button"
+                                className="collapsibles"
+                                style={{ height: 40 }}
+                                onClick={handleopencontractpaymentclick}
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    &nbsp;&nbsp;&nbsp;
+                                    <FcMoneyTransfer />
+                                    &nbsp; Payment
+                                  </span>
+                                </div>
+                              </button>
+                              {isopenfiscalyear && (
+                                <div className="row">
+                                  {" "}
+                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                  <div className="col">
+                                    <div
+                                      className="card"
+                                      style={{ width: 400 }}
+                                    >
+                                      <div className="vertical">
+                                        <br />
+                                        <div className="toggle">
+                                          <>
+                                            {fiscalYear.map((fiscalYear) => (
+                                              <ContractTypeMenupayment
+                                                fiscalyearid={
+                                                  fiscalYear.fiscalyearid
+                                                }
+                                                fiscalyear={
+                                                  fiscalYear.fiscalyear
+                                                }
+                                              />
+                                            ))}
+                                          </>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
+                  )}
+                </div>
+              </div>
+            )}
+            {canaccessSecurity && (
+              <div className="row" style={{ width: 1820 }}>
+                <div className="col">
+                  <button
+                    type="button"
+                    className="collapsible"
+                    style={{ height: 60 }}
+                    onClick={handleopensecurityclick}
+                  >
+                    <DiSqllite
+                      isOpensecurity={isOpensecurity}
+                      toggle={togglesecurity}
+                    />
+                    <ExpendableButton
+                      isOpensecurity={isOpensecurity}
+                      toggle={togglesecurity}
+                    />{" "}
+                    <MdManageAccounts /> RMF Administration Potal
+                  </button>
+                  {isopensecurity && (
+                    <div className="row">
+                      {" "}
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <div className="col">
+                        <div className="card" style={{ width: 430 }}>
+                          <div className="vertical">
+                            <br />
 
-                    <tr>
-                      <td colspan="3">
-                        <div style={{ display: "inline-block" }}>
-                          <AiOutlineShop /> Contracts
-                        </div>
-                      </td>
-                      <td>
-                        {" "}
-                        <div className="whitespace-nowrap">
-                          <DiSqllite
-                            isOpenproject={isOpenproject}
-                            toggle={toggleproject}
-                          />
-                          <ExpendableButton
-                            isOpenproject={isOpenproject}
-                            toggle={toggleproject}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-
-                    {isOpenproject && (
-                      <>
-                        {fiscalYear.map((fiscalYear) => (
-                          <ContractTypeMenu
-                            fiscalyearid={fiscalYear.fiscalyearid}
-                            fiscalyear={fiscalYear.fiscalyear}
-                          />
-                        ))}
-                      </>
-                    )}
-                    <tr>
-                      <td colspan="3">
-                        <div style={{ display: "inline-block" }}>
-                          <AiOutlineWeibo /> Inspection
-                        </div>
-                      </td>
-                      <td>
-                        {" "}
-                        <div className="whitespace-nowrap">
-                          <DiSqllite
-                            isOpencontracttype={isOpencontracttype}
-                            toggle={togglecontracttype}
-                          />
-                          <ExpendableButton
-                            isOpencontracttype={isOpencontracttype}
-                            toggle={togglecontracttype}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    {isOpencontracttype && (
-                      <>
-                        {fiscalYear.map((fiscalYear) => (
-                          <ContractTypeMenuinspection
-                            fiscalyearid={fiscalYear.fiscalyearid}
-                            fiscalyear={fiscalYear.fiscalyear}
-                          />
-                        ))}
-                      </>
-                    )}
-                    <tr>
-                      <td colspan="3">
-                        <div style={{ display: "inline-block" }}>
-                          <FcMoneyTransfer /> Payment
-                        </div>
-                      </td>
-                      <td>
-                        {" "}
-                        <div className="whitespace-nowrap">
-                          <DiSqllite
-                            isOpenfiscalyear={isOpenfiscalyear}
-                            toggle={togglefiscalyear}
-                          />
-                          <ExpendableButton
-                            isOpenfiscalyear={isOpenfiscalyear}
-                            toggle={togglefiscalyear}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    {isOpenfiscalyear && (
-                      <>
-                        {fiscalYear.map((fiscalYear) => (
-                          <ContractTypeMenupayment
-                            fiscalyearid={fiscalYear.fiscalyearid}
-                            fiscalyear={fiscalYear.fiscalyear}
-                          />
-                        ))}
-                      </>
-                    )}
-                    {/**---------------Approval */}
-                    <tr>
-                      <td colspan="3">
-                        <div style={{ display: "inline-block" }}>
-                          <FcApproval /> Approvals
-                        </div>
-                      </td>
-                      <td>
-                        {" "}
-                        <div className="whitespace-nowrap">
-                          <DiSqllite
-                            isOpenapproval={isOpenapproval}
-                            toggle={toggleapproval}
-                          />
-                          <ExpendableButton
-                            isOpenapproval={isOpenapproval}
-                            toggle={toggleapproval}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    {isOpenapproval && (
-                      <>
-                        <tr>
-                          <td colspan="3">
-                            <div style={{ display: "inline-block" }}>
-                              <AiOutlineShop />
-                              &nbsp;Contracts
-                            </div>
-                          </td>
-                          <td>
-                            {" "}
-                            <div className="whitespace-nowrap">
-                              <DiSqllite
-                                isOpenapprovalcontract={isOpenapprovalcontract}
-                                toggle={toggleapprovalcontract}
-                              />
-                              <ExpendableButton
-                                isOpenapprovalcontract={isOpenapprovalcontract}
-                                toggle={toggleapprovalcontract}
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                        {isOpenapprovalcontract && (
-                          <>
-                            <div class="row">
+                            <div className="toggle">
                               <NavLink
                                 className="nav-item nav-link"
-                                to={{
-                                  pathname:
-                                    "/ContractManagemenrt/approval/emmargency",
-                                  state: { fiscalyearid: fiscalyearid },
-                                }}
+                                to="/security/users"
                               >
-                                <div class="col">
-                                  <i className="ni ni-key-25" />
+                                <div className="cardss ">
                                   <span className="nav-link-inner--text">
-                                    <AiOutlineShop />
-                                    &nbsp;Emmagency Contracts
+                                    <FcBusinessman />
+                                    Users
                                   </span>
                                 </div>
                               </NavLink>
                             </div>
-                            <div class="row">
+                            <div className="toggle">
                               <NavLink
                                 className="nav-item nav-link"
-                                to={{
-                                  pathname:
-                                    "/ContractManagemenrt/approval/framework",
-                                  state: { fiscalyearid: fiscalyearid },
-                                }}
+                                to="/security/role"
                               >
-                                <div class="col">
-                                  <i className="ni ni-key-25" />
+                                <div className="cardss ">
                                   <span className="nav-link-inner--text">
-                                    <AiOutlineShop />
-                                    &nbsp;Framework Contracts
+                                    <FcPodiumWithSpeaker />
+                                    Roles
                                   </span>
                                 </div>
                               </NavLink>
                             </div>
-                          </>
-                        )}
-                        <tr>
-                          <td colspan="3">
-                            <div style={{ display: "inline-block" }}>
-                              <AiOutlineWeibo />
-                              &nbsp;Inspections
-                            </div>
-                          </td>
-                          <td>
-                            {" "}
-                            <div className="whitespace-nowrap">
-                              <DiSqllite
-                                isOpenapprovalinspection={
-                                  isOpenapprovalinspection
-                                }
-                                toggle={toggleapprovalinspection}
-                              />
-                              <ExpendableButton
-                                isOpenapprovalinspection={
-                                  isOpenapprovalinspection
-                                }
-                                toggle={toggleapprovalinspection}
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                        {isOpenapprovalinspection && (
-                          <>
-                            <div class="row">
+                            <div className="toggle">
                               <NavLink
                                 className="nav-item nav-link"
-                                to={{
-                                  pathname: "/inspection/approval/emmargency",
-                                  state: { fiscalyearid: fiscalyearid },
-                                }}
+                                to="/security/securables"
                               >
-                                <div class="col">
-                                  <i className="ni ni-key-25" />
+                                <div className="cardss ">
                                   <span className="nav-link-inner--text">
-                                    <AiOutlineShop />
-                                    &nbsp;Emmagency Contracts
+                                    <FcTodoList />
+                                    {""}Securables
                                   </span>
                                 </div>
                               </NavLink>
                             </div>
-                            <div class="row">
+                            <div className="toggle">
                               <NavLink
                                 className="nav-item nav-link"
-                                to={{
-                                  pathname: "/inspection/approval/framework",
-                                  state: { fiscalyearid: fiscalyearid },
-                                }}
+                                to="/security/userapproval"
                               >
-                                <div class="col">
-                                  <i className="ni ni-key-25" />
+                                <div className="cardss ">
                                   <span className="nav-link-inner--text">
-                                    <AiOutlineShop />
-                                    &nbsp;Framework Contracts
+                                    <FcApproval />
+                                    User Approvals
                                   </span>
                                 </div>
                               </NavLink>
                             </div>
-                          </>
-                        )}
-
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to={{
-                              pathname: "/payment/approval",
-                              state: { fiscalyearid: fiscalyearid },
-                            }}
-                          >
-                            <div class="col">
-                              <i className="ni ni-key-25" />
-                              <span className="nav-link-inner--text">
-                                <FcMoneyTransfer />
-                                &nbsp;Payments
-                              </span>
-                            </div>
-                          </NavLink>
-                        </div>
-                      </>
-                    )}
-
-                    {/**----------------------- */}
-                  </>
-                )}
-                {canaccessSecurity && (
-                  <tr>
-                    <td colspan="3">
-                      <div style={{ display: "inline-block" }}>
-                        <MdManageAccounts /> RMF Administration Potal
-                      </div>
-                    </td>
-                    <td>
-                      {/** isOpensecurity; togglesecurity; */}
-                      <div className="whitespace-nowrap">
-                        <DiSqllite
-                          isOpensecurity={isOpensecurity}
-                          toggle={togglesecurity}
-                        />
-                        <ExpendableButton
-                          isOpensecurity={isOpensecurity}
-                          toggle={togglesecurity}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                {isOpensecurity && (
-                  <>
-                    <td colspan="4">
-                      <div class="col">
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to="/security/users"
-                          >
-                            <div class="col">
-                              <span className="">
-                                <FcBusinessman />
-                                Users
-                              </span>
-                            </div>
-                          </NavLink>
-                        </div>
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to="/security/role"
-                          >
-                            <div class="col">
-                              <span className="nav-link-inner--text">
-                                <FcPodiumWithSpeaker />
-                                Roles
-                              </span>
-                            </div>
-                          </NavLink>
-                        </div>
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to="/security/securables"
-                          >
-                            <div class="col">
-                              <span className="nav-link-inner--text">
-                                <FcTodoList />
-                                {""}Securables
-                              </span>
-                            </div>
-                          </NavLink>
-                        </div>
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to="/security/userapproval"
-                          >
-                            <div class="col">
-                              <span className="nav-link-inner--text">
-                                <FcApproval />
-                                User Approvals
-                              </span>
-                            </div>
-                          </NavLink>
-                        </div>
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to="/security/auditTrail"
-                          >
-                            <div class="col">
-                              <span className="nav-link-inner--text">
-                                <FcBiotech />
-                                Audit Trail
-                              </span>
-                            </div>
-                          </NavLink>
-                        </div>
-                      </div>
-                    </td>
-                  </>
-                )}
-                {canaccesslookup && (
-                  <tr>
-                    <td colspan="3">
-                      <div style={{ display: "inline-block" }}>
-                        <GiLookAt /> RMF LookUp
-                      </div>
-                    </td>
-                    <td>
-                      <div className="whitespace-nowrap">
-                        <DiSqllite
-                          isOpenlookup={isOpenlookup}
-                          toggle={togglelookup}
-                        />
-                        <ExpendableButton
-                          isOpenlookup={isOpenlookup}
-                          toggle={togglelookup}
-                        />
-                        {/**isOpenlookup, togglelookup */}
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                {isOpenlookup && (
-                  <>
-                    <br />
-                    <tr>
-                      <td colspan="3">
-                        <div style={{ display: "inline-block" }}>
-                          <div className="row">
-                            <div className="col">
-                              <div className="col">
-                                <FaPeopleCarry /> Revenu Collection
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        {" "}
-                        <div className="whitespace-nowrap">
-                          <DiSqllite
-                            isOpenlookcoll={isOpenlookcoll}
-                            toggle={togglelookcoll}
-                          />
-                          <ExpendableButton
-                            isOpenlookcoll={isOpenlookcoll}
-                            toggle={togglelookcoll}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    {isOpenlookcoll && (
-                      <>
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to="/revenu/currency"
-                          >
-                            <div class="col">
-                              <i className="ni ni-key-25" />
-                              <span className="nav-link-inner--text">
-                                <FaCoins />
-                                &nbsp; Currency
-                              </span>
-                            </div>
-                          </NavLink>
-                        </div>
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to="/revenu/sourceoffunds"
-                          >
-                            <div class="col">
-                              <FcSalesPerformance /> Source of Funds
-                            </div>
-                          </NavLink>
-                        </div>
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to="/revenu/revenuproduct"
-                          >
-                            <div class="col">
-                              <i className="ni ni-key-25" />
-                              <span className="nav-link-inner--text">
-                                <FaPeopleCarry />
-                                &nbsp; Collections
-                              </span>
-                            </div>
-                          </NavLink>
-                        </div>
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to="/revenu/businesspaterner"
-                            tag={Link}
-                          >
-                            <div class="col">
-                              <i className="ni ni-key-25" />
-                              <span className="nav-link-inner--text">
-                                <FcConferenceCall />
-                                &nbsp;Business Partener
-                              </span>
-                            </div>
-                          </NavLink>
-                        </div>
-
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to="/revenu/paternerservice"
-                            tag={Link}
-                          >
-                            <div class="col">
-                              <i className="ni ni-key-25" />
-                              <span className="nav-link-inner--text">
-                                <FcServices />
-                                &nbsp;Partener Service
-                              </span>
-                            </div>
-                          </NavLink>
-                        </div>
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to="/revenu/servicepayment"
-                            tag={Link}
-                          >
-                            <div class="col">
-                              <i className="ni ni-key-25" />
-                              <span className="nav-link-inner--text">
-                                <FcCurrencyExchange />
-                                &nbsp;Service Payment
-                              </span>
-                            </div>
-                          </NavLink>
-                        </div>
-
-                        <div class="row">
-                          <NavLink
-                            className="nav-item nav-link"
-                            to="/revenu/paternerservicepayment"
-                            tag={Link}
-                          >
-                            <div class="col">
-                              <i className="ni ni-key-25" />
-                              <span className="nav-link-inner--text">
-                                <FcDebt />
-                                &nbsp;Paterner Service Payment
-                              </span>
-                            </div>
-                          </NavLink>
-                        </div>
-                      </>
-                    )}
-                    <tr>
-                      <td colspan="3">
-                        <div style={{ display: "inline-block" }}>
-                          <div className="row">
-                            <div className="col">
-                              <div className="col">
-                                <FcPlanner /> Planing
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        {" "}
-                        <div className="whitespace-nowrap">
-                          <DiSqllite
-                            isOpenlookplan={isOpenlookplan}
-                            toggle={togglelookplan}
-                          />
-                          <ExpendableButton
-                            isOpenlookplan={isOpenlookplan}
-                            toggle={togglelookplan}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    {isOpenlookplan && (
-                      <>
-                        {fiscalYear.map((fiscalYear) => (
-                          <ContractTypeMenu
-                            fiscalyearid={fiscalYear.fiscalyearid}
-                            fiscalyear={fiscalYear.fiscalyear}
-                          />
-                        ))}
-                      </>
-                    )}
-                    <tr>
-                      <td colspan="3">
-                        <div style={{ display: "inline-block" }}>
-                          <div className="row">
-                            <div className="col">
-                              <div className="col">
-                                <BiSolidShoppingBag /> Contract Management
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        {" "}
-                        <div className="whitespace-nowrap">
-                          <DiSqllite
-                            isOpenlookcontr={isOpenlookcontr}
-                            toggle={togglelookcontr}
-                          />
-                          <ExpendableButton
-                            isOpenlookcontr={isOpenlookcontr}
-                            toggle={togglelookcontr}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    {isOpenlookcontr && (
-                      <>
-                        <td colspan="4">
-                          <div class="col">
-                            <div class="row">
+                            <div className="toggle">
                               <NavLink
                                 className="nav-item nav-link"
-                                to="/ContractManagemenrt/RoadRefference/roadClassification"
+                                to="/security/auditTrail"
                               >
-                                <div class="col">
-                                  <GiRoad /> Road Classification
-                                </div>
-                              </NavLink>
-                            </div>
-                            <div class="row">
-                              <NavLink
-                                className="nav-item nav-link"
-                                to="/ContractManagemenrt/RoadRefference/roadCharacteristic"
-                              >
-                                <div class="col">
-                                  <MdOutlineAddRoad /> Road Characteristics
-                                </div>
-                              </NavLink>
-                            </div>
-                            <div class="row">
-                              <NavLink
-                                className="nav-item nav-link"
-                                to="/ContractManagemenrt/RoadRefference/roadType"
-                              >
-                                <div class="col">
-                                  <FaRoad /> Rood Types
-                                </div>
-                              </NavLink>
-                            </div>
-                            <div class="row">
-                              <NavLink
-                                className="nav-item nav-link"
-                                to="/ContractManagemenrt/RoadRefference/road"
-                              >
-                                <div class="col">
-                                  <FcTimeline /> Road
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    <FcBiotech />
+                                    Audit Trail
+                                  </span>
                                 </div>
                               </NavLink>
                             </div>
                           </div>
-                        </td>
-                      </>
-                    )}
-                  </>
-                )}{" "}
-              </tbody>
-            </table>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            {canaccesslookup && (
+              <div className="row" style={{ width: 1820 }}>
+                <div className="col">
+                  <button
+                    type="button"
+                    className="collapsible"
+                    style={{ height: 60 }}
+                    onClick={handleopenlookupclick}
+                  >
+                    <DiSqllite
+                      isOpenlookup={isOpenlookup}
+                      toggle={togglelookup}
+                    />
+                    <ExpendableButton
+                      isOpenlookup={isOpenlookup}
+                      toggle={togglelookup}
+                    />{" "}
+                    <GiLookAt /> RMF LookUp
+                  </button>
+                  {isopenlookup && (
+                    <div className="row">
+                      {" "}
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <div className="col">
+                        <div className="card" style={{ width: 430 }}>
+                          <div className="vertical">
+                            <br />
+                            <div className="toggle">
+                              <button
+                                type="button"
+                                className="collapsibles"
+                                style={{ height: 40 }}
+                                onClick={handleopenlookupcollectionclick}
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    <FaPeopleCarry /> Revenu Collection
+                                  </span>
+                                </div>
+                              </button>
+                              {isopenlookcoll && (
+                                <div className="row">
+                                  {" "}
+                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                  <div className="col">
+                                    <div
+                                      className="card"
+                                      style={{ width: 400 }}
+                                    >
+                                      <div className="vertical">
+                                        <br />
+                                        <div className="toggle">
+                                          <NavLink
+                                            className="nav-item nav-link"
+                                            to="/revenu/currency"
+                                          >
+                                            <div className="cardss ">
+                                              <span className="nav-link-inner--text">
+                                                <FaCoins />
+                                                &nbsp; Currency
+                                              </span>
+                                            </div>
+                                          </NavLink>
+                                        </div>
+                                        <div className="toggle">
+                                          <NavLink
+                                            className="nav-item nav-link"
+                                            to="/revenu/sourceoffunds"
+                                          >
+                                            <div className="cardss ">
+                                              <span className="nav-link-inner--text">
+                                                <FcSalesPerformance /> Source of
+                                                Funds
+                                              </span>
+                                            </div>
+                                          </NavLink>
+                                        </div>
+                                        <div className="toggle">
+                                          <NavLink
+                                            className="nav-item nav-link"
+                                            to="/revenu/revenuproduct"
+                                          >
+                                            <div className="cardss ">
+                                              <span className="nav-link-inner--text">
+                                                <FaPeopleCarry />
+                                                &nbsp; Collections
+                                              </span>
+                                            </div>
+                                          </NavLink>
+                                        </div>
+                                        <div className="toggle">
+                                          <NavLink
+                                            className="nav-item nav-link"
+                                            to="/revenu/businesspaterner"
+                                            tag={Link}
+                                          >
+                                            <div className="cardss ">
+                                              <span className="nav-link-inner--text">
+                                                <FcConferenceCall />
+                                                &nbsp;Business Partener
+                                              </span>
+                                            </div>
+                                          </NavLink>
+                                        </div>
+                                        <div className="toggle">
+                                          <NavLink
+                                            className="nav-item nav-link"
+                                            to="/revenu/paternerservice"
+                                            tag={Link}
+                                          >
+                                            <div className="cardss ">
+                                              <span className="nav-link-inner--text">
+                                                <FcServices />
+                                                &nbsp;Partener Service
+                                              </span>
+                                            </div>
+                                          </NavLink>
+                                        </div>
+                                        <div className="toggle">
+                                          <NavLink
+                                            className="nav-item nav-link"
+                                            to="/revenu/servicepayment"
+                                            tag={Link}
+                                          >
+                                            <div className="cardss ">
+                                              <span className="nav-link-inner--text">
+                                                <FcCurrencyExchange />
+                                                &nbsp;Service Payment
+                                              </span>
+                                            </div>
+                                          </NavLink>
+                                        </div>
+                                        <div className="toggle">
+                                          <NavLink
+                                            className="nav-item nav-link"
+                                            to="/revenu/paternerservicepayment"
+                                            tag={Link}
+                                          >
+                                            <div className="cardss ">
+                                              <span className="nav-link-inner--text">
+                                                <FcDebt />
+                                                &nbsp;Paterner Service Payment
+                                              </span>
+                                            </div>
+                                          </NavLink>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                            <div className="toggle">
+                              <button
+                                type="button"
+                                className="collapsibles"
+                                style={{ height: 40 }}
+                                onClick={handleopenlookupcontractclick}
+                              >
+                                <div className="cardss ">
+                                  <span className="nav-link-inner--text">
+                                    <BiSolidShoppingBag /> Contract Management
+                                  </span>
+                                </div>
+                              </button>
+                              {isopenlookcontr && (
+                                <div className="row">
+                                  {" "}
+                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                  <div className="col">
+                                    <div
+                                      className="card"
+                                      style={{ width: 400 }}
+                                    >
+                                      <div className="vertical">
+                                        <br />
+                                        <div className="toggle">
+                                          <NavLink
+                                            className="nav-item nav-link"
+                                            to="/ContractManagemenrt/RoadRefference/roadClassification"
+                                          >
+                                            <div className="cardss ">
+                                              <span className="nav-link-inner--text">
+                                                <GiRoad /> Road Classification
+                                              </span>
+                                            </div>
+                                          </NavLink>
+                                        </div>
+                                        <div className="toggle">
+                                          <NavLink
+                                            className="nav-item nav-link"
+                                            to="/ContractManagemenrt/RoadRefference/roadCharacteristic"
+                                          >
+                                            <div className="cardss ">
+                                              <span className="nav-link-inner--text">
+                                                <MdOutlineAddRoad /> Road
+                                                Characteristics
+                                              </span>
+                                            </div>
+                                          </NavLink>
+                                        </div>
+                                        <div className="toggle">
+                                          <NavLink
+                                            className="nav-item nav-link"
+                                            to="/ContractManagemenrt/RoadRefference/roadType"
+                                          >
+                                            <div className="cardss ">
+                                              <span className="nav-link-inner--text">
+                                                <FaRoad /> Rood Types
+                                              </span>
+                                            </div>
+                                          </NavLink>
+                                        </div>
+                                        <div className="toggle">
+                                          <NavLink
+                                            className="nav-item nav-link"
+                                            to="/ContractManagemenrt/RoadRefference/road"
+                                          >
+                                            <div className="cardss ">
+                                              <span className="nav-link-inner--text">
+                                                <FcTimeline /> Road
+                                              </span>
+                                            </div>
+                                          </NavLink>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </nav>

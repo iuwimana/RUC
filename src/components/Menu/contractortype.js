@@ -49,9 +49,7 @@ import * as ContractModeData from "../../services/ContractManagement/ContractSet
 import * as Projectdata from "../../services/ContractManagement/ContractSetting/projectservice";
 import ContractModeMenu from "../Menu/contractmode";
 import "../../home.css";
-const ContractorType = ({ projectid, roadname ,cancreateserviceorder}) => {
-
-
+const ContractorType = ({ projectid, roadname, cancreateserviceorder }) => {
   const { isOpen, toggle } = useOpenController(false);
   const { isOpenrec, togglerec } = useOpenController(false);
   const { isOpenplan, toggleplan } = useOpenController(false);
@@ -59,13 +57,19 @@ const ContractorType = ({ projectid, roadname ,cancreateserviceorder}) => {
   const { isOpenfiscalyear, togglefiscalyear } = useOpenController(false);
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
   const { isOpenproject, toggleproject } = useOpenController(false);
-   //---------------------------------------
-   const [contractmode, setcontractmode]=useState([])
-    //---------------------------------------
+  //---------------------------------------------
+  const [isopencontracttype, setOpencontracttypeState] = useState(false);
+  
+  //---------------------------------------
+  
+  const [contractmode, setcontractmode] = useState([]);
+  //---------------------------------------
   try {
     useEffect(() => {
       const fetchProgram = async () => {
-        const { data } = await ContractModeData.getcontractmodebyproject(projectid);
+        const { data } = await ContractModeData.getcontractmodebyproject(
+          projectid
+        );
         setcontractmode(data);
       };
       fetchProgram();
@@ -77,20 +81,68 @@ const ContractorType = ({ projectid, roadname ,cancreateserviceorder}) => {
   }
 
   //---------------------------------------
+  function handleopencontracttypeclick() {
+    setOpencontracttypeState(!isopencontracttype);
+    
+  }
+  //-------------------------------------
 
   return (
     <>
+      <div className="row" key={projectid}>
+        {" "}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div className="col">
+          <div className="card" style={{ width: 310 }}>
+            <div className="vertical">
+              <div className="toggle">
+                <button
+                  type="button"
+                  className="collapsiblecontracttype"
+                  style={{ height: 40 }}
+                  onClick={handleopencontracttypeclick}
+                >
+                  <div className="cardssss ">
+                    <span className="nav-link-inner--text">
+                      Road - {roadname}
+                    </span>
+                  </div>
+                </button>
+
+                {isopencontracttype && (
+                  <>
+                    {contractmode.map((contractmode) => (
+                      <ContractModeMenu
+                        contractmodeid={contractmode.contractmodeid}
+                        contractmode={contractmode.contractmode}
+                        projectid={contractmode.projectid}
+                        cancreateserviceorder={cancreateserviceorder}
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/** 
       <tr key={projectid}>
         <td colspan="3">
-          <div class="row">
-            <div class="col" >
-              <br/>
-               Road - {roadname}
-              <br/>
+          <div className="col" style={{ width: 40 }}></div>
+
+          <div className="col">
+            <div className="card">
+              <div class="row">
+                <div class="col">
+                  <br />
+                  <div className="cardss">Road - {roadname}</div>
+                  <br />
+                </div>
+              </div>
             </div>
           </div>
         </td>
-        
 
         <td>
           {" "}
@@ -108,23 +160,19 @@ const ContractorType = ({ projectid, roadname ,cancreateserviceorder}) => {
       </tr>
       {isOpencontracttype && (
         <>
-          <>
           {contractmode.map((contractmode) => (
             <ContractModeMenu
-              contractmodeid={
-                contractmode.contractmodeid
-              }
+              contractmodeid={contractmode.contractmodeid}
               contractmode={contractmode.contractmode}
               projectid={contractmode.projectid}
               cancreateserviceorder={cancreateserviceorder}
             />
           ))}
-        </>
+          
         </>
       )}
-      
-    </>    
+      */}
+    </>
   );
-
-}
+};
 export default ContractorType;

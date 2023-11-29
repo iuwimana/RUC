@@ -52,7 +52,9 @@ import * as ContractData from "../../services/ContractManagement/ContractSetting
 
 import "../../home.css";
 const ContractMode= ({ contractmodeid, contractmode,projectid ,cancreateserviceorder}) => {
-
+ //---------------------------------------------
+  const [isopencontracttype, setOpencontracttypeState] = useState(false);
+  //---------------------------------------
 
    //---------------------------------------
    const { isOpen, toggle } = useOpenController(false);
@@ -101,10 +103,55 @@ const [contracts, setcontracts]=useState([]);
       );
     }
    }
-
+  //-----------------------------------------------------------
+  function handleopencontracttypeclick() {
+    setOpencontracttypeState(!isopencontracttype);
+  }
 
    return (
     <>
+    <div className="row" key={contractmodeid}>
+        {" "}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div className="col" >
+          <div className="card" style={{ width: 310 }}>
+            <div className="vertical">
+              <div className="toggle">
+                
+                  <button
+                    type="button"
+                    className="collapsiblecontracttype"
+                    style={{ height: 40 }}
+                    onClick={handleopencontracttypeclick}
+                  >
+                    <div className="cardssss ">
+                      <span className="nav-link-inner--text">
+                        Contract Mode: - {contractmode}
+                      </span>
+                    </div>
+                  </button>
+                
+
+                {isopencontracttype && (
+                  <>
+                    {contracts.map((contracts) => (
+                      <ContractorMenu
+                        contractid={contracts.contractid}
+                        contractorname={contracts.contractorname}
+                        projectid={projectid}
+                        cancreateserviceorder={cancreateserviceorder}
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  {/** 
       <tr key={contractmodeid}>
         <td colspan="3">
           
@@ -158,7 +205,7 @@ const [contracts, setcontracts]=useState([]);
           </>
           )}
 
-      
+      */}
      
       
     </>
