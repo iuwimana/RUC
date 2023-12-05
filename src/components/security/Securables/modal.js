@@ -193,7 +193,7 @@ class Modal extends Component {
                 <div className="col-auto">
 
 
-                  <select name="RoleID" id="RoleID" className="form-control" onChange={(e) => this.RoleIDIdHandler(e)}>
+                  <select name="RoleID" id="RoleID" className="form-control" onChange={(e) => this.RoleIDIdHandler(e)} disabled>
                   <option value={this.state.RoleID}>{this.state.RoleName}
                     </option>
                   {roles.map(role => (
