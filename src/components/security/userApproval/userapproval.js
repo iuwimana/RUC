@@ -215,7 +215,7 @@ class UserApproval extends Component {
               <div className="text-muted text-center mt-2 mb-3">
                 <h1>
                   <div style={{ textAlign: "center" }}>
-                    <h1>RMF System Security- User to Approv</h1>
+                    <h1>RMF System Security- User to Approve</h1>
                   </div>
                 </h1>
               </div>
