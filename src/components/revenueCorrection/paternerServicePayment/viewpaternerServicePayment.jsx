@@ -221,6 +221,7 @@ class ViewpaternerServicePayment extends Component {
                           onChange={this.handleSearch}
                         />
                       </div>
+                      <div className="table-responsive mb-5">
                       <table className="table">
                         <thead>
                           <tr>
@@ -239,6 +240,7 @@ class ViewpaternerServicePayment extends Component {
                         </thead>
                         <tbody>{brochure}</tbody>
                       </table>
+                      </div>
                     </>
                   )}
                   <Pagination

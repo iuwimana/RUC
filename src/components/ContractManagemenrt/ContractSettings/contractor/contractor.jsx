@@ -92,40 +92,44 @@ const Contractor = () => {
             </div>
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
-            <table>
-              <thead>
-                <th></th>
-                <th>Contractor name</th>
-                <th>Contractor address</th>
-                <th>Contractor email</th>
-                <th>Contractor phonenumber</th>
-                <th>Tin number</th>
-                <th>is local</th>
-                <th>contact person firstname</th>
-                <th>contact person middlename</th>
-                <th>contact person lastname</th>
-                <th>contact person phonenumber</th>
-                <th>contact person email</th>
-                <th>Update Contractor</th>
-                <th>Delete Contractor</th>
-              </thead>
-              {contractor.map((contractor) => (
-                <Contract
-                  contractorid={contractor.contractorid}
-                  contractorname={contractor.contractorname}
-                  islocal={contractor.islocal}
-                  contractoraddress={contractor.contractoraddress}
-                  contractoremail={contractor.contractoremail}
-                  contractorphonenumber={contractor.contractorphonenumber}
-                  tinnumber={contractor.tinnumber}
-                  contactpersonfirstname={contractor.contactpersonfirstname}
-                  contactpersonmiddlename={contractor.contactpersonmiddlename}
-                  contactpersonlastname={contractor.contactpersonlastname}
-                  contactpersonemail={contractor.contactpersonemail}
-                  contactpersonphonenumber={contractor.contactpersonphonenumber}
-                />
-              ))}
-            </table>
+            <div className="table-responsive mb-5">
+              <table>
+                <thead>
+                  <th></th>
+                  <th>Contractor name</th>
+                  <th>Contractor address</th>
+                  <th>Contractor email</th>
+                  <th>Contractor phonenumber</th>
+                  <th>Tin number</th>
+                  <th>is local</th>
+                  <th>contact person firstname</th>
+                  <th>contact person middlename</th>
+                  <th>contact person lastname</th>
+                  <th>contact person phonenumber</th>
+                  <th>contact person email</th>
+                  <th>Update Contractor</th>
+                  <th>Delete Contractor</th>
+                </thead>
+                {contractor.map((contractor) => (
+                  <Contract
+                    contractorid={contractor.contractorid}
+                    contractorname={contractor.contractorname}
+                    islocal={contractor.islocal}
+                    contractoraddress={contractor.contractoraddress}
+                    contractoremail={contractor.contractoremail}
+                    contractorphonenumber={contractor.contractorphonenumber}
+                    tinnumber={contractor.tinnumber}
+                    contactpersonfirstname={contractor.contactpersonfirstname}
+                    contactpersonmiddlename={contractor.contactpersonmiddlename}
+                    contactpersonlastname={contractor.contactpersonlastname}
+                    contactpersonemail={contractor.contactpersonemail}
+                    contactpersonphonenumber={
+                      contractor.contactpersonphonenumber
+                    }
+                  />
+                ))}
+              </table>
+            </div>
           </CardBody>
         </Card>
       </Col>

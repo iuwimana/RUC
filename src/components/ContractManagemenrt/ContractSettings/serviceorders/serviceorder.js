@@ -299,7 +299,7 @@ class BusinessPaterner extends Component {
                           />
                           </div>
 
-                       
+                       <div className="table-responsive mb-5">
                         <table className="table">
                           <thead>
                             <tr>
@@ -315,6 +315,7 @@ class BusinessPaterner extends Component {
                           </thead>
                           <tbody>{brochure}</tbody>
                         </table>
+                        </div>
                         <AddModal 
                          projectid={projectid} 
                         contractid={contractid} />

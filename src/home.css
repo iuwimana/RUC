@@ -161,6 +161,25 @@ body {
 
 .my-table {
   min-width: rem-calc(640);
+  border: 2px solid forestgreen;
+  min-width: 1300px;
+  max-width: 1600px;
+  min-height: 200px;
+  width:auto ;
+  height: auto;
+  color: #111111;
+  background-color: #f2eff5;
+  font-family: "Helvetica Neue", Arial;
+}
+th {
+  border-bottom: 1px solid black;
+  
+}
+tr{
+  border: 2px solid forestgreen;
+  padding: 38;
+  font-size: 18;
+
 }
 
 .group16 {

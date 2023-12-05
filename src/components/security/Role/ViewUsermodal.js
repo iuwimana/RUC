@@ -213,7 +213,8 @@ class ViewUserModal extends Component {
                       <p>Users</p>
 
                       <div style={{ textAlign: "center" }}></div>
-                      <table className="table">
+                      <div className="table-responsive mb-5">
+                      <table className="my-table" style={{width:7000}}>
                         <thead>
                           <tr>
                             <th>Email</th>
@@ -224,6 +225,7 @@ class ViewUserModal extends Component {
                         </thead>
                         <tbody>{brochure}</tbody>
                       </table>
+                      </div>
                     </center>
 
                     <p></p>

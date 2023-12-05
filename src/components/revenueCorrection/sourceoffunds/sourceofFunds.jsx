@@ -291,22 +291,24 @@ class SourceofFunds extends Component {
                           onChange={this.handleSearch}
                         />
                       </div>
-                      <table className="table">
-                        <thead>
-                          <tr>
-                            <th>SourceName</th>
-                            <th>AccountNumber</th>
-                            <th>BankName</th>
-                            <th>RevenueType</th>
-                            <th>currency</th>
-                            <th>StartDate</th>
-                            <th>EndDate</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                          </tr>
-                        </thead>
-                        <tbody>{brochure}</tbody>
-                      </table>
+                      <div className="table-responsive mb-5">
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th>SourceName</th>
+                              <th>AccountNumber</th>
+                              <th>BankName</th>
+                              <th>RevenueType</th>
+                              <th>currency</th>
+                              <th>StartDate</th>
+                              <th>EndDate</th>
+                              <th>Update</th>
+                              <th>Delete</th>
+                            </tr>
+                          </thead>
+                          <tbody>{brochure}</tbody>
+                        </table>
+                      </div>
                       <AddModal />
 
                       <Modal

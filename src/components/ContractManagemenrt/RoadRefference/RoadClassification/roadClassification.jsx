@@ -217,7 +217,7 @@ class RoadClassification extends Component {
                           data-target="#exampleAddModal"
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
                         <p>There are no Road Classification in Database.</p>
                         <AddModal />
@@ -239,17 +239,19 @@ class RoadClassification extends Component {
                             onChange={this.handleSearch}
                           />
                         </div>
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th>Road Classification</th>
+                        <div className="table-responsive mb-5">
+                          <table className="table">
+                            <thead>
+                              <tr>
+                                <th>Road Classification</th>
 
-                              <th>Update</th>
-                              <th>Delete</th>
-                            </tr>
-                          </thead>
-                          <tbody>{brochure}</tbody>
-                        </table>
+                                <th>Update</th>
+                                <th>Delete</th>
+                              </tr>
+                            </thead>
+                            <tbody>{brochure}</tbody>
+                          </table>
+                        </div>
                         <AddModal />
 
                         <Modal

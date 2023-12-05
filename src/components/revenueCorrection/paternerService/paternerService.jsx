@@ -243,19 +243,21 @@ class PaternerService extends Component {
                           onChange={this.handleSearch}
                         />
                       </div>
-                      <table className="table">
-                        <thead>
-                          <tr>
-                            <th>Business Partener</th>
-                            <th>Service</th>
-                            <th>StartDate</th>
-                            <th>EndDate</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                          </tr>
-                        </thead>
-                        <tbody>{brochure}</tbody>
-                      </table>
+                      <div className="table-responsive mb-5">
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th>Business Partener</th>
+                              <th>Service</th>
+                              <th>StartDate</th>
+                              <th>EndDate</th>
+                              <th>Update</th>
+                              <th>Delete</th>
+                            </tr>
+                          </thead>
+                          <tbody>{brochure}</tbody>
+                        </table>
+                      </div>
                       <AddModal />
 
                       <Modal

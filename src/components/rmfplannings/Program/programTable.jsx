@@ -58,51 +58,53 @@ const ProgramTable = () => {
             <div className="text-muted text-center mt-2 mb-3">
               <h1>
                 <div style={{ textAlign: "center" }}>
-                  <h1>RMF Planning- Program</h1>
+                  <h1>RMF Planning- Single Action Plan</h1>
                 </div>
               </h1>
             </div>
             <div className="btn-wrapper text-center"></div>
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
-            <table>
-              <thead>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>
-                  <div
-                    style={{
-                      textAlign: "center",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    AddProgram
-                    <button
-                      className="btn btn-secondar"
-                      data-toggle="modal"
-                      data-target="#exampleAddModal"
+            <div className="table-responsive mb-5">
+              <table>
+                <thead>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th>
+                    <div
+                      style={{
+                        textAlign: "center",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
                     >
-                      <FcPlus />
-                    </button>
-                  </div>
-                  <AddModal />
-                </th>
-              </thead>
+                      AddProgram
+                      <button
+                        className="btn btn-secondar"
+                        data-toggle="modal"
+                        data-target="#exampleAddModal"
+                      >
+                        <FcPlus />
+                      </button>
+                    </div>
+                    <AddModal />
+                  </th>
+                </thead>
 
-              {program.map((program) => (
-                <TableSection
-                  persondetails={program.programname}
-                  description={program.description}
-                  index={program.programid}
-                />
-              ))}
-            </table>
+                {program.map((program) => (
+                  <TableSection
+                    persondetails={program.programname}
+                    description={program.description}
+                    index={program.programid}
+                  />
+                ))}
+              </table>
+            </div>
           </CardBody>
         </Card>
       </Col>

@@ -16,7 +16,7 @@ import IndicatorModal from "./indicator";
 import { ActivitySection } from "./ActivitySection";
 import Target from "./target";
 import Activity from "./activities";
-import "./Modal.css";
+//import "./Modal.css";
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 import { ExpendableButton } from "./ExpendableButton";
 import useOpenController from "./Hooks/useOpenController";
@@ -396,8 +396,7 @@ const Output = ({ OutComeId, OutPutName, OutComeName, FiscalYear, index }) => {
       <div>
         <Tabs activeKey={tabKey} onSelect={(e) => initTabKey(e)}>
           <Tab eventKey="one" title="Baseline">
-            <br></br>
-            <br></br>
+            <br></br>           
 
             <button
               onClick={handleShow}
@@ -409,7 +408,10 @@ const Output = ({ OutComeId, OutPutName, OutComeName, FiscalYear, index }) => {
             </button>
             <center>
               <p>Baseline</p>
-              <table className="table">
+              <div className="table-responsive mb-5">
+                
+              
+              <table className="my-table">
                 <thead>
                   <tr>
                     <th>BaselineName</th>
@@ -420,12 +422,13 @@ const Output = ({ OutComeId, OutPutName, OutComeName, FiscalYear, index }) => {
                 </thead>
                 <tbody>{baselines}</tbody>
               </table>
+              </div>
             </center>
             <p></p>
           </Tab>
           <Tab eventKey="two" title="Indicators">
             <br></br>
-            <br></br>
+           
 
             <button
               onClick={handleShowIndicatoradd}
@@ -437,7 +440,8 @@ const Output = ({ OutComeId, OutPutName, OutComeName, FiscalYear, index }) => {
             </button>
             <center>
               <p>Indicator</p>
-              <table className="table">
+              <div className="table-responsive mb-5">
+              <table className="my-table">
                 <thead>
                   <tr>
                     <th>IndicatorName</th>
@@ -448,12 +452,13 @@ const Output = ({ OutComeId, OutPutName, OutComeName, FiscalYear, index }) => {
                 </thead>
                 <tbody>{indicators}</tbody>
               </table>
+              </div>
             </center>
             <p></p>
           </Tab>
           <Tab eventKey="three" title=" Targets/ Milestones ">
             <br></br>
-            <br></br>
+            
 
             <button
               onClick={handleShowTargetadd}
@@ -465,7 +470,8 @@ const Output = ({ OutComeId, OutPutName, OutComeName, FiscalYear, index }) => {
             </button>
             <center>
               <p> Targets/ Milestones </p>
-              <table className="table">
+              <div className="table-responsive mb-5">
+              <table className="my-table">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -491,6 +497,7 @@ const Output = ({ OutComeId, OutPutName, OutComeName, FiscalYear, index }) => {
             />
                 ))}
               </table>
+              </div>
             </center>
             <p></p>
           </Tab>

@@ -72,9 +72,9 @@ export const TableSection = ({ persondetails, description, index }) => {
           <ExpendableButton isOpen={isOpen} toggle={toggle} />
         </td>
         <td>
-          <b>PROGRAM :</b>{" "}
+          <b>PROGRAM :</b>
           <small>
-            {" "}
+            
             {persondetails}
             <button
               onClick={handleShow}

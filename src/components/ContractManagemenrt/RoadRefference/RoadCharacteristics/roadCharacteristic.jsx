@@ -224,7 +224,7 @@ class BusinessPaterner extends Component {
                           data-target="#exampleAddModal"
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
                         <p>There are no Road Characteristic in Database.</p>
                         <AddModal />
@@ -238,7 +238,7 @@ class BusinessPaterner extends Component {
                           data-target="#exampleAddModal"
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
                         <div style={{ textAlign: "center" }}>
                           <SearchBox
@@ -246,21 +246,23 @@ class BusinessPaterner extends Component {
                             onChange={this.handleSearch}
                           />
                         </div>
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              {" "}
-                              <th>Road Classification</th>
-                              <th>Number of lames</th>
-                              <th>Lame width in KM</th>
-                              <th>Shouldername</th>
-                              <th>Pavettypename</th>
-                              <th>Update</th>
-                              <th>Delete</th>
-                            </tr>
-                          </thead>
-                          <tbody>{brochure}</tbody>
-                        </table>
+                        <div className="table-responsive mb-5">
+                          <table className="table">
+                            <thead>
+                              <tr>
+                                {" "}
+                                <th>Road Classification</th>
+                                <th>Number of lames</th>
+                                <th>Lame width in KM</th>
+                                <th>Shouldername</th>
+                                <th>Pavettypename</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                              </tr>
+                            </thead>
+                            <tbody>{brochure}</tbody>
+                          </table>
+                        </div>
                         <AddModal />
 
                         <Modal

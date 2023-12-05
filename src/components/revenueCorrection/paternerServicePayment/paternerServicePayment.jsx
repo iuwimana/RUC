@@ -225,25 +225,27 @@ class PaternerServicePayment extends Component {
                           onChange={this.handleSearch}
                         />
                       </div>
-                      <table className="table">
-                        <thead>
-                          <tr>
-                            <th>FiscalYear</th>
-                            <th>Period</th>
-                            <th>Business Paterner</th>
-                            <th>Revenue Product</th>
-                            <th>Payment Mode</th>
-                            <th>isFixed</th>
-                            <th>PayUnit</th>
-                            <th>ServiceQuantity</th>
+                      <div className="table-responsive mb-5">
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th>FiscalYear</th>
+                              <th>Period</th>
+                              <th>Business Paterner</th>
+                              <th>Revenue Product</th>
+                              <th>Payment Mode</th>
+                              <th>isFixed</th>
+                              <th>PayUnit</th>
+                              <th>ServiceQuantity</th>
 
-                            <th>PayperUnit</th>
-                            <th>PaymentAmount</th>
-                            <th>ViewDetails</th>
-                          </tr>
-                        </thead>
-                        <tbody>{brochure}</tbody>
-                      </table>
+                              <th>PayperUnit</th>
+                              <th>PaymentAmount</th>
+                              <th>ViewDetails</th>
+                            </tr>
+                          </thead>
+                          <tbody>{brochure}</tbody>
+                        </table>
+                      </div>
                     </>
                   )}
                   <Pagination

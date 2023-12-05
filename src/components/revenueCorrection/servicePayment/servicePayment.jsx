@@ -247,23 +247,25 @@ class ServicePayment extends Component {
                           onChange={this.handleSearch}
                         />
                       </div>
-                      <table className="table">
-                        <thead>
-                          <tr>
-                            <th>InstitutionPartenerName</th>
-                            <th>RevenueProductname</th>
-                            <th>PaymentModename</th>
-                            <th>isFixed</th>
-                            <th>PayUnit</th>
-                            <th>Amount</th>
-                            <th>StartDate</th>
-                            <th>EndDate</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                          </tr>
-                        </thead>
-                        <tbody>{brochure}</tbody>
-                      </table>
+                      <div className="table-responsive mb-5">
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th>InstitutionPartenerName</th>
+                              <th>RevenueProductname</th>
+                              <th>PaymentModename</th>
+                              <th>isFixed</th>
+                              <th>PayUnit</th>
+                              <th>Amount</th>
+                              <th>StartDate</th>
+                              <th>EndDate</th>
+                              <th>Update</th>
+                              <th>Delete</th>
+                            </tr>
+                          </thead>
+                          <tbody>{brochure}</tbody>
+                        </table>
+                      </div>
                       <AddModal />
 
                       <Modal

@@ -164,7 +164,7 @@ class Securables extends Component {
           <td>{roles.canaccess.toString()}</td>
           <td>
             <button
-              className="btn btn-second"
+              className="btn btn-secondary"
               data-toggle="modal"
               data-target="#exampleModal"
               onClick={() =>

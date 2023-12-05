@@ -67,26 +67,30 @@ const RoadInspection = () => {
           <div className="mb-5">
             <div className="max-w-[320px] md:max-w-[990px] mx-auto">
               <div className="md:flex justify-between space-y-4 md:space-y-0 md:space-x-4 rtl:space-x-reverse">
-                <table
-                  border="0"
-                  cellspacing="0"
-                  cellpadding="0"
-                  className="table-hover table-borderless table-condensed table-hover"
-                >
-                  <thead>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </thead>
-                  {contractType.map((contractType) => (
-                    <ContractView
-                      contracttypeid={contractType.contracttypeid}
-                      cancreateserviceorder={contractType.cancreateserviceorder}
-                      contracttypename={contractType.contracttypename}
-                    />
-                  ))}
-                </table>
+                <div className="table-responsive mb-5">
+                  <table
+                    border="0"
+                    cellspacing="0"
+                    cellpadding="0"
+                    className="table-hover table-borderless table-condensed table-hover"
+                  >
+                    <thead>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </thead>
+                    {contractType.map((contractType) => (
+                      <ContractView
+                        contracttypeid={contractType.contracttypeid}
+                        cancreateserviceorder={
+                          contractType.cancreateserviceorder
+                        }
+                        contracttypename={contractType.contracttypename}
+                      />
+                    ))}
+                  </table>
+                </div>
               </div>
             </div>
           </div>

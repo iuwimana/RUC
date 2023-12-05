@@ -257,6 +257,7 @@ class Inspection extends Component {
                             onChange={this.handleSearch}
                           />
                         </div>
+                        <div className="table-responsive mb-5">
 
                         <table className="table">
                           <thead>
@@ -275,6 +276,7 @@ class Inspection extends Component {
                           </thead>
                           <tbody>{brochure}</tbody>
                         </table>
+                        </div>
                        <Modal  dialogClassName="my-modal" show={this.state.openModal} onHide={this.onCloseModal}>
                     <Modal.Header closeButton>
                       <Modal.Title>Add New Inspection</Modal.Title>

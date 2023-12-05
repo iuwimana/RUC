@@ -206,7 +206,9 @@ class RevenuCorrectionsupload extends Component {
         "An Error Occured, while uploading revenu correction file:" + ex
       );
     }
-    //this.props.history.push("/revenu/revenucorrection");
+    this.props.history.push("/revenu/revenucorrection");
+    //const { state } = this.props.location;
+    //window.location = state ? state.from.pathname : "/";
   };
 
   render() {
@@ -391,26 +393,28 @@ class RevenuCorrectionsupload extends Component {
                     <br />
                     <br />
                     {/* Table */}
-                    <table className=" striped bordered hover" border={1}>
-                      <thead>
-                        <tr>
-                          {TableRows.map((rows, index) => {
-                            return <th key={index}>{rows}</th>;
+                    <div className="table-responsive mb-5">
+                      <table className=" striped bordered hover" border={1}>
+                        <thead>
+                          <tr>
+                            {TableRows.map((rows, index) => {
+                              return <th key={index}>{rows}</th>;
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {products.map((value, index) => {
+                            return (
+                              <tr key={index}>
+                                {value.map((val, i) => {
+                                  return <td key={i}>{val}</td>;
+                                })}
+                              </tr>
+                            );
                           })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {products.map((value, index) => {
-                          return (
-                            <tr key={index}>
-                              {value.map((val, i) => {
-                                return <td key={i}>{val}</td>;
-                              })}
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
                     <Pagination
                       itemsCount={totalCount}
                       pageSize={pageSize}

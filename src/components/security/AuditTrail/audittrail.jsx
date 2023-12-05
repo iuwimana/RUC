@@ -186,16 +186,18 @@ class AuditTrail extends Component {
                   <SearchBox value={searchQuery} onChange={this.handleSearch} />
 
                   <div style={{ textAlign: "center" }}></div>
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>RoleName</th>
-                        <th>Description</th>
-                        <th>IsSystemRole</th>
-                      </tr>
-                    </thead>
-                    <tbody>{brochure}</tbody>
-                  </table>
+                  <div className="table-responsive mb-5">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>RoleName</th>
+                          <th>Description</th>
+                          <th>IsSystemRole</th>
+                        </tr>
+                      </thead>
+                      <tbody>{brochure}</tbody>
+                    </table>
+                  </div>
                   <AddModal />
 
                   <Modal

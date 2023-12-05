@@ -357,6 +357,7 @@ class Inspection extends Component {
                             onChange={this.handleSearch}
                           />
                         </div>
+                        <div className="table-responsive mb-5">
 
                         <table className="table">
                           <thead>
@@ -375,6 +376,7 @@ class Inspection extends Component {
                           </thead>
                           <tbody>{brochure}</tbody>
                         </table>
+                        </div>
                         <UpdateContractModal
                         contractpaymentid={modalData.contractpaymentid}
                         contractid={modalData.contractid}

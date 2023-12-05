@@ -215,7 +215,7 @@ class BusinessPaterner extends Component {
                           data-target="#exampleAddModal"
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
                         <p>There are no road Type in Database.</p>
                         <AddModal />
@@ -229,7 +229,7 @@ class BusinessPaterner extends Component {
                           data-target="#exampleAddModal"
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
 
                         <div style={{ textAlign: "center" }}>
@@ -238,17 +238,19 @@ class BusinessPaterner extends Component {
                             onChange={this.handleSearch}
                           />
                         </div>
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th>RoadType</th>
+                        <div className="table-responsive mb-5">
+                          <table className="table">
+                            <thead>
+                              <tr>
+                                <th>RoadType</th>
 
-                              <th>Update</th>
-                              <th>Delete</th>
-                            </tr>
-                          </thead>
-                          <tbody>{brochure}</tbody>
-                        </table>
+                                <th>Update</th>
+                                <th>Delete</th>
+                              </tr>
+                            </thead>
+                            <tbody>{brochure}</tbody>
+                          </table>
+                        </div>
                         <AddModal />
 
                         <Modal

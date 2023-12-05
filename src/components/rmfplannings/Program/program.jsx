@@ -227,7 +227,7 @@ class SourceofFunds extends Component {
                   <div className="text-muted text-center mt-2 mb-3">
                     <h1>
                       <div style={{ textAlign: "center" }}>
-                        <h1>RMF Planning- Program</h1>
+                        <h1>RMF Planning- Single Action Plan </h1>
                         <SearchBox
                           value={searchQuery}
                           onChange={this.handleSearch}
@@ -238,24 +238,26 @@ class SourceofFunds extends Component {
                   <div className="btn-wrapper text-center"></div>
                 </CardHeader>
                 <CardBody className="px-lg-5 py-lg-5">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th>ProgramName</th>
-                        <th>Description</th>
+                  <div className="table-responsive mb-5">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>ProgramName</th>
+                          <th>Description</th>
 
-                        <th>Update</th>
-                        <th>Delete</th>
-                      </tr>
-                    </thead>
-                    {sources.map((personDetails, index) => (
-                      <TableSection
-                        personDetails={personDetails}
-                        index={personDetails.id}
-                      />
-                    ))}
-                  </table>
+                          <th>Update</th>
+                          <th>Delete</th>
+                        </tr>
+                      </thead>
+                      {sources.map((personDetails, index) => (
+                        <TableSection
+                          personDetails={personDetails}
+                          index={personDetails.id}
+                        />
+                      ))}
+                    </table>
+                  </div>
                 </CardBody>
               </Card>
               <AddModal />

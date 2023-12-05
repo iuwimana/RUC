@@ -356,12 +356,23 @@ class RevenuCorrection extends Component {
                       {count === 0 && (
                         <>
                           {countproduct && countproduct !== "0" && (
-                            <Link
-                              to="/revenu/upload"
+                            <NavLink
+                              to={{
+                                pathname: "/revenu/upload",
+                                state: {
+                                  revenuproductid: this.state.revenuproductid,
+                                  revenuproductname:
+                                    this.state.revenuproductname,
+                                  currencyid: this.state.currencyid,
+                                  currencyname: this.state.currencyname,
+                                  activeon: this.state.activeon,
+                                },
+                              }}
                               className="btn btn-success"
                             >
-                              <FcPlus /> AddRevenu
-                            </Link>
+                              <FcPlus />
+                              AddRevenu
+                            </NavLink>
                           )}
                           <p>
                             There are revenu correction Payment in Database.
@@ -389,7 +400,6 @@ class RevenuCorrection extends Component {
                               AddRevenu
                             </NavLink>
                           )}
-                          
 
                           <div style={{ textAlign: "center" }}>
                             <SearchBox
@@ -403,8 +413,8 @@ class RevenuCorrection extends Component {
                                 <tr>
                                   <th>RevenueProductname</th>
                                   <th>Account name</th>
-                                   <th>AccountNumber</th>
-                                   <th>Bankname</th>
+                                  <th>AccountNumber</th>
+                                  <th>Bankname</th>
                                   <th>Service Period</th>
                                   <th>Deposit</th>
                                 </tr>

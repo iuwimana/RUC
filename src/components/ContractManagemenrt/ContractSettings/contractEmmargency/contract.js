@@ -273,7 +273,7 @@ class Contract extends Component {
                           }
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
                         <p>There are no contractor in Database.</p>
                         <AddModal 
@@ -292,7 +292,7 @@ class Contract extends Component {
                           }
                         >
                           <FcPlus />
-                          Addsource
+                          AddNew
                         </button>
 
                         <div style={{ textAlign: "center" }}>
@@ -301,6 +301,7 @@ class Contract extends Component {
                             onChange={this.handleSearch}
                           />
                         </div>
+                        <div className="table-responsive mb-5">
                         <table className="table">
                           <thead>
                             <tr>
@@ -317,6 +318,7 @@ class Contract extends Component {
                           </thead>
                           <tbody>{brochure}</tbody>
                         </table>
+                        </div>
                         <AddModal 
                         contractmodeid={contractmodeid}
                         />

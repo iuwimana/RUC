@@ -249,20 +249,22 @@ class BusinessPaterner extends Component {
                             onChange={this.handleSearch}
                           />
                         </div>
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th>InstitutionPartenerName</th>
-                              <th>PartenerStatusName</th>
-                              <th>AccountNumber</th>
-                              <th>Bankname</th>
+                        <div className="table-responsive mb-5">
+                          <table className="table">
+                            <thead>
+                              <tr>
+                                <th>InstitutionPartenerName</th>
+                                <th>PartenerStatusName</th>
+                                <th>AccountNumber</th>
+                                <th>Bankname</th>
 
-                              <th>Update</th>
-                              <th>Delete</th>
-                            </tr>
-                          </thead>
-                          <tbody>{brochure}</tbody>
-                        </table>
+                                <th>Update</th>
+                                <th>Delete</th>
+                              </tr>
+                            </thead>
+                            <tbody>{brochure}</tbody>
+                          </table>
+                        </div>
                         <AddModal />
 
                         <Modal

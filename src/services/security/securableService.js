@@ -11,6 +11,9 @@ const planingsapiEndpoints = apiUrl.apiUrl + "/securable/planingsecurables";
 const conractapiEndpoints = apiUrl.apiUrl + "/securable/contractsecurable";
 const contractsapiEndpoints = apiUrl.apiUrl + "/securable/contractsecurables";
 const revenucollectionsaddapiEndpoints = apiUrl.apiUrl + "/rolepermission/userpermission";
+const collectionuserapiEndpoint = apiUrl.apiUrl + "/securable/revenucollectionusersecurables";
+const planninguserapiEndpoint = apiUrl.apiUrl + "/securable/planningusersecurables";
+const contractuserapiEndpoint = apiUrl.apiUrl + "/securable/contractusersecurables";
 
 const apiEndpointaudit = apiUrl.apiUrl + "/securable/audit";
 
@@ -75,6 +78,44 @@ export async function addsecurables(SecurableID,SecurableName) {
     return toast.error("An Error Occured, while saving securable Please try again later" + ex );;
   }
 }
+
+/////////////////////////////////usersecurables
+/////////////////////////////////revenucollectionusersecurables
+
+export async function getrevenucollectionusersecurables(securableid,email) {
+  try {
+    return await http.post(collectionuserapiEndpoint ,{securableid,email});
+  } catch (ex) {
+    return null;
+  }
+}
+
+/////////////////////////////////endrevenucollectionusersecurable
+/////////////////////////////////Planningusersecurables
+
+export async function getPlanningusersecurables(securableid,email) {
+  try {
+    return await http.post(planninguserapiEndpoint ,{securableid,email});
+  } catch (ex) {
+    return null;
+  }
+}
+
+/////////////////////////////////endPlanningusersecurable
+/////////////////////////////////contractusersecurables
+
+
+export async function contractusersecurables(securableid,email) {
+  try {
+    return await http.post(contractuserapiEndpoint,{securableid,email});
+  } catch (ex) {
+    return null;
+  }
+}
+
+
+/////////////////////////////////endcontractusersecurable
+/////////////////////////////////endusersecurable
  
  ////////////////////////////revenucollection securables
  export async function getrevenucollectionsecurable(userid) {

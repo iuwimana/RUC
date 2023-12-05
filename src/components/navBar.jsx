@@ -51,6 +51,8 @@ import useOpenController from "../components/ContractManagemenrt/ContractSetting
 import * as Contract from "../services/ContractManagement/ContractSetting/contractservice";
 
 import * as UserAccessData from "../services/security/securableService";
+import * as UserHeadData from "../services/security/userServices";
+
 import jwtDecode from "jwt-decode";
 import { BiSubdirectoryRight } from "react-icons/bi";
 import * as ContractType from "../services/ContractManagement/ContractSetting/contractTypeService";
@@ -76,11 +78,289 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
   const [canaccessPlanning, setCanaccessPlanning] = useState();
   const [canaccesscontract, setCanaccesscontract] = useState();
   const [canaccesslookup, setCanaccesslookup] = useState();
+  const [isHeadofUnit, setisHeadofUnit] = useState();
   const [useraccess, setuseraccess] = useState([]);
   const [emails, setemails] = useState([]);
   const [email, setemail] = useState(user.username);
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+  //-----------------------------------------------------------------------------------
+  const [canaccessRevenusCollection, setcanaccessRevenusCollection] =
+    useState(false);
+  const [canaccessRevenusPayment, setcanaccessRevenusPayment] = useState(false);
+  const [canaccessRevenuDashBoard, setcanaccessRevenuDashBoard] =
+    useState(false);
+  const [canaccessExpenditure, setcanaccessExpenditure] = useState(false);
+  const [canaccessViewSAP, setcanaccessViewSAP] = useState(false);
+  const [canaccessPlaningProcess, setcanaccessPlaningProcess] = useState(false);
+  const [canaccessPayment, setcanaccessPayment] = useState(false);
+  const [canaccessInspection, setcanaccessInspection] = useState(false);
+  const [canaccesscontracts, setcanaccesscontracts] = useState(false);
+  //-------------------------------UserAccesslevel2----------------------------------------------------
+  //------------------------------------canaccessRevenusCollection
+ 
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserAccessData.getrevenucollectionusersecurables(
+          4,jwt.username);
+        setuseraccess(data);
 
+        data.forEach((object, index) => {
+          setcanaccessRevenusCollection(object.canaccess);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  }
+
+  //------------------------------------end canaccessRevenusCollection
+  //------------------------------------canaccessRevenusPayment
+
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserAccessData.getrevenucollectionusersecurables(
+                   5,jwt.username
+        );
+        setuseraccess(data);
+
+        data.forEach((object, index) => {
+          setcanaccessRevenusPayment(object.canaccess);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  }
+
+  //------------------------------------end canaccessRevenusPayment
+  //------------------------------------canaccessRevenuDashBoard
+
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserAccessData.getrevenucollectionusersecurables(
+          10,
+          jwt.username
+        );
+        setuseraccess(data);
+
+        data.forEach((object, index) => {
+          setcanaccessRevenuDashBoard(object.canaccess);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  }
+
+  //------------------------------------end canaccessRevenuDashBoard
+  //------------------------------------canaccessExpenditure
+
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserAccessData.getrevenucollectionusersecurables(
+          29,
+          jwt.username
+        );
+        setuseraccess(data);
+
+        data.forEach((object, index) => {
+          setcanaccessExpenditure(object.canaccess);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  }
+
+  //------------------------------------end canaccessExpenditure
+  //------------------------------------canaccessViewSAP
+
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserAccessData.getPlanningusersecurables(
+          13,
+          jwt.username
+        );
+        setuseraccess(data);
+
+        data.forEach((object, index) => {
+          setcanaccessViewSAP(object.canaccess);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  }
+
+  //------------------------------------end canaccessViewSAP
+  //------------------------------------canaccessPlaningProcess
+
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserAccessData.getPlanningusersecurables(
+          12,
+          jwt.username
+        );
+        setuseraccess(data);
+
+        data.forEach((object, index) => {
+          setcanaccessPlaningProcess(object.canaccess);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  }
+
+  //------------------------------------end canaccessPlaningProcess
+  //------------------------------------canaccessPayment
+
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserAccessData.contractusersecurables(
+          24,
+          jwt.username
+        );
+        setuseraccess(data);
+
+        data.forEach((object, index) => {
+          setcanaccessPayment(object.canaccess);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  }
+
+  //------------------------------------end canaccessPayment
+  //------------------------------------canaccessInspection
+
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserAccessData.contractusersecurables(
+          23,
+          jwt.username
+        );
+        setuseraccess(data);
+
+        data.forEach((object, index) => {
+          setcanaccessInspection(object.canaccess);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  }
+
+  //------------------------------------end canaccessInspection
+  //------------------------------------canaccesscontracts
+
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserAccessData.contractusersecurables(
+          22,
+          jwt.username
+        );
+        setuseraccess(data);
+
+        data.forEach((object, index) => {
+          setcanaccesscontracts(object.canaccess);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  
+}
+  //------------------------------------end canaccesscontracts
+
+  //------------------------------------accessadministration
+
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserHeadData.getUserheads(jwt.username);
+        setuseraccess(data);
+
+        data.forEach((object, index) => {
+          setisHeadofUnit(object.user_isheadofunit);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  }
+
+  //accessdashboard
   try {
     useEffect(() => {
       const fetchProgram = async () => {
@@ -287,7 +567,9 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
   const [fiscalyearcontracttypeid, setfiscalyearcontracttypeid] = useState(0);
   const [fiscalYearcontracttype, setFiscalYearcontracttype] = useState([]);
   const [project, setproject] = useState([]);
+
   //-----------------------------------------------------------------------------------
+
   const handleshowproject = async () => {
     <NavLink
       className="nav-item nav-link"
@@ -528,7 +810,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
     setOpencontState(false);
     setOpenlookcontrState(!isopenlookcontr);
   }
- 
+
   //----------------------------------------------------
   const handleNavCollapse = () => {
     if (isNavCollapsed === true) setIsNavCollapsed(false);
@@ -624,91 +906,101 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                         <div className="card" style={{ width: 430 }}>
                           <div className="vertical">
                             <br />
-                            <div className="toggle">
-                              <NavLink
-                                className="nav-item nav-link"
-                                to={{
-                                  pathname: "/revenu/revenupayment",
-                                  state: { fiscalyearid: fiscalyearid },
-                                }}
-                              >
-                                <div className="cardss ">
-                                  <span className="nav-link-inner--text">
-                                    <FcMoneyTransfer />
-                                    &nbsp;Collections unit rate
-                                  </span>
-                                </div>
-                              </NavLink>
-                            </div>
-                            <div className="toggle">
-                              <NavLink
-                                className="nav-item nav-link"
-                                to={{
-                                  pathname: "/revenu/revenucorrection",
-                                  state: {
-                                    fiscalyearid: fiscalyearid,
-                                    fiscalyearname: fiscalyearname,
-                                  },
-                                }}
-                              >
-                                <div className="cardss ">
-                                  <span className="nav-link-inner--text">
-                                    <FcFeedIn />
-                                    &nbsp;Revenus Collection
-                                  </span>
-                                </div>
-                              </NavLink>
-                            </div>
+                            {canaccessRevenusPayment && (
+                              <div className="toggle">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/revenu/revenupayment",
+                                    state: { fiscalyearid: fiscalyearid },
+                                  }}
+                                >
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <FcMoneyTransfer />
+                                      &nbsp;Collections unit rate
+                                    </span>
+                                  </div>
+                                </NavLink>
+                              </div>
+                            )}
+                            {canaccessRevenusCollection && (
+                              <div className="toggle">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/revenu/revenucorrection",
+                                    state: {
+                                      fiscalyearid: fiscalyearid,
+                                      fiscalyearname: fiscalyearname,
+                                    },
+                                  }}
+                                >
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <FcFeedIn />
+                                      &nbsp;Revenus Collection
+                                    </span>
+                                  </div>
+                                </NavLink>
+                              </div>
+                            )}{" "}
                             <div className="toggle">
                               <NavLink
                                 className="nav-item nav-link"
                                 to="/revenu/administration"
                               >
-                                <div className="cardss ">
-                                  <span className="nav-link-inner--text">
-                                    <MdManageAccounts />
-                                    &nbsp;Administration
-                                  </span>
-                                </div>
+                                {isHeadofUnit && (
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <MdManageAccounts />
+                                      &nbsp;Administration
+                                    </span>
+                                  </div>
+                                )}
                               </NavLink>
                             </div>
-                            <div className="toggle">
-                              <NavLink
-                                className="nav-item nav-link"
-                                to={{
-                                  pathname: "/revenu/expenduture",
-                                  state: {
-                                    fiscalyearid: fiscalyearid,
-                                    fiscalyearname: fiscalyearname,
-                                  },
-                                }}
-                              >
-                                <div className="cardss ">
-                                  <span className="nav-link-inner--text">
-                                    <GiPayMoney />
-                                    &nbsp;Expenduture
-                                  </span>
-                                </div>
-                              </NavLink>
-                            </div>
-                            <div className="toggle">
-                              <NavLink
-                                className="nav-item nav-link"
-                                to={{
-                                  pathname: "/revenu/dashboard",
-                                  state: {
-                                    fiscalyearid: fiscalyearid,
-                                    fiscalyearname: fiscalyearname,
-                                  },
-                                }}
-                              >
-                                <div className="cardss ">
-                                  <span className="nav-link-inner--text">
-                                    <FcParallelTasks /> Revenu DashBoard
-                                  </span>
-                                </div>
-                              </NavLink>
-                            </div>
+                            {canaccessExpenditure && (
+                              <div className="toggle">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/revenu/expenduture",
+                                    state: {
+                                      fiscalyearid: fiscalyearid,
+                                      fiscalyearname: fiscalyearname,
+                                    },
+                                  }}
+                                >
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <GiPayMoney />
+                                      &nbsp;Expenduture
+                                    </span>
+                                  </div>
+                                </NavLink>
+                              </div>
+                            )}
+                            {canaccessRevenuDashBoard && (
+                              <div className="toggle">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/revenu/dashboard",
+                                    state: {
+                                      fiscalyearid: fiscalyearid,
+                                      fiscalyearname: fiscalyearname,
+                                    },
+                                  }}
+                                >
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <FcParallelTasks /> Revenu DashBoard
+                                    </span>
+                                  </div>
+                                </NavLink>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -742,43 +1034,49 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                         <div className="card" style={{ width: 430 }}>
                           <div className="vertical">
                             <br />
-                            <div className="toggle">
-                              <NavLink
-                                className="nav-item nav-link"
-                                to="/planing/programtable"
-                              >
-                                <div className="cardss ">
-                                  <span className="nav-link-inner--text">
-                                    <FcTimeline /> Planing Process
-                                  </span>
-                                </div>
-                              </NavLink>
-                            </div>
+                            {canaccessPlaningProcess && (
+                              <div className="toggle">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to="/planing/programtable"
+                                >
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <FcTimeline /> Planing Process
+                                    </span>
+                                  </div>
+                                </NavLink>
+                              </div>
+                            )}
                             <div className="toggle">
                               <NavLink
                                 className="nav-item nav-link"
                                 to="/planing/administration"
                               >
-                                <div className="cardss ">
-                                  <span className="nav-link-inner--text">
-                                    <MdManageAccounts />
-                                    &nbsp;Administration
-                                  </span>
-                                </div>
+                                {isHeadofUnit && (
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <MdManageAccounts />
+                                      &nbsp;Administration
+                                    </span>
+                                  </div>
+                                )}
                               </NavLink>
                             </div>
-                            <div className="toggle">
-                              <NavLink
-                                className="nav-item nav-link"
-                                to="/planing/sap"
-                              >
-                                <div className="cardss ">
-                                  <span className="nav-link-inner--text">
-                                    <FcTodoList /> View SAP
-                                  </span>
-                                </div>
-                              </NavLink>
-                            </div>
+                            {canaccessViewSAP && (
+                              <div className="toggle">
+                                <NavLink
+                                  className="nav-item nav-link"
+                                  to="/planing/sap"
+                                >
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <FcTodoList /> View SAP
+                                    </span>
+                                  </div>
+                                </NavLink>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -816,152 +1114,160 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                                 className="nav-item nav-link"
                                 to="/contractmanagemenrt/administration"
                               >
-                                <div className="cardss ">
-                                  <span className="nav-link-inner--text">
-                                    <MdManageAccounts />
-                                    &nbsp;Administration
-                                  </span>
-                                </div>
+                                {isHeadofUnit && (
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <MdManageAccounts />
+                                      &nbsp;Administration
+                                    </span>
+                                  </div>
+                                )}
                               </NavLink>
                             </div>
-                            <div className="toggle">
-                              <button
-                                type="button"
-                                className="collapsibles"
-                                style={{ height: 40 }}
-                                onClick={handleopencontractcontractclick}
-                              >
-                                <div className="cardss ">
-                                  <span className="nav-link-inner--text">
-                                    &nbsp;&nbsp;&nbsp;
-                                    <AiOutlineShop />
-                                    &nbsp; Contracts
-                                  </span>
-                                </div>
-                              </button>
-                              {isopenproject && (
-                                <div className="row">
-                                  {" "}
-                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                  <div className="col">
-                                    <div
-                                      className="card"
-                                      style={{ width: 400 }}
-                                    >
-                                      <div className="vertical">
-                                        <br />
-                                        <div className="toggle">
-                                          <>
-                                            {fiscalYear.map((fiscalYear) => (
-                                              <ContractTypeMenu
-                                                fiscalyearid={
-                                                  fiscalYear.fiscalyearid
-                                                }
-                                                fiscalyear={
-                                                  fiscalYear.fiscalyear
-                                                }
-                                              />
-                                            ))}
-                                          </>
+                            {canaccesscontracts && (
+                              <div className="toggle">
+                                <button
+                                  type="button"
+                                  className="collapsibles"
+                                  style={{ height: 40 }}
+                                  onClick={handleopencontractcontractclick}
+                                >
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      &nbsp;&nbsp;&nbsp;
+                                      <AiOutlineShop />
+                                      &nbsp; Contracts
+                                    </span>
+                                  </div>
+                                </button>
+                                {isopenproject && (
+                                  <div className="row">
+                                    {" "}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div className="col">
+                                      <div
+                                        className="card"
+                                        style={{ width: 400 }}
+                                      >
+                                        <div className="vertical">
+                                          <br />
+                                          <div className="toggle">
+                                            <>
+                                              {fiscalYear.map((fiscalYear) => (
+                                                <ContractTypeMenu
+                                                  fiscalyearid={
+                                                    fiscalYear.fiscalyearid
+                                                  }
+                                                  fiscalyear={
+                                                    fiscalYear.fiscalyear
+                                                  }
+                                                />
+                                              ))}
+                                            </>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              )}
-                            </div>
-                            <div className="toggle">
-                              <button
-                                type="button"
-                                className="collapsibles"
-                                style={{ height: 40 }}
-                                onClick={handleopencontractinspectionclick}
-                              >
-                                <div className="cardss ">
-                                  <span className="nav-link-inner--text">
-                                    &nbsp;&nbsp;&nbsp;
-                                    <AiOutlineWeibo />
-                                    &nbsp; Inspection
-                                  </span>
-                                </div>
-                              </button>
-                              {isopencontracttype && (
-                                <div className="row">
-                                  {" "}
-                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                  <div className="col">
-                                    <div
-                                      className="card"
-                                      style={{ width: 400 }}
-                                    >
-                                      <div className="vertical">
-                                        <br />
-                                        <div className="toggle">
-                                          <>
-                                            {fiscalYear.map((fiscalYear) => (
-                                              <ContractTypeMenuinspection
-                                                fiscalyearid={
-                                                  fiscalYear.fiscalyearid
-                                                }
-                                                fiscalyear={
-                                                  fiscalYear.fiscalyear
-                                                }
-                                              />
-                                            ))}
-                                          </>
+                                )}
+                              </div>
+                            )}
+                            {canaccessInspection && (
+                              <div className="toggle">
+                                <button
+                                  type="button"
+                                  className="collapsibles"
+                                  style={{ height: 40 }}
+                                  onClick={handleopencontractinspectionclick}
+                                >
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      &nbsp;&nbsp;&nbsp;
+                                      <AiOutlineWeibo />
+                                      &nbsp; Inspection
+                                    </span>
+                                  </div>
+                                </button>
+                                {isopencontracttype && (
+                                  <div className="row">
+                                    {" "}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div className="col">
+                                      <div
+                                        className="card"
+                                        style={{ width: 400 }}
+                                      >
+                                        <div className="vertical">
+                                          <br />
+                                          <div className="toggle">
+                                            <>
+                                              {fiscalYear.map((fiscalYear) => (
+                                                <ContractTypeMenuinspection
+                                                  fiscalyearid={
+                                                    fiscalYear.fiscalyearid
+                                                  }
+                                                  fiscalyear={
+                                                    fiscalYear.fiscalyear
+                                                  }
+                                                />
+                                              ))}
+                                            </>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              )}
-                            </div>
-                            <div className="toggle">
-                              <button
-                                type="button"
-                                className="collapsibles"
-                                style={{ height: 40 }}
-                                onClick={handleopencontractpaymentclick}
-                              >
-                                <div className="cardss ">
-                                  <span className="nav-link-inner--text">
-                                    &nbsp;&nbsp;&nbsp;
-                                    <FcMoneyTransfer />
-                                    &nbsp; Payment
-                                  </span>
-                                </div>
-                              </button>
-                              {isopenfiscalyear && (
-                                <div className="row">
-                                  {" "}
-                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                  <div className="col">
-                                    <div
-                                      className="card"
-                                      style={{ width: 400 }}
-                                    >
-                                      <div className="vertical">
-                                        <br />
-                                        <div className="toggle">
-                                          <>
-                                            {fiscalYear.map((fiscalYear) => (
-                                              <ContractTypeMenupayment
-                                                fiscalyearid={
-                                                  fiscalYear.fiscalyearid
-                                                }
-                                                fiscalyear={
-                                                  fiscalYear.fiscalyear
-                                                }
-                                              />
-                                            ))}
-                                          </>
+                                )}
+                              </div>
+                            )}
+                            {canaccessPayment && (
+                              <div className="toggle">
+                                <button
+                                  type="button"
+                                  className="collapsibles"
+                                  style={{ height: 40 }}
+                                  onClick={handleopencontractpaymentclick}
+                                >
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      &nbsp;&nbsp;&nbsp;
+                                      <FcMoneyTransfer />
+                                      &nbsp; Payment
+                                    </span>
+                                  </div>
+                                </button>
+                                {isopenfiscalyear && (
+                                  <div className="row">
+                                    {" "}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div className="col">
+                                      <div
+                                        className="card"
+                                        style={{ width: 400 }}
+                                      >
+                                        <div className="vertical">
+                                          <br />
+                                          <div className="toggle">
+                                            <>
+                                              {fiscalYear.map((fiscalYear) => (
+                                                <ContractTypeMenupayment
+                                                  fiscalyearid={
+                                                    fiscalYear.fiscalyearid
+                                                  }
+                                                  fiscalyear={
+                                                    fiscalYear.fiscalyear
+                                                  }
+                                                />
+                                              ))}
+                                            </>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              )}
-                            </div>
+                                )}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>

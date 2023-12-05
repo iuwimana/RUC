@@ -393,6 +393,7 @@ class Project extends Component {
                             onChange={this.handleSearch}
                           />
                         </div>
+                        <div className="table-responsive mb-5">
                         <table className="table">
                           <thead>
                             <tr>
@@ -410,6 +411,7 @@ class Project extends Component {
                           </thead>
                           <tbody>{brochure}</tbody>
                         </table>
+                        </div>
                         <AddModal
                           projectid={modalData.projectid}
                           maintenancetypeid={modalData.maintenancetypeid}
