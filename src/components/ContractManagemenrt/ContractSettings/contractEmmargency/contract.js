@@ -185,7 +185,7 @@ class Contract extends Component {
   render() {
     const { length: count } = this.state.business;
     const { pageSize, currentPage, searchQuery } = this.state;
-
+    
     const { totalCount, data: business } = this.getPagedData();
     if (business == []) {
       return toast.error("An Error Occured,data fetching ...");

@@ -37,6 +37,7 @@ import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { toast } from "react-toastify";
 import useOpenController from "../../components/ContractManagemenrt/ContractSettings/contractor/Hooks/useOpenController";
 import * as Contract from "../../services/ContractManagement/ContractSetting/contractservice";
+import Contractcomponent from "../ContractManagemenrt/ContractSettings/contract/contract"
 import { BiSubdirectoryRight } from "react-icons/bi";
 import * as ContractTypeData from "../../services/ContractManagement/ContractSetting/contractTypeService";
 import { DiSqllite } from "react-icons/di";
@@ -51,6 +52,7 @@ import ContractorMenu from "../Menu/contract";
 import * as ContractData from "../../services/ContractManagement/ContractSetting/contractservice";
 
 import "../../home.css";
+import ServiceOrder from './../ContractManagemenrt/ContractSettings/contractor/serviceorder';
 const ContractMode = ({
   contractmodeid,
   contractmode,
@@ -92,15 +94,16 @@ const ContractMode = ({
   //---------------------------------------
   const handleshowcontractor = async () => {
     try {
+      
       <NavLink
         className="nav-item nav-link"
         to={{
           pathname: "/ContractManagemenrt/contract/contract",
-          state: { contractmodeid: contractmodeid },
+          state: { contractmodeid: contractmodeid,contractmode:contractmode  },
         }}
       >
         {/**{window.location.reload(false)}**/}
-      </NavLink>;
+      </NavLink>
     } catch (ex) {
       toast.error(
         "An Error Occured, while Loading contracttype data.........." + ex
@@ -119,25 +122,49 @@ const ContractMode = ({
 
       
       {cancreateserviceorder && (<tr key={contractmodeid}>
-        <td colspan="3">
+        <td>
+          {" "}
+          <div className="whitespace-nowrap">
+            <DiSqllite
+              isOpencontracttype={isOpencontracttype}
+              toggle={togglecontracttype}
+            /> <small><small><small><small>Open</small></small></small></small>
+            <ExpendableButton
+              isOpencontracttype={isOpencontracttype}
+              toggle={togglecontracttype}
+            />
+          </div>
+        </td>
+        <td colspan="2">
           <div class="row">
             <div class="col" onClick={handleshowcontractor}>
+              
               <NavLink
                 className="nav-item nav-link"
                 to={{
                   pathname: "/ContractManagemenrt/contract/contract",
-                  state: { contractmodeid: contractmodeid },
+                  state: { contractmodeid: contractmodeid,contractmode:contractmode },
                 }}
               >
+                <div className="cardssss ">
+                <span className="nav-link-inner--text">
                 <br />
                 Contract for - {contractmode}
                 <br />
+                </span>
+                </div>
               </NavLink>
+              
             </div>
           </div>
         </td>
 
-        <td>
+        
+      </tr>)}
+      {!cancreateserviceorder &&(
+        <tr key={contractmodeid}>
+          {/** 
+          <td>
           {" "}
           <div className="whitespace-nowrap">
             <DiSqllite
@@ -150,9 +177,7 @@ const ContractMode = ({
             />
           </div>
         </td>
-      </tr>)}
-      {!cancreateserviceorder &&(
-        <tr key={contractmodeid}>
+        */}
         <td colspan="3">
           <div class="row">
             <div class="col" onClick={handleshowcontractor}>
@@ -160,30 +185,22 @@ const ContractMode = ({
                 className="nav-item nav-link"
                 to={{
                   pathname: "/ContractManagemenrt/contract/contractemmergency",
-                  state: { contractmodeid: contractmodeid },
+                  state: { contractmodeid: contractmodeid ,contractmode:contractmode},
                 }}
               >
+                <div className="cardssss ">
+                <span className="nav-link-inner--text">
                 <br />
                 Contract for - {contractmode}
                 <br />
+                </span>
+                </div>
               </NavLink>
             </div>
           </div>
         </td>
 
-        <td>
-          {" "}
-          <div className="whitespace-nowrap">
-            <DiSqllite
-              isOpencontracttype={isOpencontracttype}
-              toggle={togglecontracttype}
-            />
-            <ExpendableButton
-              isOpencontracttype={isOpencontracttype}
-              toggle={togglecontracttype}
-            />
-          </div>
-        </td>
+        
       </tr>
       )}
       {isOpencontracttype && (

@@ -43,8 +43,10 @@ class BusinessPaterner extends Component {
     };
   }
   async componentDidMount() {
+    
     try {
       const { state } = this.props.location;
+      
       if (!state.fiscalyearid) {
         toast.error(`error while loading Fiscal year:${state.fiscalyearid}`);
       } else {
@@ -166,6 +168,7 @@ class BusinessPaterner extends Component {
   }
    
   render() {
+    
     const { length: count } = this.state.business;
     const { pageSize, currentPage, searchQuery } = this.state;
   
@@ -257,7 +260,21 @@ class BusinessPaterner extends Component {
                           AddNew
                         </button>
                         <p>There are no Business Paterner in Database.</p>
-                        <AddModal />
+                        
+                         <AddModal 
+                         fiscalyearcontracttypeid={
+                          business.fiscalyearcontracttypeid
+                        }
+                          contracttypeid={
+                            this.state.contracttypeid
+                          }
+                          contracttypename={
+                           this.state.contracttypename
+                          }
+                          fiscalyearid={this.state.fiscalyearids}
+                          
+                          saveModalDetails={this.saveModalDetails}
+                        />
                       </>
                     )}
                     {count !== 0 && (

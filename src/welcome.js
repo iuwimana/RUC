@@ -196,7 +196,6 @@ class Welcome extends Component {
     const { user } = this.state;
     const useraccesseses = this.state.useraccesseses;
     const fiscalyear = this.state.fiscalyear;
-
     return (
       <React.Fragment>
         <div>
@@ -344,10 +343,17 @@ class Welcome extends Component {
                       <Route path="/planing/sap" component={ViewSAP} />
 
                       {/**----------------------------------------------------- */}
-                      <Route
+                     <Route
                         path="/ContractManagemenrt/contract/fiscalyearcontracttype"
                         component={FiscalYearContractType}
                       />
+                       {/**
+                        <Route path="/ContractManagemenrt/contract/fiscalyearcontracttype" 
+                      render={() => (
+                        <FiscalYearContractType  fiscalyearid={this.state.fiscalyearid}  />
+                        )}
+                     />
+                     */}
                       
                        <Route path="/ContractManagemenrt/approval/emmargency" 
                       render={() => (

@@ -22,6 +22,7 @@ class AddroleModal extends Component {
       contracttypeid:0,
       fiscalyearid:0,
       contracttypename:"",
+      fiscalyearids:0,
       
       Bankname:"",
       user:{},
@@ -67,7 +68,7 @@ class AddroleModal extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      
+      fiscalyearids:nextProps.fiscalyearid,
       fiscalyearid:nextProps.fiscalyearid,
       contracttypename: nextProps.contracttypename,
       contracttypeid: nextProps.contracttypeid,
@@ -117,7 +118,7 @@ fiscalyearcontracttypeidHandler(e) {
      
 
       await FiscalYearContractType.addfiscalyearcontracttype(fiscalyearcontracttypeid,item.fiscalyearid,item.contracttypeid);
-      toast.success(`Business Paterner with   has been updated successful:${fiscalyearcontracttypeid} , ${item.fiscalyearid}, ${item.contracttypeid} `);
+      toast.success(`Business Paterner with   has been updated successful:fiscalyearcontracttypeid:${fiscalyearcontracttypeid} ,fiscalyearids: ${item.fiscalyearids},contracttypeid: ${item.contracttypeid} `);
       //const { state } = this.props.location;
       //window.location = state ? state.from.pathname : "/security/role";
       //this.props.history.push("/security/role");

@@ -23,7 +23,8 @@ import _ from "lodash";
 class Contract extends Component {
   constructor(props) {
     super(props);
-
+    
+   
     this.replaceModalItem = this.replaceModalItem.bind(this);
     this.saveModalDetails = this.saveModalDetails.bind(this);
     this.state = {
@@ -32,6 +33,7 @@ class Contract extends Component {
         contractdiscription: "",
         budget: 0,
         ContractModeid: 0,
+        contractmode:"",
         ContractorId: 0,
         startdate: "",
         enddate: "",
@@ -42,6 +44,7 @@ class Contract extends Component {
       contractdiscription: "",
       budget: 0,
       ContractModeid: 0,
+      contractmode:"",
       ContractorId: 0,
       startdate: "",
       enddate: "",
@@ -66,9 +69,12 @@ class Contract extends Component {
           `error while loading Fiscal year:${state.contractmodeid}`
         );
       } else {
+         
         const contractmodeid = state.contractmodeid;
+        const contractmode=state.contractmode;
+        this.setState({contractmodeid,contractmode})
         const { data: sources } = await Source.getSource();
-        const { data: business } = await ContractData.getcontractBycontractmode(state.contractmodeid);
+        const { data: business } = await ContractData.getcontractBycontractmode(this.state.contractmodeid);
         if (!business || !sources) {
           return toast.error("An Error Occured,data fetching ...");
         } else {
@@ -82,6 +88,7 @@ class Contract extends Component {
       );
     }
   }
+ 
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
   };
@@ -93,6 +100,17 @@ class Contract extends Component {
   handleSort = (sortColumn) => {
     this.setState({ sortColumn });
   };
+   componentWillReceiveProps() {
+    const { state } = this.props.location;
+    const contractmodeid = state.contractmodeid;
+    const contractmode= state.contractmode     
+    this.setState({      
+      contractmodeid:state.contractmodeid,contractmode:state.contractmode,     
+      
+    });
+    this.componentDidMount();
+    
+  }
   getPagedData = () => {
     const {
       pageSize,
@@ -185,7 +203,8 @@ class Contract extends Component {
   render() {
     const { length: count } = this.state.business;
     const { pageSize, currentPage, searchQuery } = this.state;
-
+    
+    
     const { totalCount, data: business } = this.getPagedData();
     if (business == []) {
       return toast.error("An Error Occured,data fetching ...");
@@ -253,7 +272,7 @@ class Contract extends Component {
                 <div className="text-muted text-center mt-2 mb-3">
                   <h1>
                     <div style={{ textAlign: "center" }}>
-                      <h1>Contract Management- Contractors</h1>
+                      <h1>Contract Management- {this.state.contractmode}</h1>
                     </div>
                   </h1>
                 </div>

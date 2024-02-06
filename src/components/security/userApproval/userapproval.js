@@ -147,7 +147,7 @@ class UserApproval extends Component {
     const { length: count } = this.state.roles;
     const { pageSize, currentPage, searchQuery } = this.state;
 
-    if (count === 0) return <p>There are role in Database.</p>;
+    
 
     const { totalCount, data: roles } = this.getPagedData();
   
@@ -223,7 +223,21 @@ class UserApproval extends Component {
             </CardHeader>
             <CardBody className="px-lg-5 py-lg-5">
               <div>
-                <div>
+                {count === 0 && (
+                    <>
+                      <button
+                    className="btn btn-success"
+                    data-toggle="modal"
+                    data-target="#exampleAddModal"
+                  >
+                    <FcPlus /> AddApprovals
+                  </button>
+                      <p>There are no user approval in database.</p>
+                      <AddModal />
+                    </>
+                  )}
+                  {count !== 0 && (
+                    <>
                   <button
                     className="btn btn-success"
                     data-toggle="modal"
@@ -258,6 +272,8 @@ class UserApproval extends Component {
                     approvalitem={this.state.approvalitem}
                     saveModalDetails={this.saveModalDetails}
                   />
+                  </>
+                  )}
                  
                   <Pagination
                     itemsCount={totalCount}
@@ -266,7 +282,8 @@ class UserApproval extends Component {
                     onPageChange={this.handlePageChange}
                   />
                 </div>
-              </div>
+                
+              
             </CardBody>
           </Card>
         </Col>
