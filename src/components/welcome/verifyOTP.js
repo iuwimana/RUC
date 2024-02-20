@@ -76,7 +76,7 @@ const VerifyOTP = ({username,password})=> {
           justifyContent: "center",
         }}
       >
-        <Col lg="5" md="7">
+        <Col lg="9" md="9" >
           <Card className=" shadow border-0">
             <CardBody className="px-lg-5 py-lg-5">
               <div className="verifyDiv">

@@ -106,6 +106,10 @@ class Index extends Form {
                         placeholder="Enter username"
                         value={this.state.username}
                         onChange={(e) => this.usernameHandler(e)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter")
+                          this.handleClick();
+                          }}
                       />
                     </div>
                   </div>
@@ -124,6 +128,10 @@ class Index extends Form {
                       placeholder="Enter Password"
                       value={this.state.password}
                       onChange={(e) => this.passwordHandler(e)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter")
+                        this.handleClick();
+                        }}
                     />
                   </div>
                 </div>
@@ -136,7 +144,11 @@ class Index extends Form {
                 type="button"
                 className="btn btn-primaries text-white"
                 data-dismiss="modal"
-                onClick={this.handleClick}
+                onClick={this.handleClick} 
+                onKeyDown={(e) => {
+                  if (e.key === "Enter")
+                  this.handleClick();
+                  }}
               >
                 Login
               </button>

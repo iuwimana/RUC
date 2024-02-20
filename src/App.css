@@ -36,3 +36,64 @@
     transform: rotate(360deg);
   }
 }
+
+#app {
+  margin-top: 40px;
+}
+
+#progressInput {
+  margin: 20px auto;
+  width: 30%;
+}
+
+.circle-background,
+.circle-progress {
+  fill: none;
+  stroke: aqua;
+}
+
+.circle-background {
+  stroke: #ddd;
+}
+
+.circle-progress {
+  
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.circle-text {
+  font-size: 3em;
+  font-weight: bold;
+ 
+}
+
+.circle-background1,
+.circle-progress1 {
+  fill: none;
+  stroke: rgb(132, 159, 159);
+}
+
+.circle-background1 {
+  stroke: #ddd;
+}
+
+.circle-background2,
+.circle-progress2 {
+  fill: none;
+  stroke: rgb(104, 124, 235);
+}
+
+.circle-background2 {
+  stroke: #ddd;
+}
+
+.circle-background3,
+.circle-progress3 {
+  fill: none;
+  stroke: rgb(176, 216, 127);
+}
+
+.circle-background3 {
+  stroke: #ddd;
+}

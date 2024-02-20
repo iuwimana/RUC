@@ -79,6 +79,7 @@ import ContrAdmin from "./components/security/ContractAdministration/securables"
 //-----------------------Revenu Collection
 import RevMenu from "./components/revenueCorrection/revenuMenu";
 import Currency from "./components/revenueCorrection/currency/currency";
+import Fiscalyear from "./components/revenueCorrection/FiscalYear/fiscalyear";
 import RevHome from "./components/revenueCorrection/revenuHome";
 import Sources from "./components/revenueCorrection/sourceoffunds/sourceofFunds";
 import Product from "./components/revenueCorrection/revenuProduct/revenuProduct";
@@ -228,7 +229,7 @@ class Welcome extends Component {
                   </Col>
                 </Row>
                 <Row >
-                  <Col xs={0} sm={0} md={3} lg={3.9}>
+                <Col xs={4} sm={2} md={2.06} lg={3}>
                     <>
                       <NavBar
                         user={user}
@@ -236,7 +237,7 @@ class Welcome extends Component {
                       />
                     </>
                   </Col>
-                  <Col xs={10} sm={10} md={7} lg={9}>
+                  <Col xs={8} sm={6} md={6.04} lg={9}>
                     {/*<WelcomeNav/> */}
 
                     <Switch >
@@ -314,6 +315,7 @@ class Welcome extends Component {
                         component={ViewPayment}
                       />
                       <Route path="/revenu/currency" component={Currency} />
+                      <Route path="/revenu/fiscalyear" component={Fiscalyear} />
 
                       <Route
                         path="/revenu/businesspaterner"

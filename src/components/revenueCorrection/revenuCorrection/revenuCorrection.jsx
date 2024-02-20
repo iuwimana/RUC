@@ -259,7 +259,7 @@ class RevenuCorrection extends Component {
         <tr key={sources.revenuecorrectionid}>
           <td>{sources.revenueproductname}</td>
           {/*<td>{sources.bordername}</td>*/}
-          <td>{sources.sourceoffundname}</td>
+         {/* <td>{sources.sourceoffundname}</td>*/}
           <td>{sources.accountnumber}</td>
           <td>{sources.bankname}</td>
           <td>{sources.correctiondate}</td>
@@ -334,13 +334,11 @@ class RevenuCorrection extends Component {
               </svg>
               <div className="btn-wrapper text-center"></div>
             </CardHeader>
-            <CardBody className="px-lg-5 py-lg-5">
+            <CardBody className="px-lg-6 py-lg-6">
               <div className="row">
-                <div className="col-3">
-                  <br />
-                  <br />
-                  <br />
-                  <div className="card" style={{ height: 380 }}>
+                <div className="col-5">
+                  
+                  <div style={{ height: 380 , width:10}}>
                     <ListGroup
                       items={this.state.revprods}
                       textProperty="revenueproductname"
@@ -411,10 +409,9 @@ class RevenuCorrection extends Component {
                             <table className="table">
                               <thead>
                                 <tr>
-                                  <th>RevenueProductname</th>
-                                  <th>Account name</th>
-                                  <th>AccountNumber</th>
-                                  <th>Bankname</th>
+                                  <th>Product</th>
+                                  <th>Account </th>
+                                  <th>Bank</th>
                                   <th>Service Period</th>
                                   <th>Deposit</th>
                                 </tr>

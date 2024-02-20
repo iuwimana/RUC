@@ -9,6 +9,7 @@ import {
   FcParallelTasks,
   FcComboChart,
 } from "react-icons/fc";
+import { GiTimeBomb } from "react-icons/gi";
 import { FcApproval } from "react-icons/fc";
 import { FaPeopleCarry, FaRoad } from "react-icons/fa";
 import {
@@ -539,6 +540,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
   const { isOpenapproval, toggleapproval } = useOpenController(false);
   const { isOpencontracttype, togglecontracttype } = useOpenController(false);
   const { isOpenproject, toggleproject } = useOpenController(false);
+  const { isOpenwaitingapproval, togglewaitingapproval } = useOpenController(false);
   const { isOpenlookup, togglelookup } = useOpenController(false);
   const { isOpensecurity, togglesecurity } = useOpenController(false);
   const { isOpenlookcoll, togglelookcoll } = useOpenController(false);
@@ -555,6 +557,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
   const [isopenfiscalyear, setOpenfiscalyearState] = useState(false);
   const [isopencontracttype, setOpencontracttypeState] = useState(false);
   const [isopenproject, setOpenprojectState] = useState(false);
+  const [isopenwaitingapproval, setOpenwaitingapproval] = useState(false);
   const [isopenlookup, setOpenlookupState] = useState(false);
   const [isopensecurity, setOpensecurityState] = useState(false);
   const [isopenlookcoll, setOpenlookcollState] = useState(false);
@@ -730,6 +733,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
     setOpenlookupState(false);
     setOpenlookcollState(false);
     setOpencontState(false);
+    setOpenwaitingapproval(false);
   }
   function handleopenplanningclick() {
     setOpenrecState(false);
@@ -738,6 +742,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
     setOpenplanState(!isopenplan);
     setOpenlookcollState(false);
     setOpencontState(false);
+    setOpenwaitingapproval(false);
   }
   function handleopencontractclick() {
     setOpenrecState(false);
@@ -746,6 +751,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
     setOpenlookupState(false);
     setOpenlookcollState(false);
     setOpencontState(!isopencont);
+    setOpenwaitingapproval(false);
   }
   function handleopencontractcontractclick() {
     setOpenrecState(false);
@@ -754,6 +760,18 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
     setOpenlookupState(false);
     setOpenlookcollState(false);
     setOpenprojectState(!isopenproject);
+    setOpencontracttypeState(false);
+    setOpenfiscalyearState(false);
+    setOpenwaitingapproval(false);
+  }
+  function handleopenwaitingapprovalclick() {
+    setOpenrecState(false);
+    setOpenrecState(false);
+    setOpensecurityState(false);
+    setOpenlookupState(false);
+    setOpenlookcollState(false);
+    setOpenprojectState(false);
+    setOpenwaitingapproval(!isopenwaitingapproval)
     setOpencontracttypeState(false);
     setOpenfiscalyearState(false);
   }
@@ -766,6 +784,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
     setOpenprojectState(false);
     setOpenfiscalyearState(false);
     setOpencontracttypeState(!isopencontracttype);
+    setOpenwaitingapproval(false);
   }
   function handleopencontractpaymentclick() {
     setOpenrecState(false);
@@ -776,6 +795,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
     setOpencontracttypeState(false);
     setOpenprojectState(false);
     setOpenfiscalyearState(!isopenfiscalyear);
+    setOpenwaitingapproval(false);
   }
   function handleopensecurityclick() {
     setOpenrecState(false);
@@ -784,6 +804,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
     setOpensecurityState(!isopensecurity);
     setOpenlookcollState(false);
     setOpencontState(false);
+    setOpenwaitingapproval(false);
   }
   function handleopenlookupclick() {
     setOpenrecState(false);
@@ -792,6 +813,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
     setOpenlookupState(!isopenlookup);
     setOpenlookcollState(false);
     setOpencontState(false);
+    setOpenwaitingapproval(false);
   }
 
   function handleopenlookupcollectionclick() {
@@ -801,6 +823,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
     setOpenlookcontrState(false);
     setOpencontState(false);
     setOpenlookcollState(!isopenlookcoll);
+    setOpenwaitingapproval(false);
   }
   function handleopenlookupcontractclick() {
     setOpenrecState(false);
@@ -809,6 +832,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
     setOpenlookcollState(false);
     setOpencontState(false);
     setOpenlookcontrState(!isopenlookcontr);
+    setOpenwaitingapproval(false);
   }
 
   //----------------------------------------------------
@@ -842,16 +866,16 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
           <div className="carid">
             <div id="sidebar-menu" className="row" style={{ width: 1820 }}>
               <div className="col">
-                <button
-                  type="button"
+                <div
+                  
                   className="collapsible"
-                  style={{ height: 60 }}
+                  style={{ height: 40 }}
                 >
                   <span className="">
                     <FcHome />
                     RUCS
                   </span>
-                </button>
+                </div>
                 <div class="content">
                   <p></p>
                 </div>
@@ -859,10 +883,10 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
             </div>
             {canaccessDashboard && (
               <div className="row" style={{ width: 1820 }}>
-                <button
+                <div
                   type="button"
                   className="collapsible"
-                  style={{ height: 60, left: 16 }}
+                  style={{ height: 40, left: 16 }}
                 >
                   <DiSqllite isOpen={isOpen} toggle={toggle} />
                   <ExpendableButton isOpen={isOpen} toggle={toggle} />{" "}
@@ -875,7 +899,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                       Dashbord
                     </div>
                   </Link>
-                </button>
+                </div>
                 <div class="content">
                   <p></p>
                 </div>
@@ -885,10 +909,10 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
             {canaccessRevenue && (
               <div className="row" style={{ width: 1820 }}>
                 <div className="col">
-                  <button
-                    type="button"
+                  <div
+                    
                     className="collapsible"
-                    style={{ height: 60 }}
+                    style={{ height: 40 }}
                     onClick={handleopenclick}
                   >
                     <DiSqllite isOpenrec={isOpenrec} toggle={togglerec} />
@@ -897,7 +921,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                       toggle={togglerec}
                     />
                     {"  "} {"  "} <FaPeopleCarry /> RMF Revenue Collection
-                  </button>
+                  </div>
                   {isopenrec && (
                     <div className="row">
                       {" "}
@@ -1013,10 +1037,10 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
             {canaccessPlanning && (
               <div className="row" style={{ width: 1820 }}>
                 <div className="col">
-                  <button
+                  <div
                     type="button"
                     className="collapsible"
-                    style={{ height: 60 }}
+                    style={{ height: 40 }}
                     onClick={handleopenplanningclick}
                   >
                     <DiSqllite isOpenplan={isOpenplan} toggle={toggleplan} />
@@ -1025,7 +1049,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                       toggle={toggleplan}
                     />{" "}
                     <FcPlanner /> RMF Action Plan
-                  </button>
+                  </div>
                   {isopenplan && (
                     <div className="row">
                       {" "}
@@ -1088,10 +1112,10 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
             {canaccesscontract && (
               <div className="row" style={{ width: 1820 }}>
                 <div className="col">
-                  <button
+                  <div
                     type="button"
                     className="collapsible"
-                    style={{ height: 60 }}
+                    style={{ height: 40 }}
                     onClick={handleopencontractclick}
                   >
                     <DiSqllite isOpencont={isOpencont} toggle={toggleCont} />
@@ -1100,7 +1124,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                       toggle={toggleCont}
                     />{" "}
                     <BiSolidShoppingBag /> RMF Contract Management
-                  </button>
+                  </div>
                   {isopencont && (
                     <div className="row">
                       {" "}
@@ -1124,6 +1148,127 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                                 )}
                               </NavLink>
                             </div>
+                            {canaccesscontracts && (
+                              <div className="toggle">
+                                <button
+                                  type="button"
+                                  className="collapsibles"
+                                  style={{ height: 40 }}
+                                  onClick={handleopenwaitingapprovalclick}
+                                >
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      &nbsp;&nbsp;&nbsp;
+                                      <FcApproval/>
+                                      &nbsp; waiting for Approval
+                                    </span>
+                                  </div>
+                                </button>
+                                {isopenwaitingapproval && (
+                                  <div className="row">
+                                    {" "}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div className="col">
+                                      <div
+                                        className="card"
+                                        style={{ width: 400 }}
+                                      >
+                                        <div className="vertical">
+                                          <br />
+                                          <div className="toggle">
+                            <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/ContractManagemenrt/approval/emmargency",
+                                    state: { fiscalyearid: fiscalyearid },
+                                  }}>
+                                
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <FcApproval/>
+                                      &nbsp;Emmargency Contract
+                                    </span>
+                                  </div>
+                                
+                              </NavLink>
+                            </div>
+                          <div className="toggle">
+                            <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/ContractManagemenrt/approval/framework",
+                                    state: { fiscalyearid: fiscalyearid },
+                                  }}>
+                                
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <FcApproval/>
+                                      &nbsp;Framework Contract
+                                    </span>
+                                  </div>
+                                
+                              </NavLink>
+                            </div>
+                           <div className="toggle">
+                            <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/inspection/approval/emmargency",
+                                    state: { fiscalyearid: fiscalyearid },
+                                  }}>
+                                
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <FcApproval/>
+                                      &nbsp;Emmargency Inspection
+                                    </span>
+                                  </div>
+                                
+                              </NavLink>
+                            </div>
+                          <div className="toggle">
+                            <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/inspection/approval/framework",
+                                    state: { fiscalyearid: fiscalyearid },
+                                  }}>
+                                
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <FcApproval/>
+                                      &nbsp;Framework Inspection
+                                    </span>
+                                  </div>
+                                
+                              </NavLink>
+                            </div>
+                            <div className="toggle">
+                            <NavLink
+                                  className="nav-item nav-link"
+                                  to={{
+                                    pathname: "/payment/approval",
+                                    state: { fiscalyearid: fiscalyearid },
+                                  }}>
+                                
+                                  <div className="cardss ">
+                                    <span className="nav-link-inner--text">
+                                      <FcApproval/>
+                                      &nbsp; Payment Approvals
+                                    </span>
+                                  </div>
+                                
+                              </NavLink>
+                            </div>
+                          
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                            
                             {canaccesscontracts && (
                               <div className="toggle">
                                 <button
@@ -1279,10 +1424,10 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
             {canaccessSecurity && (
               <div className="row" style={{ width: 1820 }}>
                 <div className="col">
-                  <button
+                  <div
                     type="button"
                     className="collapsible"
-                    style={{ height: 60 }}
+                    style={{ height: 40 }}
                     onClick={handleopensecurityclick}
                   >
                     <DiSqllite
@@ -1294,7 +1439,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                       toggle={togglesecurity}
                     />{" "}
                     <MdManageAccounts /> RMF Administration Potal
-                  </button>
+                  </div>
                   {isopensecurity && (
                     <div className="row">
                       {" "}
@@ -1380,10 +1525,10 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
             {canaccesslookup && (
               <div className="row" style={{ width: 1820 }}>
                 <div className="col">
-                  <button
+                  <div
                     type="button"
                     className="collapsible"
-                    style={{ height: 60 }}
+                    style={{ height: 40 }}
                     onClick={handleopenlookupclick}
                   >
                     <DiSqllite
@@ -1395,7 +1540,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                       toggle={togglelookup}
                     />{" "}
                     <GiLookAt /> RMF LookUp
-                  </button>
+                  </div>
                   {isopenlookup && (
                     <div className="row">
                       {" "}
@@ -1437,6 +1582,19 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                                               <span className="nav-link-inner--text">
                                                 <FaCoins />
                                                 &nbsp; Currency
+                                              </span>
+                                            </div>
+                                          </NavLink>
+                                        </div>
+                                        <div className="toggle">
+                                          <NavLink
+                                            className="nav-item nav-link"
+                                            to="/revenu/fiscalyear"
+                                          >
+                                            <div className="cardss ">
+                                              <span className="nav-link-inner--text">
+                                                <GiTimeBomb />
+                                                &nbsp; Fiscal year
                                               </span>
                                             </div>
                                           </NavLink>

@@ -7,6 +7,8 @@ import auth from "./services/authService";
 //import NavBar from "./components/navBar";
 import WelcomePage from "./components/welcome/index";
 import WelcomeFrame from "./welcome";
+
+import Sidebarmenu from "./Sidebar";
 //import Footer from "./components/layout/footer";
 //import Header from "./components/layout/header";
 //import Autmenu from "./components/authMenu";
@@ -90,13 +92,19 @@ class App extends Component {
         <ToastContainer />
         {auth.getCurrentUser()&&(
           <WelcomeFrame/>
+          //<Sidebarmenu/>
         )
         }
         {!auth.getCurrentUser() && (
         <WelcomePage />
+        //<Sidebarmenu>
+
+          //</Sidebarmenu>
         )}
-          <Switch>
-                      {/**------------common */}
+      
+         
+         <Switch>
+                      
                       
                       <Route path="/login" component={WelcomePage} />
                       <Route path="/welcome" component={WelcomePage} />
@@ -104,6 +112,8 @@ class App extends Component {
                       <Redirect from="/" exact to="/welcome" />
                       
                     </Switch> 
+         
+          
       </React.Fragment>
     );
   }

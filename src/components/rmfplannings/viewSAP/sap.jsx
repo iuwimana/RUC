@@ -35,7 +35,7 @@ class Sap extends Component {
       outcomedescription: "",
       subprogramname: "",
       programname: "",
-      approvmode:"",
+      approvmode: "",
 
       canapprov: true,
       canreview: true,
@@ -65,20 +65,20 @@ class Sap extends Component {
       const { data: userapprovals } =
         await UserApprovalData.getuserapprovalevel(users.username, "Planing");
       this.setState({ userapprovals });
-      let approvmode="";
+      let approvmode = "";
       {
         userapprovals.map(
-          (userapprovals) => approvmode= userapprovals.approvallevel
+          (userapprovals) => approvmode = userapprovals.approvallevel
         );
       }
-      this.setState({approvmode});
+      this.setState({ approvmode });
       if (approvmode === "Approv") {
         this.setState({ canapprov: true, canreview: false });
-        
-      }else if (approvmode === "Verifier") {
+
+      } else if (approvmode === "Verifier") {
         this.setState({ canapprov: false, canreview: true });
       }
-     
+
       const { data: sources } = await Source.getSource();
       const { data: business } = await Business.getBusinessPaterners();
       const { data: outcome } = await Outcome.getoutcomes();
@@ -245,15 +245,22 @@ class Sap extends Component {
         );
       }
     }
+
   }
 
+
   render() {
-    
-    
-    
+
+    const circleWidth = 200;
+    const viewBox = `0 0 ${circleWidth} ${circleWidth}`;
+    const r = 100;
+    const p = 340;
+    const dashArrays = r * Math.PI * 2;
+    const dashOffsets = dashArrays - (dashArrays * p) / 100;
+
     const canapprov = this.state.canapprov;
     const canreview = this.state.canreview;
-   
+
     const { length: count } = this.state.outcome;
     const { pageSize, currentPage, searchQuery } = this.state;
 
@@ -308,7 +315,7 @@ class Sap extends Component {
               </button>
             )}
 
-            
+
           </td>
           <td>
             {outcome.statuses !== "Approved" && (
@@ -362,14 +369,208 @@ class Sap extends Component {
           ></Col>
           <Card className=" shadow border-0">
             <CardHeader className="bg-transparent ">
-              <div className="text-muted text-center mt-2 mb-3">
-                <h1>
-                  <div style={{ textAlign: "center" }}>
-                    <h1>RMF Planning- View SAP </h1>
+              
+                <div style={{ height: 120 }}>
+                  <div className="row">
+                    <div className="column">
+                    <svg width={circleWidth}
+                    height={circleWidth}
+                    viewBox={viewBox}>
+                    <circle
+                      className="circle-progress"
+                      cx="100"
+                      cy="100"
+
+                      r="60"
+                      stroke="black"
+                      stroke-width="15px"
+                      fill="red"
+                      strokeDasharray={dashArrays}
+                      strokeDashoffset={-dashOffsets}
+                    />
+
+                    <circle
+                      className="circle-progress"
+                      cx="100"
+                      cy="100"
+                      r="60"
+                      stroke="black"
+                      stroke-width="15px"
+                      fill="red"
+                      strokeDasharray={dashArrays}
+                      strokeDashoffset={-dashOffsets}
+
+                    />
+                    <text
+                      className="circle-text"
+                      x="50%"
+                      y="50%"
+                      dy=".3em"
+                      textAnchor="middle"
+                      style={{
+                        fontSize: 13
+                      }}>
+
+                      Outcome <br />
+                      3
+
+
+
+                    </text>
+                  </svg>
+
+                    </div>
+                    <div className="column">
+                    <svg width={circleWidth}
+                    height={circleWidth}
+                    viewBox={viewBox}>
+                    <circle
+                      className="circle-progress1"
+                      cx="100"
+                      cy="100"
+
+                      r="60"
+                      stroke="black"
+                      stroke-width="15px"
+                      fill="red"
+                      strokeDasharray={dashArrays}
+                      strokeDashoffset={-dashOffsets}
+                    />
+
+                    <circle
+                      className="circle-progress1"
+                      cx="100"
+                      cy="100"
+                      r="60"
+                      stroke="black"
+                      stroke-width="15px"
+                      fill="red"
+                      strokeDasharray={dashArrays}
+                      strokeDashoffset={-dashOffsets}
+
+                    />
+                    <text
+                      className="circle-text"
+                      x="50%"
+                      y="50%"
+                      dy=".3em"
+                      textAnchor="middle"
+                      style={{
+                        fontSize: 13
+                      }}>
+
+                      Activities  <br />
+                      5
+
+
+
+                    </text>
+                  </svg>
+                      
+                    </div>
+                    <div className="column">
+                    <svg width={circleWidth}
+                    height={circleWidth}
+                    viewBox={viewBox}>
+                    <circle
+                      className="circle-progress2"
+                      cx="100"
+                      cy="100"
+
+                      r="60"
+                      stroke="black"
+                      stroke-width="15px"
+                      fill="red"
+                      strokeDasharray={dashArrays}
+                      strokeDashoffset={-dashOffsets}
+                    />
+
+                    <circle
+                      className="circle-progress2"
+                      cx="100"
+                      cy="100"
+                      r="60"
+                      stroke="black"
+                      stroke-width="15px"
+                      fill="red"
+                      strokeDasharray={dashArrays}
+                      strokeDashoffset={-dashOffsets}
+
+                    />
+                    <text
+                      className="circle-text"
+                      x="50%"
+                      y="50%"
+                      dy=".3em"
+                      textAnchor="middle"
+                      style={{
+                        fontSize: 13
+                      }}>
+
+                        Output <br />
+                      3
+
+
+
+                    </text>
+                  </svg>
+                      
+                    </div>
+                    <div className="column">
+                      <svg width={circleWidth}
+                    height={circleWidth}
+                    viewBox={viewBox}>
+                    <circle
+                      className="circle-progress3"
+                      cx="100"
+                      cy="100"
+
+                      r="60"
+                      stroke="black"
+                      stroke-width="15px"
+                      fill="red"
+                      strokeDasharray={dashArrays}
+                      strokeDashoffset={-dashOffsets}
+                    />
+
+                    <circle
+                      className="circle-progress3"
+                      cx="100"
+                      cy="100"
+                      r="60"
+                      stroke="black"
+                      stroke-width="15px"
+                      fill="red"
+                      strokeDasharray={dashArrays}
+                      strokeDashoffset={-dashOffsets}
+
+                    />
+                    <text
+                      className="circle-text"
+                      x="50%"
+                      y="50%"
+                      dy=".3em"
+                      textAnchor="middle"
+                      style={{
+                        fontSize: 13
+                      }}>
+
+                       Stakeholders  <br />
+                      7
+
+
+
+                    </text>
+                  </svg>
+                      
+                    </div>
+                   
                   </div>
-                </h1>
-              </div>
-              <div className="btn-wrapper text-center"></div>
+
+                  
+                </div>
+
+              
             </CardHeader>
             <CardBody className="px-lg-5 py-lg-5">
               <div>
@@ -381,12 +582,13 @@ class Sap extends Component {
                 )}
                 {count !== 0 && (
                   <>
+                    {/** 
                     <div style={{ textAlign: "center" }}>
                       <SearchBox
                         value={searchQuery}
                         onChange={this.handleSearch}
                       />
-                    </div>
+                    </div>*/}
                     <div className="table-responsive mb-5">
                       <table className="table">
                         <thead>
