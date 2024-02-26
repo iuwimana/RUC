@@ -96,6 +96,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
   const [canaccessPayment, setcanaccessPayment] = useState(false);
   const [canaccessInspection, setcanaccessInspection] = useState(false);
   const [canaccesscontracts, setcanaccesscontracts] = useState(false);
+  const [canaccesscontractapproval, setcanaccesscontractapproval] = useState(false);
   //-------------------------------UserAccesslevel2----------------------------------------------------
   //------------------------------------canaccessRevenusCollection
  
@@ -308,8 +309,36 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
         ex
     );
   }
+  //-------------------------------
 
   //------------------------------------end canaccessInspection
+  //-------------------------------------setcanaccesscontractapproval
+  try {
+    useEffect(() => {
+      const fetchProgram = async () => {
+        const username = auth.getJwt();
+        const jwt = jwtDecode(username);
+        const { data } = await UserAccessData.contractusersecurables(
+          30,
+          jwt.username
+        );
+        setuseraccess(data);
+
+        data.forEach((object, index) => {
+          setcanaccesscontractapproval(object.canaccess);
+        });
+      };
+      fetchProgram();
+    }, []);
+  } catch (ex) {
+    toast.error(
+      "An Error Occured, while Loading Fiscal Year Contract Type data.........." +
+        ex
+    );
+  
+}
+
+  //-------------------------------------setcanaccesscontractapproval
   //------------------------------------canaccesscontracts
 
   try {
@@ -463,7 +492,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
         const jwt = jwtDecode(username);
         const { data } = await UserAccessData.getsecurableaccess(
           jwt.username,
-          26
+          21
         );
         setuseraccess(data);
 
@@ -1148,7 +1177,7 @@ const NavBar = ({ user, fiscalyearid, fiscalyearname }) => {
                                 )}
                               </NavLink>
                             </div>
-                            {canaccesscontracts && (
+                            {canaccesscontractapproval && (
                               <div className="toggle">
                                 <button
                                   type="button"
